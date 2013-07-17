@@ -1,0 +1,1 @@
+Fundraiser is an app to allow Non profits to setup online fundraising.

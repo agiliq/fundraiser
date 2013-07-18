@@ -47,3 +47,7 @@ class Beneficiary(models.Model):
     class Meta:
         verbose_name = "Beneficiary"
         verbose_name_plural = "Beneficiaries"
+
+
+    def __unicode__(self):
+        return self.beneficiary_name

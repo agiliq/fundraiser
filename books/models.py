@@ -17,13 +17,13 @@ class Publisher(models.Model):
         return self.name
 
 
-class Books(models.Model):
+class Book(models.Model):
+    publisher = models.ForeignKey(Publisher)
     image = models.ImageField(upload_to="images/")
     title = models.CharField(max_length=100)
     synopsis = models.TextField(blank=True)
     cost = models.IntegerField(blank=True, default=0.0)
     author = models.CharField(max_length=100)
-    publisher = models.ForeignKey(Publisher)
     publication_date = models.DateField(null=True, blank=True)
 
     def __unicode__(self):

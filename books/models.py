@@ -48,6 +48,25 @@ class Beneficiary(models.Model):
         verbose_name = "Beneficiary"
         verbose_name_plural = "Beneficiaries"
 
-
     def __unicode__(self):
         return self.beneficiary_name
+
+
+class Donor(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    address = models.CharField(max_length=150)
+    city = models.CharField(max_length=60)
+    state = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    fax = models.CharField(max_length=20, blank=True, null=True)
+    email = models.EmailField(
+        max_length=70, blank=True, null=True, unique=True)
+
+    class Meta:
+        verbose_name = "Donor"
+        verbose_name_plural = "Donors"
+
+    def __unicode__(self):
+        return "{0} {1}".format(self.first_name, self.last_name)

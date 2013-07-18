@@ -1,5 +1,5 @@
 from django.contrib import admin
-from books.models import Publisher, Book, Beneficiary
+from books.models import Publisher, Book, Beneficiary, Donor
 
 
 class BookAdmin(admin.ModelAdmin):
@@ -21,6 +21,13 @@ class BeneficiaryAdmin(admin.ModelAdmin):
     list_filter = ['beneficiary_name', 'ben_type']
     search_fields = ['beneficiary_name', 'country']
 
+
+class DonorAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'address', 'country', 'phone', 'email')
+    list_filter = ['first_name']
+    search_fields = ['first_name', 'country']
+
 admin.site.register(Book, BookAdmin)
 admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Beneficiary, BeneficiaryAdmin)
+admin.site.register(Donor, DonorAdmin)

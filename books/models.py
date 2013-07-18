@@ -28,3 +28,22 @@ class Book(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class Beneficiary(models.Model):
+    beneficiary_name = models.CharField(max_length=100)
+    ben_type = models.CharField(max_length=100, verbose_name='Type')
+    strength = models.IntegerField()
+    address = models.CharField(max_length=150)
+    city = models.CharField(max_length=60)
+    state = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    fax = models.CharField(max_length=20, blank=True, null=True)
+    email = models.EmailField(
+        max_length=70, blank=True, null=True, unique=True)
+    website = models.URLField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Beneficiary"
+        verbose_name_plural = "Beneficiaries"

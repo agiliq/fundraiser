@@ -1,7 +1,7 @@
 from django import forms as newform
 from django.forms import ModelForm
 from books.models import Beneficiary, Donor
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -17,6 +17,12 @@ class BeneficiaryForm(ModelForm):
         widget=newform.PasswordInput(), label=(u'password (again)'))
 
 
+    def clean_beneficiary_name(self):
+    	try:
+    		user = User.objects.get(username__iexact=self.cleaned_data['beneficiary_name'])
+    	except Exception as e:	
+    		return self.cleaned_data['beneficiary_name']
+    	raise newform.ValidationError(_("This username is already taken. Please choose another."))
 
 
     def clean_password2(self):

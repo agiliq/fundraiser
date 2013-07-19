@@ -33,7 +33,7 @@ class Book(models.Model):
 
 class Beneficiary(models.Model):
     beneficiary_user = models.OneToOneField(User)
-    beneficiary_name = models.CharField(max_length=100)
+    beneficiary_name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=70, unique=True)
     ben_type = models.CharField(max_length=100, verbose_name='Type')
     strength = models.IntegerField()

@@ -51,6 +51,7 @@ MEDIA_URL = ''
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = ''
+# STATIC_ROOT = os.path.join(SITE_PATH, 'staticfiles')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -97,6 +98,8 @@ ROOT_URLCONF = 'fund_raiser.urls'
 WSGI_APPLICATION = 'fund_raiser.wsgi.application'
 
 TEMPLATE_DIRS = (
+    os.path.join(SITE_PATH, 'templates'),
+    os.path.join(SITE_PATH, '/authentication/templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -111,6 +114,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'books',
+    'authentication',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -143,6 +147,6 @@ LOGGING = {
 }
 
 try:
-    from localsettings import *
+    from .localsettings import *
 except ImportError:
     pass

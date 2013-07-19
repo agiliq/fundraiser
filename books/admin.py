@@ -23,9 +23,9 @@ class BeneficiaryAdmin(admin.ModelAdmin):
 
 
 class DonorAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'address', 'country', 'phone', 'email')
-    list_filter = ['first_name']
-    search_fields = ['first_name', 'country']
+    list_display = ('donor_user', 'address', 'country', 'phone', 'email')
+    list_filter = ['donor_user']
+    search_fields = ['donor_user', 'country']
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(Publisher, PublisherAdmin)

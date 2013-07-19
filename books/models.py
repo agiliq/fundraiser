@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Publisher(models.Model):
@@ -31,7 +32,9 @@ class Book(models.Model):
 
 
 class Beneficiary(models.Model):
+    beneficiary_user = models.OneToOneField(User)
     beneficiary_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=70, unique=True)
     ben_type = models.CharField(max_length=100, verbose_name='Type')
     strength = models.IntegerField()
     address = models.CharField(max_length=150)
@@ -40,8 +43,6 @@ class Beneficiary(models.Model):
     country = models.CharField(max_length=50)
     phone = models.CharField(max_length=20, blank=True, null=True)
     fax = models.CharField(max_length=20, blank=True, null=True)
-    email = models.EmailField(
-        max_length=70, blank=True, null=True, unique=True)
     website = models.URLField(blank=True, null=True)
 
     class Meta:
@@ -53,16 +54,14 @@ class Beneficiary(models.Model):
 
 
 class Donor(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    donor_user = models.OneToOneField(User)
+    email = models.EmailField(max_length=70, unique=True)
     address = models.CharField(max_length=150)
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=30)
     country = models.CharField(max_length=50)
     phone = models.CharField(max_length=20, blank=True, null=True)
     fax = models.CharField(max_length=20, blank=True, null=True)
-    email = models.EmailField(
-        max_length=70, blank=True, null=True, unique=True)
 
     class Meta:
         verbose_name = "Donor"

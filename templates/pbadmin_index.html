@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Pratham Books Admin{%endblock%}
+{% block content %}
+{% if books %}
+	{% for book in books %}
+	   <p>{{book}}</p>
+	{% endfor %}
+{% else %}
+    <p>No books available</p>	
+{% endif %}	     
+{% endblock %}

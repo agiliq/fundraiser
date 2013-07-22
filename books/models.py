@@ -44,6 +44,7 @@ class Beneficiary(models.Model):
     phone = models.CharField(max_length=20, blank=True, null=True)
     fax = models.CharField(max_length=20, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
+    approved = models.BooleanField(blank=True, default=False)
 
     class Meta:
         verbose_name = "Beneficiary"
@@ -62,10 +63,11 @@ class Donor(models.Model):
     country = models.CharField(max_length=50)
     phone = models.CharField(max_length=20, blank=True, null=True)
     fax = models.CharField(max_length=20, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Donor"
         verbose_name_plural = "Donors"
 
     def __unicode__(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
+        return "{0}".format(self.donor_user)

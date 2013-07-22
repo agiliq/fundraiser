@@ -17,9 +17,9 @@ class PublisherAdmin(admin.ModelAdmin):
 
 class BeneficiaryAdmin(admin.ModelAdmin):
     list_display = ('beneficiary_name', 'ben_type',
-                    'address', 'country', 'phone', 'email', 'website')
-    list_filter = ['beneficiary_name', 'ben_type']
-    search_fields = ['beneficiary_name', 'country']
+                    'address', 'country', 'phone', 'email', 'website', 'approved')
+    list_filter = ['beneficiary_name', 'ben_type', 'approved']
+    search_fields = ['beneficiary_name', 'country', 'approved']
 
 
 class DonorAdmin(admin.ModelAdmin):

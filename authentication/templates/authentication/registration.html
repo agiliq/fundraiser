@@ -1,8 +1,6 @@
 {% extends "authentication/base.html" %}
 {% load i18n %}
-{% block head %}
-  <title>Login</title>
-{% endblock %}
+{% block title %}Registration{% endblock %}
 {% block extrahead %}
  <style type="text/css">
   form.form-horizontal {padding-left: 260px;}
@@ -12,17 +10,33 @@
   </style>
 {% endblock %}
 {% block content %}
- <h1>Beneficiary Registration Form</h1>
+ {% if form.beneficiary_name %} 
+	 <h1>Beneficiary Registration Form</h1>
+ {% else %} 	 
+	 <h1>Donor Registration Form</h1>
+ {% endif %}	 
     <p>&nbsp;</p>
-	<form method="post" action="{% url 'accounts:beneficiary' %}" class="form-horizontal">
+    {% if form.beneficiary_name %}
+		<form method="post" action="{% url 'accounts:beneficiary' %}" class="form-horizontal">
+	{% else %}
+		<form method="post" action="{% url 'accounts:donor' %}" class="form-horizontal">
+	{% endif %}		
 		{% csrf_token %}
 	    <div class="control-group">
         	<label class="control-label" for="username">Username</label>
-            <div class="controls">{{ form.beneficiary_name }}
-            	{% if errors.beneficiary_name.0 %}
-            	   <span class="help-inline">{{ errors.beneficiary_name.0}}</span>
-            	{% endif %} 
-             </div>
+        	{% if form.beneficiary_name %}
+	            <div class="controls">{{ form.beneficiary_name }}
+	            	{% if errors.beneficiary_name.0 %}
+	            	   <span class="help-inline">{{ errors.beneficiary_name.0}}</span>
+	            	{% endif %} 
+	             </div>
+	        {% else %}
+	            <div class="controls">{{ form.donor_name }}
+	            	{% if errors.donor_name.0 %}
+	            	   <span class="help-inline">{{ errors.donor_name.0}}</span>
+	            	{% endif %} 
+	             </div>
+	        {% endif %}         
         </div>
         
         <div class="control-group">
@@ -53,27 +67,28 @@
 	            {% endif %}
 	        </div>
         </div>      
-        
-		<div class="control-group">
-	        <label class="control-label" for="ben_type">Type</label>
-	        <div class="controls">{{ form.ben_type }}
-	        	 {% if errors.ben_type.0 %}
-		            	<span class="help-inline">{{ errors.ben_type.0}}</span>
-	            {% endif %}
-	        </div>
-            
-        </div>        
-		
-		<div class="control-group">
-	        <label class="control-label" for="strength">Strength</label>
-	        <div class="controls">{{ form.strength }}
-	        	 {% if errors.strength.0 %}
-		            	<span class="help-inline">{{ errors.strength.0}}</span>
-	            {% endif %}
-	        </div>
-            
-        </div>        
-
+        {% if form.ben_type %}
+			<div class="control-group">
+		        <label class="control-label" for="ben_type">Type</label>
+		        <div class="controls">{{ form.ben_type }}
+		        	 {% if errors.ben_type.0 %}
+			            	<span class="help-inline">{{ errors.ben_type.0}}</span>
+		            {% endif %}
+		        </div>
+	            
+	        </div> 
+	    {% endif %}           
+		{% if form.strength %}
+			<div class="control-group">
+		        <label class="control-label" for="strength">Strength</label>
+		        <div class="controls">{{ form.strength }}
+		        	 {% if errors.strength.0 %}
+			            	<span class="help-inline">{{ errors.strength.0}}</span>
+		            {% endif %}
+		        </div>
+	            
+	        </div>        
+        {% endif %}
 		<div class="control-group">
 	        <label class="control-label" for="address">Address</label>
 	        <div class="controls">{{ form.address }}

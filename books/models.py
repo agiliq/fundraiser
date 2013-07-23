@@ -23,7 +23,7 @@ class Book(models.Model):
     image = models.ImageField(upload_to="images/", blank=True, null=True)
     title = models.CharField(max_length=100)
     synopsis = models.TextField(blank=True, null=True)
-    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     author = models.CharField(max_length=100)
     publication_date = models.DateField(null=True, blank=True)
 

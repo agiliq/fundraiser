@@ -65,9 +65,5 @@ class Donor(models.Model):
     fax = models.CharField(max_length=20, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = "Donor"
-        verbose_name_plural = "Donors"
-
     def __unicode__(self):
         return "{0}".format(self.donor_user)

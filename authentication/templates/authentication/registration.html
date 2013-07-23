@@ -1,0 +1,144 @@
+{% extends "authentication/base.html" %}
+{% load i18n %}
+{% block head %}
+  <title>Login</title>
+{% endblock %}
+{% block extrahead %}
+ <style type="text/css">
+  form.form-horizontal {padding-left: 260px;}
+  h1 {padding-top:20px;padding-left: 260px;}
+  div.errors {padding-left: 400px;}
+  span.help-inline {color:red;}
+  </style>
+{% endblock %}
+{% block content %}
+ <h1>Beneficiary Registration Form</h1>
+    <p>&nbsp;</p>
+	<form method="post" action="{% url 'accounts:beneficiary' %}" class="form-horizontal">
+		{% csrf_token %}
+	    <div class="control-group">
+        	<label class="control-label" for="username">Username</label>
+            <div class="controls">{{ form.beneficiary_name }}
+            	{% if errors.beneficiary_name.0 %}
+            	   <span class="help-inline">{{ errors.beneficiary_name.0}}</span>
+            	{% endif %} 
+             </div>
+        </div>
+        
+        <div class="control-group">
+	        <label class="control-label" for="password1">Password</label>
+	        <div class="controls">{{ form.password1 }}
+	        	{% if errors.password1.0 %}
+		            	<span class="help-inline">{{ errors.password1.0}}</span>
+	            {% endif %} 
+	        </div>
+            
+        </div>
+
+        <div class="control-group">
+	        <label class="control-label" for="password2">Password (again)</label>
+	        <div class="controls">{{ form.password2 }}
+		        {% if errors.password2.0 %}
+			            	<span class="help-inline">{{ errors.password2.0}}</span>        
+	            {% endif %}
+
+	        </div>
+
+        </div>  
+		<div class="control-group">
+	        <label class="control-label" for="email">E-mail</label>
+	        <div class="controls">{{ form.email }}
+	        	 {% if errors.email.0 %}
+		            	<span class="help-inline">{{ errors.email.0}}</span>
+	            {% endif %}
+	        </div>
+        </div>      
+        
+		<div class="control-group">
+	        <label class="control-label" for="ben_type">Type</label>
+	        <div class="controls">{{ form.ben_type }}
+	        	 {% if errors.ben_type.0 %}
+		            	<span class="help-inline">{{ errors.ben_type.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+		
+		<div class="control-group">
+	        <label class="control-label" for="strength">Strength</label>
+	        <div class="controls">{{ form.strength }}
+	        	 {% if errors.strength.0 %}
+		            	<span class="help-inline">{{ errors.strength.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+
+		<div class="control-group">
+	        <label class="control-label" for="address">Address</label>
+	        <div class="controls">{{ form.address }}
+	        	 {% if errors.address.0 %}
+		            	<span class="help-inline">{{ errors.address.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+		<div class="control-group">
+	        <label class="control-label" for="city">City</label>
+	        <div class="controls">{{ form.city }}
+	        	 {% if errors.city.0 %}
+		            	<span class="help-inline">{{ errors.city.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+		<div class="control-group">
+	        <label class="control-label" for="state">State</label>
+	        <div class="controls">{{ form.state }}
+	        	 {% if errors.state.0 %}
+		            	<span class="help-inline">{{ errors.state.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+		<div class="control-group">
+	        <label class="control-label" for="country">Country</label>
+	        <div class="controls">{{ form.country }}
+	        	 {% if errors.country.0 %}
+		            	<span class="help-inline">{{ errors.country.0}}</span>
+	            {% endif %}
+	        </div>
+            
+        </div>        
+		<div class="control-group">
+	        <label class="control-label" for="phone">Phone</label>
+	        <div class="controls">{{ form.phone }}
+	        	 {% if errors.phone.0 %}
+		            	<span class="help-inline">{{ errors.phone.0}}</span>
+	            {% endif %}
+	        </div>
+        </div>        
+		<div class="control-group">
+	        <label class="control-label" for="fax">Fax</label>
+	        <div class="controls">{{ form.fax }}
+	        	 {% if errors.fax.0 %}
+		            	<span class="help-inline">{{ errors.fax.0}}</span>
+	            {% endif %}
+	        </div>
+        </div>        
+
+		<div class="control-group">
+	        <label class="control-label" for="website">website</label>
+	        <div class="controls">{{ form.website }}
+	        	 {% if errors.website.0 %}
+		            	<span class="help-inline">{{ errors.website.0}}</span>
+	            {% endif %}
+	        </div>
+        </div>                                                                  
+	        <div class="control-group">
+	          <div class="controls">
+	            <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
+	          </div>
+	        </div>
+	</form>
+{% endblock %}

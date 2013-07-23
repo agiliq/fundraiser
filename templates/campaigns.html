@@ -1,2 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Campaigns{% endblock %}
+{% block content %}
+   {% if user.profile.is_beneficiary %}
+	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
+	{% endif %}
+    
+    {% for campaign in campaign_list %}
+       {{campaign}}<br>
+    {% endfor %}
+{% endblock %}
+
+

@@ -1,6 +1,13 @@
+Fundraiser
+------------------
 
-This is a Fund Raising Platform (FRP) which will facilitate 
-needy organizations to reach out to donors/donor organizations and
-receive donations of books and children products from Pratham Books and
-other publishers who are willing to be a part of the movement. 
+A Django based app to enable non-profits (or anyone really) to raise funds about things they care about. 
+It's like a self hosted kickstarter
 
+
+Features
+-------------------
+
+* Non profits can create multiple fund raisers.
+* Backers can browse running and completed fund raisers.
+* Supports individual and corporate accounts.

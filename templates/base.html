@@ -61,9 +61,11 @@
                         <li><a class= "btn-primary" href="{% url 'unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
+                {% if user.profile.is_beneficiary %}
                     <ul class="nav">
-                        {# <li><a class= "btn-primary" href="{% url 'list_of_campaigns' %}">Campaigns</a></li>   #}
+                        <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
                     </ul>
+                {% endif %}    
                 <ul class="nav pull-right">
                     <li><a class= "btn-primary" href="{% url 'accounts:logout' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Logout</a></li>  
                 </ul>

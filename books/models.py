@@ -14,7 +14,7 @@ class Publisher(models.Model):
 
 class Book(models.Model):
     publisher = models.ForeignKey(Publisher)
-    image = models.ImageField(upload_to="book_covers/")
+    image = models.ImageField(upload_to="book_covers/", blank=True, null=True)
     title = models.CharField(max_length=100)
     synopsis = models.TextField(blank=True)
     cost = models.DecimalField(

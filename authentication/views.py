@@ -5,12 +5,14 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from authentication.forms import BeneficiaryForm, DonorForm, LoginForm
-from books.models import Beneficiary, Donor
+from authentication.forms import LoginForm
+from people.forms import BeneficiaryForm, DonorForm
+from people.models import Beneficiary, Donor
+from books.models import Book
 
 
 def register(request):
-    formname=None
+    formname = None
     if request.path == reverse('accounts:beneficiary'):
         form = BeneficiaryForm()
         if request.method == 'POST':
@@ -18,22 +20,14 @@ def register(request):
             formname = 'Beneficiary'
             if form.is_valid():
                 new_user = User.objects.create_user(username=form.cleaned_data[
-                                                    'beneficiary_name'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
+                                                    'ben_name'], password=form.cleaned_data['password1'])
                 new_user.profile.is_beneficiary = True
                 new_user.profile.save()
                 beneficiary = Beneficiary.objects.create(
-                    beneficiary_user=new_user, beneficiary_name=form.cleaned_data[
-                        'beneficiary_name'],
-                                              email=form.cleaned_data[
-                                                  'email'], ben_type=form.cleaned_data['ben_type'],
-                                              strength=form.cleaned_data[
-                                                  'strength'], address=form.cleaned_data['address'],
-                                              city=form.cleaned_data[
-                                                  'city'], state=form.cleaned_data['state'],
-                                              country=form.cleaned_data[
-                                                  'country'], phone=form.cleaned_data['phone'],
-                                              fax=form.cleaned_data['fax'], website=form.cleaned_data['website'])
-                user = authenticate(username=form.cleaned_data['beneficiary_name'], password=form.cleaned_data['password1'])
+                    user=new_user, address=form.cleaned_data['address'],
+                                              website=form.cleaned_data['website'])
+                user = authenticate(username=form.cleaned_data[
+                                    'ben_name'], password=form.cleaned_data['password1'])
                 if user is not None:
                     if user.is_active:
                         login(request, user)
@@ -47,20 +41,15 @@ def register(request):
             formname = 'Donor'
             if form.is_valid():
                 new_user = User.objects.create_user(username=form.cleaned_data[
-                                                    'donor_name'], password=form.cleaned_data['password1'], email=form.cleaned_data['email'])
+                                                    'donor_name'], password=form.cleaned_data['password1'])
                 new_user.profile.is_donor = True
                 new_user.profile.save()
-                donor = Donor.objects.create(
-                    donor_user=new_user, 
-                                          email=form.cleaned_data[
-                                              'email'], address=form.cleaned_data['address'],
-                                          city=form.cleaned_data[
-                                              'city'], state=form.cleaned_data['state'],
-                                          country=form.cleaned_data[
-                                              'country'], phone=form.cleaned_data['phone'],
-                                          fax=form.cleaned_data['fax'], website=form.cleaned_data['website'],
+                donor = Donor.objects.create(user=new_user,
+                                            address=form.cleaned_data['address'],
+                                            website=form.cleaned_data['website'],
                                           )
-                user = authenticate(username=form.cleaned_data['donor_name'], password=form.cleaned_data['password1'])
+                user = authenticate(username=form.cleaned_data[
+                                    'donor_name'], password=form.cleaned_data['password1'])
                 if user is not None:
                     if user.is_active:
                         login(request, user)
@@ -84,8 +73,6 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('books:listofbooks'))
-                else:
-                    error_login = "Your account is not active, please contact the site admin."
             else:
                 error_login = "Your username or password is incorrect."
     return render_to_response("authentication/login.html", {'form': login_form, 'errors': dict(login_form.errors.viewitems()),'error_login':error_login},
@@ -95,3 +82,17 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('accounts:login'))
+
+
+def customadmin_index(request):
+    books = Book.objects.all()
+    return render_to_response('authentication/customadmin_index.html', {"books": books}, context_instance=RequestContext(request))
+
+
+def approve(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if user:
+        user.beneficiary.is_approved = True
+        user.beneficiary.save()
+        return HttpResponseRedirect(reverse('unapproved'))
+    return render_to_response('unapproved_users.html')

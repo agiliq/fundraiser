@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-  - coverage run --source=books manage.py test --settings=settings.local
+  - coverage run --source=books manage.py test --settings=fund_raiser.settings.local
 
 #after_success:
 #  - coveralls

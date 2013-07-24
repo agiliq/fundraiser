@@ -48,10 +48,10 @@
                 </ul>
             {% else %}
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'list_of_donors' %}">Donors</a></li>  
+                    <li><a class= "btn-primary" href="{% url 'people:list_of_donors' %}">Donors</a></li>  
                 </ul>
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'list_of_bnfs' %}">Beneficiaries</a></li>  
+                    <li><a class= "btn-primary" href="{% url 'people:list_of_bnfs' %}">Beneficiaries</a></li>  
                 </ul>
                 <ul class="nav">
                     <li><a class= "btn-primary" href="{% url 'books:listofbooks' %}">Books</a></li>  
@@ -62,7 +62,7 @@
                     </ul>
                 {% endif %}
                     <ul class="nav">
-                        <li><a class= "btn-primary" href="{% url 'list_of_campaigns' %}">Campaigns</a></li>  
+                        {# <li><a class= "btn-primary" href="{% url 'list_of_campaigns' %}">Campaigns</a></li>   #}
                     </ul>
                 <ul class="nav pull-right">
                     <li><a class= "btn-primary" href="{% url 'accounts:logout' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Logout</a></li>  

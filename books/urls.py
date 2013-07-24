@@ -6,7 +6,7 @@ from books.models import Publisher
 
 urlpatterns = patterns('',
                        url(r'^$', views.BooksList, name='listofbooks'),
-                       url(r'^publishers$', views.BooksList, name='listofbooks'),
+                       url(r'^books/(?P<pk>\d+)$', views.BookDetail, name='book_detail'),
                        url(r'^publishers/$', ListView.as_view(
                            template_name='books/publishers.html',
                            queryset=Publisher.objects.all(),

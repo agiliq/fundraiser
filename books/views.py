@@ -1,5 +1,6 @@
 from books.models import Book
 from django.views import generic
+from django.http import HttpResponse
 
 
 class BooksListView(generic.ListView):
@@ -15,3 +16,7 @@ class BooksListView(generic.ListView):
         return Book.objects.all()
 
 BooksList = BooksListView.as_view()
+
+
+def books_by_pub(request, pub_id):
+    return HttpResponse('wow {0}'.format(pub_id))

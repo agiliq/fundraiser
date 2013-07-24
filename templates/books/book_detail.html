@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Book Description{% endblock %}
+{% block content %}
+  <h1>Book Details</h1>
+  {% if book %}
+	    <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+	      <tr><td>Image :</td><td><p>{{book.image}}</p></td></tr>
+          <tr><td>Title :</td><td><p>{{book.title}}</p></td></tr>
+          <tr><td>Synopsis :</td><td><p>{{book.synopsis}}</p></td></tr>
+          <tr><td>Cost :</td><td><p>{{book.cost}}</p></td></tr>
+          <tr><td>Author :</td><td><p>{{book.author}}</p></td></tr>
+	    </table>
+	{% else %}
+	    <p>No details available.</p>
+	{% endif %}
+  
+{% endblock %} 

@@ -11,16 +11,13 @@
     <!-- Le styles -->
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <script src="{{STATIC_URL}}bootstrap/js/jquery-1.8.1.min.js" type="text/javascript"></script>
+    <script src="{{STATIC_URL}}bootstrap/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js" type="text/javascript"></script>
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
     <style type="text/css">
        body {padding-top: 60px;}
     </style>
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    
     {% block extrahead %}
     {% endblock %}
 </head>
@@ -68,7 +65,11 @@
                     </ul>
                 {% endif %}    
                 <ul class="nav pull-right">
-                    <li><a class= "btn-primary" href="{% url 'accounts:logout' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Logout</a></li>  
+                    <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;{{user|capfirst}}</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li><a tabindex="-1" href="{% url 'accounts:logout' %}">Logout</a></li>
+                         </ul> 
+                    </li>  
                 </ul>
             {% endif %}    
           </div>
@@ -80,5 +81,7 @@
         {% endblock %}
     </div> <!-- /container -->
 </body>
-
+<script>
+        $('.dropdown-toggle').dropdown()
+</script>
 </html>

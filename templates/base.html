@@ -54,6 +54,9 @@
                 <ul class="nav">
                     <li><a class= "btn-primary" href="{% url 'books:listofbooks' %}">Books</a></li>  
                 </ul>
+                <ul class="nav">
+                    <li><a class= "btn-primary" href="{% url 'books:publishers' %}">Publishers</a></li>  
+                </ul>
                 {% if user.is_staff %}
                     <ul class="nav">
                         <li><a class= "btn-primary" href="{% url 'unapproved' %}">Unactivated Users</a></li>  

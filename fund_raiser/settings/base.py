@@ -1,10 +1,9 @@
 # Django settings for fund_raiser project.
 import os
 from django.core.exceptions import ImproperlyConfigured
+from unipath import Path
 
-SETTINGS_DIR_PATH = os.path.abspath(os.path.dirname(__file__))
-PROJECT_PATH = os.path.abspath(os.path.join(SETTINGS_DIR_PATH, '..'))
-SITE_PATH = os.path.abspath(os.path.join(PROJECT_PATH, '..'))
+SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -40,7 +39,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(SITE_PATH, 'media')
+MEDIA_ROOT = SITE_PATH.child('media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -60,6 +59,7 @@ STATIC_URL = '/static/'
 # Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(SITE_PATH,'staticfiles'),
+    SITE_PATH.child('static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -99,8 +99,7 @@ ROOT_URLCONF = 'fund_raiser.urls'
 WSGI_APPLICATION = 'fund_raiser.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_PATH, 'templates'),
-    os.path.join(SITE_PATH, '/authentication/templates'),
+    SITE_PATH.child('templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

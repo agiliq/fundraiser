@@ -1,6 +1,9 @@
 from books.models import Book
 from django.views import generic
-from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from books.models import Book
+from django.template import RequestContext
+from django.views import generic
 
 
 class BooksListView(generic.ListView):
@@ -19,4 +22,13 @@ BooksList = BooksListView.as_view()
 
 
 def books_by_pub(request, pub_id):
-    return HttpResponse('wow {0}'.format(pub_id))
+    books_by_pub = Book.objects.filter(publisher__id=pub_id)
+    return render_to_response('books/books_by_pub.html', {'books_by_pub': books_by_pub}, context_instance=RequestContext(request))
+
+
+class BookDetail(generic.DetailView):
+    model = Book
+    template_name = 'books/books_desc.html'
+    context_object_name = 'book'
+
+BookDetail = BookDetail.as_view()

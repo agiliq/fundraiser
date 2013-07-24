@@ -1,5 +1,4 @@
 {% extends "authentication/base.html" %}
-{% load crispy_forms_tags %}
 {% block title %}Login{% endblock %}
 {% block extrahead %}
  <style type="text/css">
@@ -16,7 +15,6 @@
           <span class='help-inline' style="padding-left:400px;">{{ error_login }}</span>
         {% endif %}
         <p>&nbsp;</p>
-        {# {% crispy form %} #}
     <!-- <form method="post" action="/accounts/login/"> -->
     <form method="post" action="{% url 'accounts:login'%}" class="form-horizontal">
      {% csrf_token %}

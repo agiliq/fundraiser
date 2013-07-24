@@ -7,7 +7,6 @@ DB_NAME = get_env_variable('DB_NAME')
 DB_USER = get_env_variable('DB_USER')
 DB_PASSWORD = get_env_variable('DB_PASSWORD')
 
-#db is fundraiser
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -18,3 +17,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+INSTALLED_APPS += (
+    'django_extensions',
+)

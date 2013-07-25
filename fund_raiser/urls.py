@@ -1,8 +1,10 @@
 from django.conf.urls import patterns, include, url
-from authentication.views import customadmin_index, approve
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.views.generic import ListView
+
+from authentication.views import customadmin_index, approve
+
 admin.autodiscover()
 
 urlpatterns = patterns('',

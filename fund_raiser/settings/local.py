@@ -20,4 +20,5 @@ DATABASES = {
 
 INSTALLED_APPS += (
     'django_extensions',
+    'south',
 )

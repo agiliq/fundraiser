@@ -21,7 +21,7 @@ class BooksListView(generic.ListView):
 BooksList = BooksListView.as_view()
 
 
-def books_by_pub(request, pub_id):
+def books_by_pub(request, pub_id, slug):
     books_by_pub = Book.objects.filter(publisher__id=pub_id)
     return render_to_response('books/books_by_pub.html', {'books_by_pub': books_by_pub}, context_instance=RequestContext(request))
 

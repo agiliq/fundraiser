@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Publisher(models.Model):
@@ -24,3 +25,6 @@ class Book(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('books:book_detail', args=[self.id])

@@ -1,9 +1,9 @@
 # Django settings for fund_raiser project.
 import os
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-PROJECT_PATH = os.path.abspath(__file__)
-SITE_PATH = os.path.abspath(os.path.join(PROJECT_PATH, os.path.pardir))
+from django.core.exceptions import ImproperlyConfigured
+from unipath import Path
+
+SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -39,7 +39,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(SITE_PATH, 'media')
+MEDIA_ROOT = SITE_PATH.child('media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -51,7 +51,6 @@ MEDIA_URL = ''
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = ''
-# STATIC_ROOT = os.path.join(SITE_PATH, 'staticfiles')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -59,6 +58,8 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    os.path.join(SITE_PATH,'staticfiles'),
+    SITE_PATH.child('static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -69,7 +70,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -98,8 +99,7 @@ ROOT_URLCONF = 'fund_raiser.urls'
 WSGI_APPLICATION = 'fund_raiser.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_PATH, 'templates'),
-    os.path.join(SITE_PATH, '/authentication/templates'),
+    SITE_PATH.child('templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -114,7 +114,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'books',
+    'people',
     'authentication',
+    'campaigns',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -146,7 +148,11 @@ LOGGING = {
     }
 }
 
-try:
-    from localsettings import *
-except ImportError:
-    pass
+AUTH_PROFILE_MODULE = 'authentication.UserProfile'
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set %s environment variable" % (var_name,)
+        raise ImproperlyConfigured(error_msg)

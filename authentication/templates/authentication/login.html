@@ -1,0 +1,43 @@
+{% extends "authentication/base.html" %}
+{% block title %}Login{% endblock %}
+{% block extrahead %}
+ <style type="text/css">
+  form.form-horizontal {padding-left: 260px;}
+  h1 {padding-top:100px;padding-left: 400px;}
+  span.help-inline {color:#b94a48;}
+  </style>
+{% endblock %}
+{% block content %}
+      <h1>Login Form</h1>
+        {% if error_login %}
+          <!--<p style="padding-left:320px;color:red;">Your username and password didn't match, please try again.</p> -->
+          {# <p style="padding-left:400px;color:red;">{{ error_login }}</p> #}
+          <span class='help-inline' style="padding-left:400px;">{{ error_login }}</span>
+        {% endif %}
+        <p>&nbsp;</p>
+    <!-- <form method="post" action="/accounts/login/"> -->
+    <form method="post" action="{% url 'accounts:login'%}" class="form-horizontal">
+     {% csrf_token %}
+      <div class="control-group">
+        <label class="control-label" for="username">Username</label>
+        <div class="controls">{{ form.username }}
+              {% if errors.username.0 %}
+                 <span class="help-inline">{{ errors.username.0}}</span>
+              {% endif %}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">{{ form.password }}
+              {% if errors.password.0 %}
+                 <span class="help-inline">{{ errors.password.0}}</span>
+              {% endif %}
+        </div>
+      </div>
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" value="login" class="btn btn-primary" >Login</button>
+          </div>
+        </div>
+    </form>  
+{% endblock %} 

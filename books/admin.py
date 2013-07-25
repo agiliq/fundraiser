@@ -13,6 +13,7 @@ class PublisherAdmin(admin.ModelAdmin):
     list_display = ('name', 'address', 'email', 'website')
     list_filter = ['name']
     search_fields = ['name']
+    prepopulated_fields = {"slug": ("name",)}
 
 
 admin.site.register(Book, BookAdmin)

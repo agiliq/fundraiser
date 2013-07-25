@@ -4,18 +4,21 @@ python:
   - 2.7
 
 env:
-  - DB_NAME=fundraiser
-  - DB_USER=root
-  - DB_PASSWORD=agiliq
+  - DB_NAME="fundraiser"
+  - DB_USER="root"
+  - DB_PASSWORD="agiliq"
 
 # command to install dependencies
 install:
   - pip install -r requirements/base.txt --use-mirrors
-  - pip install coveralls --use-mirrors
+  # - pip install coveralls --use-mirrors
+
+before_script:
+  - mysql -e 'create database fundraiser;'
 
 # command to run tests
 script:
-  - coverage run --source=books manage.py test --settings=fund_raiser.settings.local
+  - python manage.py test books --settings=fund_raiser.settings.local
 
-after_success:
- - coveralls
+# after_success:
+#  - coveralls

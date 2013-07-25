@@ -7,7 +7,7 @@
      <tr>
      	<td>{{ usr }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
      	{# <td><a href="{% url 'approve' usr.id %}">Approve</a></td> #}
-     	<td><a href="{% url 'approve' usr.id %}"><button type="submit" value="{{usr.id}}"  class="btn btn-primary" >Approve</button>
+     	<td><a href="{% url 'customadmin:approve' usr.id %}"><button type="submit" value="{{usr.id}}"  class="btn btn-primary" >Approve</button>
      	</a></td>
      </tr>
   {% endfor %}

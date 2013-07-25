@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 class Publisher(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=150, unique=True)
     address = models.CharField(max_length=150)
     email = models.EmailField(
         max_length=70, blank=True, null=True, unique=True)
@@ -11,6 +12,9 @@ class Publisher(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('books:books_by_pub', args=[self.id, self.slug])
 
 
 class Book(models.Model):
@@ -27,4 +31,4 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('books:book_detail', args=[self.id])
+        return reverse('books:book_detail', args=[self.id, self.slug])

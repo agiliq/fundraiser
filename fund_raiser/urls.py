@@ -3,11 +3,13 @@ from authentication.views import customadmin_index, approve
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.views.generic import ListView
+from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^customadmin/$', customadmin_index, name='customeadmin_index'),
+                       url(r'^customadmin/$', customadmin_index,
+                           name='customeadmin_index'),
                        url(r'^customadmin/unapproved-users$', ListView.as_view(
                            template_name='authentication/unapproved_users.html',
                            queryset=User.objects.filter(
@@ -30,3 +32,9 @@ urlpatterns = patterns('',
                        url(r'^campaigns/', include(
                            'campaigns.urls', namespace='campaigns')),
                        )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+                            url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+                                {'document_root': settings.MEDIA_ROOT}),
+                            )

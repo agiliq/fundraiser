@@ -16,6 +16,7 @@ class Book(models.Model):
     publisher = models.ForeignKey(Publisher)
     image = models.ImageField(upload_to="book_covers/", blank=True, null=True)
     title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=150, unique=True)
     synopsis = models.TextField(blank=True)
     cost = models.DecimalField(
         blank=True, max_digits=10, decimal_places=2, default=0.00)

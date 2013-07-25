@@ -26,6 +26,6 @@ def create_a_campaign(request):
                         cam_obj.books.add(m2m)
                 return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
 
-        return render_to_response('create_a_campaign.html', {'form':form, 'errors':dict(form.errors.viewitems())}, context_instance=RequestContext(request))
+        return render_to_response('campaigns/create_a_campaign.html', {'form':form, 'errors':dict(form.errors.viewitems())}, context_instance=RequestContext(request))
     else:
-        return render_to_response('campaign_unapproved.html', context_instance=RequestContext(request))
+        return render_to_response('campaigns/campaign_unapproved.html', context_instance=RequestContext(request))

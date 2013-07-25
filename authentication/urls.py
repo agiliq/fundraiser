@@ -15,7 +15,7 @@ urlpatterns = patterns('',
    url(r'^logout/$', user_logout, name='logout'),
 
    url(r'^$', customadmin_index, name='customadmin_index'),
-   url(r'^unapproved-users$', UnapprovedUsers, name='unapproved'),
+   url(r'^unapproved-users$', UnapprovedUsers.as_view(), name='unapproved'),
    url(r'^approve/(?P<user_id>\d+)$', approve, name='approve'),
 
 )

@@ -113,5 +113,3 @@ class UnapprovedUsers(ListView):
         """
 
         return User.objects.filter(beneficiary__is_approved=False)
-
-UnapprovedUsers = UnapprovedUsers.as_view()

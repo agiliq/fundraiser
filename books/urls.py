@@ -11,6 +11,6 @@ urlpatterns = patterns('',
                            template_name='books/publishers.html',
                            queryset=Publisher.objects.all(),
                            context_object_name='publisher_list'), name='publishers'),
-                       url(r'^publishers/(?P<pub_id>\d+)$', views.books_by_pub, name='books_by_pub'),
+                       url(r'^publishers/(?P<pub_id>\d+)/(?P<slug>[\w-]+)/$', views.books_by_pub, name='books_by_pub'),
 
                        )

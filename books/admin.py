@@ -6,6 +6,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publisher', 'cost')
     list_filter = ['cost']
     search_fields = ['title', 'author', 'publisher']
+    prepopulated_fields = {"slug": ("title",)}
 
 
 class PublisherAdmin(admin.ModelAdmin):

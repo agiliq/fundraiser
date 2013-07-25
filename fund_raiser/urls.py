@@ -1,24 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth.models import User
-from django.views.generic import ListView
 from django.conf import settings
-
-from authentication.views import customadmin_index, approve
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^customadmin/$', customadmin_index,
-                           name='customeadmin_index'),
-                       url(r'^customadmin/unapproved-users$', ListView.as_view(
-                           template_name='authentication/unapproved_users.html',
-                           queryset=User.objects.filter(
-                           beneficiary__is_approved=False),
-                           context_object_name="unapproved_users"), name='unapproved'),
-                       url(r'^customadmin/approve/(?P<user_id>\d+)$',
-                           approve, name='approve'),
+
+                       url(r'^customadmin/', include(
+                           'authentication.urls', namespace='customadmin')),
 
 
                        url(r'^accounts/', include(

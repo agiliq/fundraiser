@@ -7,7 +7,7 @@
 	    {% for publisher in publisher_list %}
 	      <tr>
 	        <td>  
-	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:books_by_pub' publisher.id %}">{{ publisher.name }}</a>
+	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:books_by_pub' publisher.id publisher.slug%}">{{ publisher.name }}</a>
 	        </td>
           </tr>
 	    {% endfor %}

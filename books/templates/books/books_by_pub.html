@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Books{% endblock %}
+{% block content %}
+    <h1>List of Books</h1>
+	{% if books_by_pub %}
+	    <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+	    {% for book in books_by_pub %}
+	      <tr>
+	        <td>  
+	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug %}">{{ book.title}}</a>
+	        </td>
+          </tr>
+	    {% endfor %}
+	    </table>
+	{% else %}
+	    <p>No Books available.</p>
+	{% endif %}
+{% endblock %} 

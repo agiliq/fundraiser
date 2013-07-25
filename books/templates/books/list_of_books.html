@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}List of Books{% endblock %}
+{% block content %}
+    <h1>List of Books</h1>
+	{% if list_of_books %}
+	    <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+	    {% for book in list_of_books %}
+	      <tr>
+	        <!-- <li><a href="/polls/{{ poll.id }}/">{{ poll.question }}</a></li> -->
+
+	        <td>  
+	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
+	        </td>
+          </tr>
+	    {% endfor %}
+	    </table>
+	{% else %}
+	    <p>No Books available.</p>
+	{% endif %}
+{% endblock %} 

@@ -9,7 +9,7 @@
 	        <!-- <li><a href="/polls/{{ poll.id }}/">{{ poll.question }}</a></li> -->
 
 	        <td>  
-	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id%}">{{ book.title }}</a>
+	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
 	        </td>
           </tr>
 	    {% endfor %}

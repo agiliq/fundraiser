@@ -1,14 +1,15 @@
-from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render_to_response
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.generic import ListView
 from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
+
 from authentication.forms import LoginForm
+from books.models import Book
 from people.forms import BeneficiaryForm, DonorForm
 from people.models import Beneficiary, Donor
-from books.models import Book
 
 
 def register(request):

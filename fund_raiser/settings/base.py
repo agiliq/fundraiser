@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'people',
     'authentication',
     'campaigns',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging

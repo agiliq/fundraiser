@@ -10,40 +10,24 @@
   </style>
 {% endblock %}
 {% block content %}
- {% if form.ben_name %} 
-	 <h1>Beneficiary Registration Form</h1>
- {% else %} 	 
-	 <h1>Donor Registration Form</h1>
- {% endif %}	 
+    <h1>{{formname}} Registration Form</h1>
     <p>&nbsp;</p>
-    {% if form.ben_name %}
-		<form method="post" action="{% url 'accounts:beneficiary' %}" class="form-horizontal">
-	{% else %}
-		<form method="post" action="{% url 'accounts:donor' %}" class="form-horizontal">
-	{% endif %}		
+    <form method="post" action="{{post_url}}" class="form-horizontal">
 		{% csrf_token %}
 	    <div class="control-group">
         	<label class="control-label" for="username">Username</label>
-        	{% if form.ben_name %}
-	            <div class="controls">{{ form.ben_name }}
-	            	{% if errors.ben_name.0 %}
-	            	   <span class="help-inline">{{ errors.ben_name.0}}</span>
-	            	{% endif %} 
-	             </div>
-	        {% else %}
-	            <div class="controls">{{ form.donor_name }}
-	            	{% if errors.donor_name.0 %}
-	            	   <span class="help-inline">{{ errors.donor_name.0}}</span>
-	            	{% endif %} 
-	             </div>
-	        {% endif %}         
+            <div class="controls">{{ form.username }}
+                {% if form.username.errors %}
+                   <span class="help-inline">{{ form.username.errors }}</span>
+                {% endif %} 
+             </div>
         </div>
         
         <div class="control-group">
 	        <label class="control-label" for="password1">Password</label>
 	        <div class="controls">{{ form.password1 }}
-	        	{% if errors.password1.0 %}
-		            	<span class="help-inline">{{ errors.password1.0}}</span>
+	        	{% if form.password1.errors %}
+		            	<span class="help-inline">{{ form.password1.errors}}</span>
 	            {% endif %} 
 	        </div>
             
@@ -52,8 +36,8 @@
         <div class="control-group">
 	        <label class="control-label" for="password2">Password (again)</label>
 	        <div class="controls">{{ form.password2 }}
-		        {% if errors.password2.0 %}
-			            	<span class="help-inline">{{ errors.password2.0}}</span>        
+		        {% if form.password2.errors %}
+			            	<span class="help-inline">{{ form.password2.errors}}</span>        
 	            {% endif %}
 
 	        </div>
@@ -63,8 +47,8 @@
 		<div class="control-group">
 	        <label class="control-label" for="address">Address</label>
 	        <div class="controls">{{ form.address }}
-	        	 {% if errors.address.0 %}
-		            	<span class="help-inline">{{ errors.address.0}}</span>
+	        	 {% if form.address.errors %}
+		            	<span class="help-inline">{{ form.address.errors}}</span>
 	            {% endif %}
 	        </div>
             
@@ -74,8 +58,8 @@
 		<div class="control-group">
 	        <label class="control-label" for="website">website</label>
 	        <div class="controls">{{ form.website }}
-	        	 {% if errors.website.0 %}
-		            	<span class="help-inline">{{ errors.website.0}}</span>
+	        	 {% if form.website.errors %}
+		            	<span class="help-inline">{{ form.website.errors}}</span>
 	            {% endif %}
 	        </div>
         </div>                                                                  

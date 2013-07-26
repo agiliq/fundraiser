@@ -1,5 +1,6 @@
-from django import forms as newform
+from django import forms
 
-class LoginForm(newform.Form):
-    username = newform.CharField()
-    password = newform.CharField(widget=newform.PasswordInput)
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)

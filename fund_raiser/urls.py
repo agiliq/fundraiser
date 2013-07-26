@@ -6,24 +6,19 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 
-                       url(r'^customadmin/', include(
-                           'authentication.urls', namespace='customadmin')),
-
-
-                       url(r'^accounts/', include(
-                           'authentication.urls', namespace='accounts')),
+    url(r'^customadmin/', include('authentication.urls', namespace='customadmin')),
 
 
-                       url(r'^books/', include(
-                           'books.urls', namespace='books')),
+    url(r'^accounts/', include('authentication.urls', namespace='accounts')),
 
-                       url(r'^people/', include(
-                           'people.urls', namespace='people')),
 
-                       url(r'^campaigns/', include(
-                           'campaigns.urls', namespace='campaigns')),
-                       )
+    url(r'^books/', include('books.urls', namespace='books')),
+
+    url(r'^people/', include('people.urls', namespace='people')),
+
+    url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
+    )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

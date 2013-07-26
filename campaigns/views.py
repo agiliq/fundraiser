@@ -32,12 +32,16 @@ def create_a_campaign(request):
         return render_to_response('campaigns/campaign_unapproved.html', context_instance=RequestContext(request))
 
 
-def campaign_detail(request, campaign_id):
-    print campaign_id,">>>>>>>>>>>>>>>>>>>>>>>>>>"
-    campaign = Campaign.objects.get(id=int(campaign_id))
-    return render_to_response("campaigns/campaign_detail.html", {'campaign':campaign}, context_instance=RequestContext(request))
 
 class CampaignDetail(generic.DetailView):
     model = Campaign
     template_name = 'campaigns/campaign_detail.html'
     context_object_name = 'campaign'
+
+
+class CampaignsListView(generic.ListView):
+    template_name = 'campaigns/campaigns.html'
+    context_object_name = 'campaign_list'
+
+    def get_queryset(self):
+        return Campaign.objects.all()

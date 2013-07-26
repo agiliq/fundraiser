@@ -10,8 +10,6 @@
 {% block content %}
       <h1>Login Form</h1>
         {% if error_login %}
-          <!--<p style="padding-left:320px;color:red;">Your username and password didn't match, please try again.</p> -->
-          {# <p style="padding-left:400px;color:red;">{{ error_login }}</p> #}
           <span class='help-inline' style="padding-left:400px;">{{ error_login }}</span>
         {% endif %}
         <p>&nbsp;</p>
@@ -21,16 +19,16 @@
       <div class="control-group">
         <label class="control-label" for="username">Username</label>
         <div class="controls">{{ form.username }}
-              {% if errors.username.0 %}
-                 <span class="help-inline">{{ errors.username.0}}</span>
+              {% if form.username.errors %}
+                 <span class="help-inline">{{ form.username.errors.0}}</span>
               {% endif %}
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="password">Password</label>
         <div class="controls">{{ form.password }}
-              {% if errors.password.0 %}
-                 <span class="help-inline">{{ errors.password.0}}</span>
+              {% if form.password.errors.0 %}
+                 <span class="help-inline">{{ form.password.errors.0}}</span>
               {% endif %}
         </div>
       </div>

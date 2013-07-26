@@ -37,9 +37,13 @@
               {# <li><a href="{% url 'polls:polls_created_by_me' %}">Polls Created by me</a></li> #}
             </ul>
             {% if not user.is_authenticated %}
-                <ul class="nav pull-right dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
-                    <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>
+                <ul class="nav pull-right ">
+                    <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a>
+                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
+                        <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>       
+                     </ul> 
+                     </li>
                 </ul>
                 <ul class="nav pull-right">
                     <li><a class= "btn-primary" href="{% url 'accounts:login' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Login</a></li>  

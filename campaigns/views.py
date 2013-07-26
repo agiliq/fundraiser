@@ -37,3 +37,11 @@ class CampaignDetail(generic.DetailView):
     model = Campaign
     template_name = 'campaigns/campaign_detail.html'
     context_object_name = 'campaign'
+
+
+class CampaignsListView(generic.ListView):
+    template_name = 'campaigns/campaigns.html'
+    context_object_name = 'campaign_list'
+
+    def get_queryset(self):
+        return Campaign.objects.all()

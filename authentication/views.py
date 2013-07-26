@@ -7,10 +7,10 @@ from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
 from django.views.generic import FormView
 
-from authentication.forms import LoginForm
 from books.models import Book
 from people.models import Beneficiary, Donor
 from authentication.forms import RegistrationForm
+from django.contrib.auth.forms import AuthenticationForm
 
 class RegistrationView(FormView):
 
@@ -66,13 +66,13 @@ class BeneficiaryRegistrationView(RegistrationView):
 
 def user_login(request):
     error_login = None
-    login_form = LoginForm()
+    login_form = AuthenticationForm()
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('books:listofbooks'))
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        login_form = LoginForm(request.POST)
+        login_form = AuthenticationForm(data=request.POST)
         if login_form.is_valid():
             user = authenticate(username=username, password=password)
             if user is not None:

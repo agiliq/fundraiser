@@ -7,14 +7,15 @@ from django.utils.translation import ugettext_lazy as _
 
 class BeneficiaryForm(ModelForm):
 
-    class Meta:
-        model = Beneficiary
-        exclude = ('user', 'is_approved',)
     ben_name  = newform.CharField(max_length=100)
     password1 = newform.CharField(
         widget=newform.PasswordInput(), label=(u'password'))
     password2 = newform.CharField(
         widget=newform.PasswordInput(), label=(u'password (again)'))
+
+    class Meta:
+        model = Beneficiary
+        exclude = ('user', 'is_approved',)
 
     def clean_ben_name(self):
         try:
@@ -42,15 +43,15 @@ class BeneficiaryForm(ModelForm):
 
 class DonorForm(ModelForm):
 
-    class Meta:
-        model = Donor
-        exclude = ('user',)
-
     donor_name = newform.CharField(max_length=100)
     password1 = newform.CharField(
         widget=newform.PasswordInput(), label=(u'password'))
     password2 = newform.CharField(
         widget=newform.PasswordInput(), label=(u'password (again)'))
+
+    class Meta:
+        model = Donor
+        exclude = ('user',)
 
     def clean_donor_name(self):
         try:

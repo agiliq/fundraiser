@@ -4,7 +4,7 @@
     {% load i18n %}
     {% load staticfiles %}
     <meta charset="utf-8">
-    <title>User | {% block title %}Books{% endblock %}</title>
+    <title>{% block main_title %}{% endblock %} | {% block title %}Books{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -62,7 +62,7 @@
                         <li><a class= "btn-primary" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
-                {% if user.profile.is_beneficiary %}
+                {% if user.profile.is_beneficiary  or user.is_staff%}
                     <ul class="nav">
                         <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
                     </ul>

@@ -62,7 +62,7 @@
                         <li><a class= "btn-primary" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
-                {% if user.profile.is_beneficiary %}
+                {% if user.profile.is_beneficiary  or user.is_staff%}
                     <ul class="nav">
                         <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
                     </ul>

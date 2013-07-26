@@ -90,11 +90,6 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('accounts:login'))
 
 
-def customadmin_index(request):
-    books = Book.objects.all()
-    return render_to_response('authentication/customadmin_index.html', {"books": books}, context_instance=RequestContext(request))
-
-
 def approve(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if user:
@@ -116,3 +111,11 @@ class UnapprovedUsers(ListView):
         """
 
         return User.objects.filter(beneficiary__is_approved=False)
+
+
+class CustomAdminIndex(ListView):
+    template_name = 'authentication/customadmin_index.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        return Book.objects.all()

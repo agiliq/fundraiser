@@ -1,14 +1,15 @@
-from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render_to_response
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-# from django.utils import timezone
-from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
+from django.views.generic import ListView
+from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
+
 from authentication.forms import LoginForm
+from books.models import Book
 from people.forms import BeneficiaryForm, DonorForm
 from people.models import Beneficiary, Donor
-from books.models import Book
 
 
 def register(request):
@@ -45,8 +46,10 @@ def register(request):
                 new_user.profile.is_donor = True
                 new_user.profile.save()
                 donor = Donor.objects.create(user=new_user,
-                                            address=form.cleaned_data['address'],
-                                            website=form.cleaned_data['website'],
+                                            address=form.cleaned_data[
+                                                'address'],
+                                            website=form.cleaned_data[
+                                                'website'],
                                           )
                 user = authenticate(username=form.cleaned_data[
                                     'donor_name'], password=form.cleaned_data['password1'])
@@ -94,5 +97,19 @@ def approve(request, user_id):
     if user:
         user.beneficiary.is_approved = True
         user.beneficiary.save()
-        return HttpResponseRedirect(reverse('unapproved'))
+        return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')
+
+
+class UnapprovedUsers(ListView):
+    template_name = 'authentication/unapproved_users.html'
+    context_object_name = 'unapproved_users'
+
+    def get_queryset(self):
+        """
+        Returns the unapproved users related to beneficiary in
+        the database
+
+        """
+
+        return User.objects.filter(beneficiary__is_approved=False)

@@ -44,7 +44,7 @@ MEDIA_ROOT = SITE_PATH.child('media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -58,7 +58,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(SITE_PATH,'staticfiles'),
+    os.path.join(SITE_PATH, 'staticfiles'),
     SITE_PATH.child('static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'people',
     'authentication',
     'campaigns',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -149,6 +150,7 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'authentication.UserProfile'
+
 
 def get_env_variable(var_name):
     try:

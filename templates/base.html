@@ -59,7 +59,7 @@
                 </ul>
                 {% if user.is_staff %}
                     <ul class="nav">
-                        <li><a class= "btn-primary" href="{% url 'unapproved' %}">Unactivated Users</a></li>  
+                        <li><a class= "btn-primary" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
                 {% if user.profile.is_beneficiary %}

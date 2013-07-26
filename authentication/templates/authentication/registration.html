@@ -18,7 +18,7 @@
         	<label class="control-label" for="username">Username</label>
             <div class="controls">{{ form.username }}
                 {% if form.username.errors %}
-                   <span class="help-inline">{{ form.username.errors }}</span>
+                   <span class="help-inline">{{ form.username.errors.0 }}</span>
                 {% endif %} 
              </div>
         </div>
@@ -27,7 +27,7 @@
 	        <label class="control-label" for="password1">Password</label>
 	        <div class="controls">{{ form.password1 }}
 	        	{% if form.password1.errors %}
-		            	<span class="help-inline">{{ form.password1.errors}}</span>
+		            	<span class="help-inline">{{ form.password1.errors.0}}</span>
 	            {% endif %} 
 	        </div>
             
@@ -37,7 +37,7 @@
 	        <label class="control-label" for="password2">Password (again)</label>
 	        <div class="controls">{{ form.password2 }}
 		        {% if form.password2.errors %}
-			            	<span class="help-inline">{{ form.password2.errors}}</span>        
+			            	<span class="help-inline">{{ form.password2.errors.0}}</span>        
 	            {% endif %}
 
 	        </div>
@@ -48,7 +48,7 @@
 	        <label class="control-label" for="address">Address</label>
 	        <div class="controls">{{ form.address }}
 	        	 {% if form.address.errors %}
-		            	<span class="help-inline">{{ form.address.errors}}</span>
+		            	<span class="help-inline">{{ form.address.errors.0}}</span>
 	            {% endif %}
 	        </div>
             
@@ -59,7 +59,7 @@
 	        <label class="control-label" for="website">website</label>
 	        <div class="controls">{{ form.website }}
 	        	 {% if form.website.errors %}
-		            	<span class="help-inline">{{ form.website.errors}}</span>
+		            	<span class="help-inline">{{ form.website.errors.0}}</span>
 	            {% endif %}
 	        </div>
         </div>                                                                  

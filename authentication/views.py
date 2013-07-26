@@ -81,7 +81,7 @@ def user_login(request):
                     return HttpResponseRedirect(reverse('books:listofbooks'))
             else:
                 error_login = "Your username or password is incorrect."
-    return render_to_response("authentication/login.html", {'form': login_form, 'errors': dict(login_form.errors.viewitems()),'error_login':error_login},
+    return render_to_response("authentication/login.html", {'form': login_form, 'error_login':error_login},
                               context_instance=RequestContext(request))
 
 

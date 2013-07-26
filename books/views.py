@@ -30,5 +30,3 @@ class BookDetail(generic.DetailView):
     model = Book
     template_name = 'books/books_desc.html'
     context_object_name = 'book'
-
-BookDetail = BookDetail.as_view()

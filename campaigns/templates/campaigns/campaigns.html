@@ -8,7 +8,7 @@
 	{% endif %}
    {% if campaign_list %} 
     {% for campaign in campaign_list %}
-       {{campaign}}<br>
+       <a href="{% url 'campaigns:campaign_detail' campaign.id %}">{{campaign}}</a><br>
     {% endfor %}
    {% else %} 
      <p>There are no Campaigns</p>

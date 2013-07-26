@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block main_title %}Campaigns{% endblock %}
+{% block title %}Campaign Detail{% endblock %}
+{% block content %}
+<h2>Details of Campaign</h1>
+  {% if campaign %}
+      <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+          <tr><td>Campaign created by</td><td><p>{{campaign.beneficiary|capfirst}}</p></td></tr>
+          <tr><td>Campaign Name</td><td><p>{{campaign.campaign_name}}</p></td></tr>
+          <tr>
+              <td>Books Selected</td>
+              <td>
+                 {% for book in campaign.books.all %} 
+                   {{book}}<br>
+                 {% endfor %}  
+              </td>
+          </tr>
+          <tr><td>Created</td><td><p>{{campaign.date_created}}</p></td></tr>
+          <tr><td>Target Amount</td><td><p>{{campaign.target_amount}}</p></td></tr>
+          <tr><td>Cause</td><td><p>{{campaign.cause}}</p></td></tr>
+      </table>
+  {% else %}
+      <p>No details available.</p>
+  {% endif %}
+{% endblock %}
+
+

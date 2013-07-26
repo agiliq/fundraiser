@@ -1,4 +1,3 @@
-from django import forms as newform
 from django.forms import ModelForm
 from campaigns.models import Campaign
 

@@ -1,12 +1,14 @@
 from django.conf.urls import patterns, url
 from books import views
 from django.views.generic import ListView
+
 from books.models import Publisher
+from books.views import BookDetail
 
 
 urlpatterns = patterns('',
    url(r'^$', views.BooksList, name='listofbooks'),
-   url(r'^books/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', views.BookDetail, name='book_detail'),
+   url(r'^books/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', BookDetail.as_view(), name='book_detail'),
    url(r'^publishers/$', ListView.as_view(
        template_name='books/publishers.html',
        queryset=Publisher.objects.all(),

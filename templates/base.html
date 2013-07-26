@@ -62,11 +62,9 @@
                         <li><a class= "btn-primary" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
-                {% if user.profile.is_beneficiary  or user.is_staff%}
-                    <ul class="nav">
-                        <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
-                    </ul>
-                {% endif %}    
+                <ul class="nav">
+                    <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
+                </ul>
                 <ul class="nav pull-right">
                     <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;{{user|capfirst}}</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

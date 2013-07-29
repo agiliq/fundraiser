@@ -42,6 +42,6 @@ class PublishersListView(generic.ListView):
 
     def get_queryset(self):
         """
-        Returns the available books by the publisher in the database
+        Returns the available publishers in the database
         """
         return Publisher.objects.all()

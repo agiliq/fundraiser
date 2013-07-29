@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block main_title %}Campaigns{% endblock %}
-{% block title %}List of Campaigns{% endblock %}
+{% block title %}My Campaigns{% endblock %}
 {% block content %}
-<h2>List of Campaigns</h1>
+<h2>My Campaigns</h1>
    {% if user.profile.is_beneficiary %}
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
 	{% endif %}
-   {% if campaign_list %} 
+   {% if my_campaigns_list %} 
    <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-      {% for campaign in campaign_list %}
+      {% for campaign in my_campaigns_list %}
          <tr><td><a href="{% url 'campaigns:campaign_detail' campaign.id %}">{{campaign}}</a><br></td></tr>
       {% endfor %}
    </table> 
@@ -16,13 +16,13 @@
           <div class="pagination pull-right">
               <span class="page-links">
                   {% if page_obj.has_previous %}
-                      <a href="{% url 'campaigns:list_of_campaigns' %}?page={{ page_obj.previous_page_number }}">previous</a>
+                      <a href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}?page={{ page_obj.previous_page_number }}">previous</a>
                   {% endif %}
                   <span class="page-current">
                       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                   </span>
                   {% if page_obj.has_next %}
-                      <a href="{% url 'campaigns:list_of_campaigns' %}?page={{ page_obj.next_page_number }}">next</a>
+                      <a href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}?page={{ page_obj.next_page_number }}">next</a>
                   {% endif %}
               </span>
           </div>

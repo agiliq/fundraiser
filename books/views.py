@@ -23,6 +23,7 @@ BooksList = BooksListView.as_view()
 class BooksbyPubView(generic.ListView):
     template_name = 'books/books_by_pub.html'
     context_object_name = 'books_by_pub'
+    paginate_by = 1
 
     def get_queryset(self):
         """

@@ -3,7 +3,7 @@ from books import views
 from django.views.generic import ListView
 
 from books.models import Publisher
-from books.views import BookDetail
+from books.views import BookDetail, BooksbyPubView
 
 
 urlpatterns = patterns('',
@@ -13,5 +13,5 @@ urlpatterns = patterns('',
        template_name='books/publishers.html',
        queryset=Publisher.objects.all(),
        context_object_name='publisher_list'), name='publishers'),
-   url(r'^publishers/(?P<pub_id>\d+)/(?P<slug>[\w-]+)/$', views.books_by_pub, name='books_by_pub'),
+   url(r'^publishers/(?P<pub_id>\d+)/(?P<slug>[\w-]+)/$', BooksbyPubView.as_view(), name='books_by_pub'),
 )

@@ -7,8 +7,6 @@
 	    <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
 	    {% for book in list_of_books %}
 	      <tr>
-	        <!-- <li><a href="/polls/{{ poll.id }}/">{{ poll.question }}</a></li> -->
-
 	        <td>  
 	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
 	        </td>

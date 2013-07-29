@@ -1,7 +1,4 @@
 from django.views import generic
-from django.template import RequestContext
-from django.views import generic
-from django.shortcuts import render_to_response
 
 from books.models import Book, Publisher
 

@@ -2,11 +2,13 @@
 {% block main_title %}People{% endblock %}
 {% block title %}Donors{%endblock%}
 {% block content %}
+<h1>Donors</h1>
+ <p>&nbsp;</p>
 {% if donor_list %}
- <table>
+ <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
   {% for donor in donor_list%}
      <tr>
-     	<td><a href="">{{donor}}</a></td>
+     	<td><a href="{% url 'people:donor_detail' donor.id %}">{{donor}}</a></td>
      </tr>
   {% endfor %}
  {% else %}

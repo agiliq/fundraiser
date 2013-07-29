@@ -4,11 +4,14 @@
 {% block content %}
 {% if beneficiary_list %}
  <table>
-  {% for beneficiary in beneficiary_list%}
-     <tr>
-     	<td><a href="">{{beneficiary}}</a></td>
-     </tr>
-  {% endfor %}
+ 	<h1>Beneficiaries</h1>
+ 	<table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+	  {% for beneficiary in beneficiary_list%}
+	     <tr>
+	     	<td><a href="{% url 'people:beneficiary_detail' beneficiary.id%}">{{beneficiary}}</a></td>
+	     </tr>
+	  {% endfor %}
+	</table>  
  {% else %}
 	 <p>There are no beneficiaries</p> 
  {% endif %}

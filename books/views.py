@@ -1,9 +1,9 @@
-from books.models import Book
 from django.views import generic
-from django.shortcuts import render_to_response
-from books.models import Book
 from django.template import RequestContext
 from django.views import generic
+from django.shortcuts import render_to_response
+
+from books.models import Book, Publisher
 
 
 class BooksListView(generic.ListView):
@@ -16,8 +16,6 @@ class BooksListView(generic.ListView):
         Returns the available books in the database
         """
         return Book.objects.all()
-
-BooksList = BooksListView.as_view()
 
 
 class BooksbyPubView(generic.ListView):
@@ -35,3 +33,15 @@ class BookDetail(generic.DetailView):
     model = Book
     template_name = 'books/books_desc.html'
     context_object_name = 'book'
+
+
+class PublishersListView(generic.ListView):
+    template_name = 'books/publishers.html'
+    context_object_name = 'publisher_list'
+    paginate_by = 1
+
+    def get_queryset(self):
+        """
+        Returns the available books by the publisher in the database
+        """
+        return Publisher.objects.all()

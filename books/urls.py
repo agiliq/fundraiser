@@ -1,17 +1,11 @@
 from django.conf.urls import patterns, url
-from books import views
-from django.views.generic import ListView
 
-from books.models import Publisher
-from books.views import BookDetail, BooksbyPubView
+from books.views import BookDetail, BooksbyPubView, PublishersListView, BooksListView
 
 
 urlpatterns = patterns('',
-   url(r'^$', views.BooksList, name='listofbooks'),
+   url(r'^$', BooksListView.as_view(), name='listofbooks'),
    url(r'^books/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', BookDetail.as_view(), name='book_detail'),
-   url(r'^publishers/$', ListView.as_view(
-       template_name='books/publishers.html',
-       queryset=Publisher.objects.all(),
-       context_object_name='publisher_list'), name='publishers'),
+   url(r'^publishers/$', PublishersListView.as_view(), name='publishers'),
    url(r'^publishers/(?P<pub_id>\d+)/(?P<slug>[\w-]+)/$', BooksbyPubView.as_view(), name='books_by_pub'),
 )

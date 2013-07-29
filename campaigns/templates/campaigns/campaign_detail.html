@@ -3,6 +3,7 @@
 {% block title %}Campaign Detail{% endblock %}
 {% block content %}
 <h2>Details of Campaign</h1>
+    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:edit_campaign' campaign.id %}"><button type="submit" value="edit_campaign"  class="btn btn-primary" >Edit Campaign</button></a></p>
   {% if campaign %}
       <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
           <tr><td>Campaign created by</td><td><p>{{campaign.beneficiary|capfirst}}</p></td></tr>

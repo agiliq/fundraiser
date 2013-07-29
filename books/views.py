@@ -9,10 +9,9 @@ from django.views import generic
 class BooksListView(generic.ListView):
     template_name = 'books/list_of_books.html'
     context_object_name = 'list_of_books'
+    paginate_by = 1
 
     def get_queryset(self):
-        # """Return the last five published polls."""
-        # return Poll.objects.order_by('-pub_date')[:5]
         """
         Returns the available books in the database
         """
@@ -21,10 +20,16 @@ class BooksListView(generic.ListView):
 BooksList = BooksListView.as_view()
 
 
-def books_by_pub(request, pub_id, slug):
-    books_by_pub = Book.objects.filter(publisher__id=pub_id)
-    return render_to_response('books/books_by_pub.html', {'books_by_pub': books_by_pub}, context_instance=RequestContext(request))
+class BooksbyPubView(generic.ListView):
+    template_name = 'books/books_by_pub.html'
+    context_object_name = 'books_by_pub'
+    paginate_by = 1
 
+    def get_queryset(self):
+        """
+        Returns the available books by the publisher in the database
+        """
+        return Book.objects.filter(publisher__id=self.kwargs['pub_id'])
 
 class BookDetail(generic.DetailView):
     model = Book

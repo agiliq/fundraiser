@@ -7,9 +7,11 @@
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
 	{% endif %}
    {% if campaign_list %} 
-    {% for campaign in campaign_list %}
-       <a href="{% url 'campaigns:campaign_detail' campaign.id %}">{{campaign}}</a><br>
-    {% endfor %}
+   <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+      {% for campaign in campaign_list %}
+         <tr><td><a href="{% url 'campaigns:campaign_detail' campaign.id %}">{{campaign}}</a><br></td></tr>
+      {% endfor %}
+   </table> 
       {% if is_paginated %}
           <div class="pagination pull-right">
               <span class="page-links">

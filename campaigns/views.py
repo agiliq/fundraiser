@@ -55,3 +55,11 @@ class CampaignUpdate(generic.UpdateView):
 
     def get_success_url(self):
         return reverse("campaigns:campaign_detail", args=[self.object.id])
+
+class MyCampaigns(generic.ListView):
+    template_name = 'campaigns/my_campaigns.html'
+    context_object_name = 'my_campaigns_list'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['campaign_id'])

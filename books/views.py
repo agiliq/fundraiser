@@ -9,7 +9,7 @@ from books.models import Book, Publisher
 class BooksListView(generic.ListView):
     template_name = 'books/list_of_books.html'
     context_object_name = 'list_of_books'
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -21,7 +21,7 @@ class BooksListView(generic.ListView):
 class BooksbyPubView(generic.ListView):
     template_name = 'books/books_by_pub.html'
     context_object_name = 'books_by_pub'
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         """
@@ -38,7 +38,7 @@ class BookDetail(generic.DetailView):
 class PublishersListView(generic.ListView):
     template_name = 'books/publishers.html'
     context_object_name = 'publisher_list'
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         """

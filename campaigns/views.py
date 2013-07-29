@@ -42,6 +42,7 @@ class CampaignDetail(generic.DetailView):
 class CampaignsListView(generic.ListView):
     template_name = 'campaigns/campaigns.html'
     context_object_name = 'campaign_list'
+    paginate_by = 10
 
     def get_queryset(self):
         return Campaign.objects.all()

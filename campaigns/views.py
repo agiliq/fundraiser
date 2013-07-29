@@ -45,3 +45,12 @@ class CampaignsListView(generic.ListView):
 
     def get_queryset(self):
         return Campaign.objects.all()
+
+
+class CampaignUpdate(generic.UpdateView):
+    model = Campaign
+    template_name_suffix = '_update_form'
+    form_class = CampaignForm
+
+    def get_success_url(self):
+        return reverse("campaigns:campaign_detail", args=[self.object.id])

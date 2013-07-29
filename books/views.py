@@ -9,6 +9,7 @@ from django.views import generic
 class BooksListView(generic.ListView):
     template_name = 'books/list_of_books.html'
     context_object_name = 'list_of_books'
+    paginate_by = 1
 
     def get_queryset(self):
         # """Return the last five published polls."""

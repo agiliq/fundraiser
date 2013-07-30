@@ -36,10 +36,10 @@
             <ul class="nav">
               {# <li><a href="{% url 'polls:polls_created_by_me' %}">Polls Created by me</a></li> #}
             </ul>
+            <ul class="nav">
+                <li><a class= "btn-primary" href="/">Home</a></li>
+            </ul>    
             {% if not user.is_authenticated %}
-                <ul class="nav">
-                    <li><a class= "btn-primary" href="/">Home</a></li>
-                </ul>    
                 <ul class="nav pull-right ">
                     <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li>
                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

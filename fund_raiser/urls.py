@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^', include('books.urls', namespace='books')),
+    url(r'^', include('books.urls', namespace='index')),
 
     url(r'^admin/', include(admin.site.urls)),
 

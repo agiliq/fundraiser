@@ -40,11 +40,11 @@
             <ul class="nav">
             </ul>
             <ul class="nav">
-                <li><a class= "btn-primary" href="/">Home</a></li>
+                <li><a class= "brand" href="/">Home</a></li>
             </ul>    
             {% if not user.is_authenticated %}
                 <ul class="nav pull-right ">
-                    <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a>
+                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a>
                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
                         <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>       
@@ -53,7 +53,7 @@
                 </ul>
 
                 <ul class="nav pull-right">
-                    <li><a class= "btn-primary" href="{% url 'accounts:login' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Login</a></li>  
+                    <li><a class= "" href="{% url 'accounts:login' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Login</a></li>  
                 </ul>
             {% else %}
                 <ul class="nav pull-right">

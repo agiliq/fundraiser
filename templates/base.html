@@ -33,15 +33,10 @@
           </a>
           {# <a class="brand" href="/polls">Polls</a> #}
           <div class="nav-collapse collapse">
-            <ul class="nav">
-              {# <li><a href="{% url 'polls:polls_created_by_me' %}">Polls Created by me</a></li> #}
-            </ul>
-            <ul class="nav">
-                <li><a class= "btn-primary" href="/">Home</a></li>
-            </ul>    
+            <a class= "brand" href="/">Home</a>
             {% if not user.is_authenticated %}
                 <ul class="nav pull-right ">
-                    <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li>
+                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li>
                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
                         <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>       
@@ -49,37 +44,37 @@
                      </li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li><a class= "btn-primary" href="{% url 'accounts:login' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Login</a></li>  
+                    <li><a class= "" href="{% url 'accounts:login' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Login</a></li>  
                 </ul>
             {% else %}
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'people:list_of_donors' %}">Donors</a></li>  
+                    <li><a class= "" href="{% url 'people:list_of_donors' %}">Donors</a></li>  
                 </ul>
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'people:list_of_bnfs' %}">Beneficiaries</a></li>  
+                    <li><a class= "" href="{% url 'people:list_of_bnfs' %}">Beneficiaries</a></li>  
                 </ul>
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'books:listofbooks' %}">Books</a></li>  
+                    <li><a class= "" href="{% url 'books:listofbooks' %}">Books</a></li>  
                 </ul>
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'books:publishers' %}">Publishers</a></li>  
+                    <li><a class= "" href="{% url 'books:publishers' %}">Publishers</a></li>  
                 </ul>
                 {% if user.is_staff %}
                     <ul class="nav">
-                        <li><a class= "btn-primary" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
+                        <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
                     </ul>
                 {% endif %}
                 <ul class="nav">
-                    <li><a class= "btn-primary" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
+                    <li><a class= "" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
                 </ul>
                 {% if user.profile.is_beneficiary %}
                     <ul class="nav">
-                        <li><a class= "btn-primary" href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}">My Campaigns</a></li>  
+                        <li><a class= "" href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}">My Campaigns</a></li>  
                     </ul>
                 {% endif %}    
                 {% block extranav %}{% endblock %}
                 <ul class="nav pull-right">
-                    <li><a class= "btn-primary dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;{{user|capfirst}}</a>
+                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;{{user|capfirst}}</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                             <li><a tabindex="-1" href="{% url 'accounts:logout' %}">Logout</a></li>
                          </ul> 

@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     'people',
     'authentication',
     'campaigns',
+    'profiles',
     'south',
 )
 
@@ -149,7 +150,7 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'authentication.UserProfile'
+AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 # Email settings
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

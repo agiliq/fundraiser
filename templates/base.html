@@ -36,7 +36,7 @@
             <a class= "brand" href="/">Home</a>
             {% if not user.is_authenticated %}
                 <ul class="nav pull-right ">
-                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li>
+                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a>
                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                         <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
                         <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>       

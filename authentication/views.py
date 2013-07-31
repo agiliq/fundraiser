@@ -18,6 +18,19 @@ class RegistrationView(FormView):
 
     template_name = "authentication/registration.html"
     form_class = RegistrationForm
+    person_klass = None
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.email = form.cleaned_data['email']
+        user.save()
+        self.person_klass_specific_stuff(form, user)
+        user = authenticate(username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'])
+        if user is not None and user.is_active:
+            login(self.request, user)
+            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
+        return super(RegistrationView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('books:listofbooks')
@@ -25,30 +38,25 @@ class RegistrationView(FormView):
 
 class DonorRegistrationView(RegistrationView):
 
+    person_klass = Donor
+
     def get_context_data(self, **kwargs):
         kwargs = super(DonorRegistrationView, self).get_context_data(**kwargs)
         kwargs['formname'] = 'Donor'
         kwargs['post_url'] = reverse('accounts:donor')
         return kwargs
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.email = form.cleaned_data['email']
-        user.save()
+    def person_klass_specific_stuff(self, form, user):
         user.profile.is_donor = True
         user.profile.save()
-        Donor.objects.create(
+        self.person_klass.objects.create(
             user=user, address=form.cleaned_data['address'],
             website=form.cleaned_data['website'])
-        user = authenticate(username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'])
-        if user is not None and user.is_active:
-            login(self.request, user)
-            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
-        return super(DonorRegistrationView, self).form_valid(form)
 
 
 class BeneficiaryRegistrationView(RegistrationView):
+
+    person_klass = Beneficiary
 
     def get_context_data(self, **kwargs):
         kwargs = super(BeneficiaryRegistrationView, self).get_context_data(
@@ -57,21 +65,12 @@ class BeneficiaryRegistrationView(RegistrationView):
         kwargs['post_url'] = reverse('accounts:beneficiary')
         return kwargs
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.email = form.cleaned_data['email']
-        user.save()
+    def person_klass_specific_stuff(self, form, user):
         user.profile.is_beneficiary = True
         user.profile.save()
-        Beneficiary.objects.create(
+        self.person_klass.objects.create(
             user=user, address=form.cleaned_data['address'],
             website=form.cleaned_data['website'])
-        user = authenticate(username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'])
-        if user is not None and user.is_active:
-            login(self.request, user)
-            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
-        return super(BeneficiaryRegistrationView, self).form_valid(form)
 
 
 def user_login(request):

@@ -6,11 +6,11 @@ from django.views.generic import ListView
 from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
 from django.views.generic import FormView
+from django.contrib.auth.forms import AuthenticationForm
 
+from .forms import RegistrationForm
 from books.models import Book
 from people.models import Beneficiary, Donor
-from authentication.forms import RegistrationForm
-from django.contrib.auth.forms import AuthenticationForm
 
 class RegistrationView(FormView):
 

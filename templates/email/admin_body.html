@@ -1,0 +1,14 @@
+<html>
+    <head></head>
+    <body>
+    
+Hi,
+{% if "ben" %}
+	<p>A new user <b>{{username}}</b> has been registered as {{ben}}</p>
+{%else%}
+	<p>A new user <b>{{username}}</b> has been registered as {{don}}</p>
+{% endif %}
+<p>You can view his details at http://localhost:8000/admin/auth/user/ </p>
+
+    </body>
+</html>

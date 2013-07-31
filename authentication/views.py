@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
 from books.models import Book
 from people.models import Beneficiary, Donor
+from campaigns.mails import SendEmail
 
 class RegistrationView(FormView):
 
@@ -41,6 +42,7 @@ class DonorRegistrationView(RegistrationView):
                 password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
+            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(DonorRegistrationView, self).form_valid(form)
 
 
@@ -65,6 +67,7 @@ class BeneficiaryRegistrationView(RegistrationView):
                 password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
+            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(BeneficiaryRegistrationView, self).form_valid(form)
 
 

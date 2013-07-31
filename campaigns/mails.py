@@ -22,6 +22,5 @@ def SendEmail(sub, msg, to, user=None):
 		if user.profile.is_beneficiary:
 			admin_msg = render_to_string("email/admin_body.html", {"username":user.username, "ben":"Beneficiary"})
 		else:
-			admin_msg = render_to_string("email/admin_body.html", {"don":"Donor"})
+			admin_msg = render_to_string("email/admin_body.html", {"username":user.username, "donr":"Donor"})
 		mail_admins(admin_sub, "", html_message=admin_msg)	
-	

@@ -3,11 +3,11 @@
     <body>
     
 Hi,
-{% if "ben" %}
+{% ifequal "ben" "Beneficiary" %}
 	<p>A new user <b>{{username}}</b> has been registered as {{ben}}</p>
 {%else%}
-	<p>A new user <b>{{username}}</b> has been registered as {{don}}</p>
-{% endif %}
+	<p>A new user <b>{{username}}</b> has been registered as {{donr}}</p>
+{% endifequal %}
 <p>You can view his details at http://localhost:8000/admin/auth/user/ </p>
 
     </body>

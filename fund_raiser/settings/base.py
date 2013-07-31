@@ -165,4 +165,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 #Admin Email Settings
 EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
-SERVER_EMAIL = "shiva@agiliq.com"
+# SERVER_EMAIL = "shiva@agiliq.com"

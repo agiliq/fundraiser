@@ -163,11 +163,6 @@ def get_env_variable(var_name):
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-#Test Email ID
-EMAIL_HOST_USER = 'shivakrshn49@gmail.com'
-#Test password
-EMAIL_HOST_PASSWORD = 'SHIVAKRISHNA_222'
-# DEFAULT_FROM_EMAIL = "shiva@agiliq.com"
 #Admin Email Settings
 EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
 SERVER_EMAIL = "shiva@agiliq.com"

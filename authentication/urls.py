@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
-from authentication.views import user_login, user_logout
-from authentication.views import approve, UnapprovedUsers, CustomAdminIndex
-from authentication.views import BeneficiaryRegistrationView, DonorRegistrationView
+from .views import user_login, user_logout
+from .views import approve, UnapprovedUsers, CustomAdminIndex
+from .views import BeneficiaryRegistrationView, DonorRegistrationView
 
 
 urlpatterns = patterns('',

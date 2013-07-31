@@ -13,10 +13,12 @@ from books.models import Book
 from people.models import Beneficiary, Donor
 from campaigns.mails import SendEmail
 
+
 class RegistrationView(FormView):
 
     template_name = "authentication/registration.html"
     form_class = RegistrationForm
+
     def get_success_url(self):
         return reverse('books:listofbooks')
 
@@ -49,7 +51,8 @@ class DonorRegistrationView(RegistrationView):
 class BeneficiaryRegistrationView(RegistrationView):
 
     def get_context_data(self, **kwargs):
-        kwargs = super(BeneficiaryRegistrationView, self).get_context_data(**kwargs)
+        kwargs = super(BeneficiaryRegistrationView, self).get_context_data(
+                    **kwargs)
         kwargs['formname'] = 'Beneficiary'
         kwargs['post_url'] = reverse('accounts:beneficiary')
         return kwargs
@@ -81,8 +84,8 @@ def user_login(request):
             user = login_form.get_user()
             login(request, user)
             return HttpResponseRedirect(reverse('books:listofbooks'))
-    return render_to_response("authentication/login.html", {'form': login_form},
-                              context_instance=RequestContext(request))
+    return render_to_response("authentication/login.html",
+            {'form': login_form}, context_instance=RequestContext(request))
 
 
 def user_logout(request):
@@ -95,7 +98,8 @@ def approve(request, user_id):
     if user:
         user.beneficiary.is_approved = True
         user.beneficiary.save()
-        SendEmail(sub="approve_sub", msg="approve_msg", to=user.email, user=user)
+        SendEmail(sub="approve_sub", msg="approve_msg",
+                to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')
 

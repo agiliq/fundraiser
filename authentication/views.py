@@ -29,7 +29,9 @@ class DonorRegistrationView(RegistrationView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.email = form.cleaned_data['email']
+        user.save()
         user.profile.is_donor = True
         user.profile.save()
         Donor.objects.create(
@@ -51,7 +53,9 @@ class BeneficiaryRegistrationView(RegistrationView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.email = form.cleaned_data['email']
+        user.save()
         user.profile.is_beneficiary = True
         user.profile.save()
         Beneficiary.objects.create(

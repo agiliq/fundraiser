@@ -9,8 +9,8 @@
 {% endblock %}
 {% block content %}
       <h1>Login Form</h1>
-        {% if error_login %}
-          <span class='help-inline' style="padding-left:400px;">{{ error_login }}</span>
+        {% if form.non_field_errors.0 %}
+          <span class='help-inline' style="padding-left:260px;">{{ form.non_field_errors.0 }}</span>
         {% endif %}
         <p>&nbsp;</p>
     <!-- <form method="post" action="/accounts/login/"> -->

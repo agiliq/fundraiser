@@ -6,11 +6,12 @@ from django.views.generic import ListView
 from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
 from django.views.generic import FormView
+from django.contrib.auth.forms import AuthenticationForm
 
+from .forms import RegistrationForm
 from books.models import Book
 from people.models import Beneficiary, Donor
-from authentication.forms import RegistrationForm
-from django.contrib.auth.forms import AuthenticationForm
+from campaigns.mails import SendEmail
 
 class RegistrationView(FormView):
 
@@ -29,7 +30,9 @@ class DonorRegistrationView(RegistrationView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.email = form.cleaned_data['email']
+        user.save()
         user.profile.is_donor = True
         user.profile.save()
         Donor.objects.create(
@@ -39,6 +42,7 @@ class DonorRegistrationView(RegistrationView):
                 password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
+            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(DonorRegistrationView, self).form_valid(form)
 
 
@@ -51,7 +55,9 @@ class BeneficiaryRegistrationView(RegistrationView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.email = form.cleaned_data['email']
+        user.save()
         user.profile.is_beneficiary = True
         user.profile.save()
         Beneficiary.objects.create(
@@ -61,27 +67,21 @@ class BeneficiaryRegistrationView(RegistrationView):
                 password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
+            SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(BeneficiaryRegistrationView, self).form_valid(form)
 
 
 def user_login(request):
-    error_login = None
     login_form = AuthenticationForm()
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('books:listofbooks'))
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
         login_form = AuthenticationForm(data=request.POST)
         if login_form.is_valid():
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('books:listofbooks'))
-            else:
-                error_login = "Your username or password is incorrect."
-    return render_to_response("authentication/login.html", {'form': login_form, 'error_login':error_login},
+            user = login_form.get_user()
+            login(request, user)
+            return HttpResponseRedirect(reverse('books:listofbooks'))
+    return render_to_response("authentication/login.html", {'form': login_form},
                               context_instance=RequestContext(request))
 
 
@@ -95,6 +95,7 @@ def approve(request, user_id):
     if user:
         user.beneficiary.is_approved = True
         user.beneficiary.save()
+        SendEmail(sub="approve_sub", msg="approve_msg", to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')
 

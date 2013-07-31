@@ -5,7 +5,7 @@ from unipath import Path
 
 SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Shiva', 'shiva@agiliq.com'),
 )
 
 MANAGERS = ADMINS
@@ -158,3 +158,11 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set %s environment variable" % (var_name,)
         raise ImproperlyConfigured(error_msg)
+
+# Email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+#Admin Email Settings
+EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
+# SERVER_EMAIL = "shiva@agiliq.com"

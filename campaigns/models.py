@@ -2,6 +2,7 @@ from django.db import models
 from books.models import Book
 from people.models import Beneficiary
 
+
 class Campaign(models.Model):
     beneficiary = models.ForeignKey(Beneficiary)
     campaign_name = models.CharField(max_length=260)

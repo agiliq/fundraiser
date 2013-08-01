@@ -26,7 +26,7 @@ class RegistrationView(FormView):
         user.save()
         self.person_klass_specific_stuff(form, user)
         user = authenticate(username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'])
+                            password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
             SendEmail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
@@ -60,7 +60,7 @@ class BeneficiaryRegistrationView(RegistrationView):
 
     def get_context_data(self, **kwargs):
         kwargs = super(BeneficiaryRegistrationView, self).get_context_data(
-                    **kwargs)
+            **kwargs)
         kwargs['formname'] = 'Beneficiary'
         kwargs['post_url'] = reverse('accounts:beneficiary')
         return kwargs
@@ -84,7 +84,7 @@ def user_login(request):
             login(request, user)
             return HttpResponseRedirect(reverse('books:listofbooks'))
     return render_to_response("authentication/login.html",
-            {'form': login_form}, context_instance=RequestContext(request))
+                              {'form': login_form}, context_instance=RequestContext(request))
 
 
 def user_logout(request):
@@ -98,7 +98,7 @@ def approve(request, user_id):
         user.beneficiary.is_approved = True
         user.beneficiary.save()
         SendEmail(sub="approve_sub", msg="approve_msg",
-                to=user.email, user=user)
+                  to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')
 

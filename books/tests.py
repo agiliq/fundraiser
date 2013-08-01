@@ -12,13 +12,19 @@ from django.core.urlresolvers import reverse
 
 from books.models import Book, Publisher
 
+
 class BooksAppTestcase(TestCase):
+
     def setUp(self):
         self.c = Client()
-        self.user = User.objects.create_user(username="admin",email="admin@agiliq.com",password="admin")
-        self.publisher = Publisher.objects.create(name='bsp', slug='bsp', address='address')
-        self.book = Book.objects.create(publisher=self.publisher, image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png', title='title', slug='slug', author='author', cost='40.0')
-        # self.campaign = Choice.objects.create(poll=self.poll,choice_text="Nothing Doing")
+        self.user = User.objects.create_user(
+            username="admin", email="admin@agiliq.com", password="admin")
+        self.publisher = Publisher.objects.create(
+            name='bsp', slug='bsp', address='address')
+        self.book = Book.objects.create(
+            publisher=self.publisher, image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png', title='title', slug='slug', author='author', cost='40.0')
+        # self.campaign =
+        # Choice.objects.create(poll=self.poll,choice_text="Nothing Doing")
 
     def test_BooksListView(self):
         response = self.c.get(reverse("books:listofbooks"))
@@ -30,7 +36,8 @@ class BooksAppTestcase(TestCase):
     def test_BooksDetailView(self):
         response = self.c.get(reverse("books:book_detail", args=[4, 'arg']))
         self.assertEqual(404, response.status_code)
-        response = self.c.get(reverse("books:book_detail", args=[self.book.id, self.book.slug]))
+        response = self.c.get(reverse("books:book_detail", args=[
+                              self.book.id, self.book.slug]))
         self.assertEqual(200, response.status_code)
 
     def test_PublishersListView(self):
@@ -43,5 +50,6 @@ class BooksAppTestcase(TestCase):
     def test_PublishersDetailView(self):
         response = self.c.get(reverse("books:books_by_pub", args=[3, 'arg']))
         self.assertEqual(200, response.status_code)
-        response = self.c.get(reverse("books:books_by_pub", args=[self.publisher.id, self.publisher.slug]))
+        response = self.c.get(reverse("books:books_by_pub", args=[
+                              self.publisher.id, self.publisher.slug]))
         self.assertEqual(200, response.status_code)

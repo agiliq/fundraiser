@@ -19,8 +19,10 @@ def create_a_campaign(request):
             if form.is_valid():
                 beneficiary = Beneficiary.objects.get(user=request.user)
                 cam_obj = Campaign.objects.create(beneficiary=beneficiary,
-                                                  campaign_name=request.POST['campaign_name'],
-                                                  target_amount=request.POST['target_amount'],
+                                                  campaign_name=request.POST[
+                                                      'campaign_name'],
+                                                  target_amount=request.POST[
+                                                      'target_amount'],
                                                   cause=request.POST['cause'])
                 if request.POST.getlist('books'):
                     for m2m in request.POST.getlist('books'):
@@ -30,7 +32,6 @@ def create_a_campaign(request):
         return render_to_response('campaigns/create_a_campaign.html', {'form': form, 'errors': dict(form.errors.viewitems())}, context_instance=RequestContext(request))
     else:
         return render_to_response('campaigns/campaign_unapproved.html', context_instance=RequestContext(request))
-
 
 
 class CampaignDetail(generic.DetailView):
@@ -55,6 +56,7 @@ class CampaignUpdate(generic.UpdateView):
 
     def get_success_url(self):
         return reverse("campaigns:campaign_detail", args=[self.object.id])
+
 
 class MyCampaigns(generic.ListView):
     template_name = 'campaigns/my_campaigns.html'

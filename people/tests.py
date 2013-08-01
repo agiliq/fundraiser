@@ -15,10 +15,13 @@ from django.core.urlresolvers import reverse
 
 # from books.models import Book, Publisher
 
+
 class PeopleAppTestcase(TestCase):
+
     def setUp(self):
         self.c = Client()
-        self.user = User.objects.create_user(username="admin",email="admin@agiliq.com",password="admin")
+        self.user = User.objects.create_user(
+            username="admin", email="admin@agiliq.com", password="admin")
 
     def test_BeneficiariesListView(self):
         response = self.c.get(reverse("people:list_of_bnfs"))

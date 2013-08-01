@@ -1,8 +1,6 @@
 from django.conf.urls import patterns, url
-from django.contrib.auth.decorators import login_required
 
 from .views import user_login, user_logout
-from .views import approve, UnapprovedUsers, CustomAdminIndex
 from .views import BeneficiaryRegistrationView, DonorRegistrationView
 
 
@@ -12,8 +10,4 @@ urlpatterns = patterns('',
        BeneficiaryRegistrationView.as_view(), name='beneficiary'),
    url(r'^login/$', user_login, name='login'),
    url(r'^logout/$', user_logout, name='logout'),
-
-   url(r'^$', CustomAdminIndex.as_view(), name='customadmin_index'),
-   url(r'^unapproved-users$', UnapprovedUsers.as_view(), name='unapproved'),
-   url(r'^approve/(?P<user_id>\d+)$', login_required(approve), name='approve'),
 )

@@ -117,6 +117,8 @@ INSTALLED_APPS = (
     'people',
     'authentication',
     'campaigns',
+    'profiles',
+    'customadmin',
     'south',
 )
 
@@ -149,7 +151,13 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'authentication.UserProfile'
+AUTH_PROFILE_MODULE = 'profiles.UserProfile'
+# Email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+# Admin Email Settings
+EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
 
 
 def get_env_variable(var_name):
@@ -158,11 +166,3 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set %s environment variable" % (var_name,)
         raise ImproperlyConfigured(error_msg)
-
-# Email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-#Admin Email Settings
-EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
-# SERVER_EMAIL = "shiva@agiliq.com"

@@ -11,7 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
 from books.models import Book
 from people.models import Beneficiary, Donor
-from campaigns.mails import SendEmail
+from profiles.mails import SendEmail
 
 
 class RegistrationView(FormView):

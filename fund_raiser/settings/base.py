@@ -118,6 +118,7 @@ INSTALLED_APPS = (
     'authentication',
     'campaigns',
     'profiles',
+    'customadmin',
     'south',
 )
 

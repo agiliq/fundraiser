@@ -1,15 +1,12 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-from django.views.generic import ListView
 from django.contrib.auth import logout, login, authenticate
 from django.template import RequestContext
 from django.views.generic import FormView
 from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import RegistrationForm
-from books.models import Book
 from people.models import Beneficiary, Donor
 from profiles.mails import SendEmail
 
@@ -90,36 +87,3 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('accounts:login'))
-
-
-def approve(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    if user:
-        user.beneficiary.is_approved = True
-        user.beneficiary.save()
-        SendEmail(sub="approve_sub", msg="approve_msg",
-                  to=user.email, user=user)
-        return HttpResponseRedirect(reverse('customadmin:unapproved'))
-    return render_to_response('unapproved_users.html')
-
-
-class UnapprovedUsers(ListView):
-    template_name = 'authentication/unapproved_users.html'
-    context_object_name = 'unapproved_users'
-
-    def get_queryset(self):
-        """
-        Returns the unapproved users related to beneficiary in
-        the database
-
-        """
-
-        return User.objects.filter(beneficiary__is_approved=False)
-
-
-class CustomAdminIndex(ListView):
-    template_name = 'authentication/customadmin_index.html'
-    context_object_name = 'books'
-
-    def get_queryset(self):
-        return Book.objects.all()

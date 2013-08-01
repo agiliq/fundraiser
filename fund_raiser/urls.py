@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^customadmin/', include('authentication.urls', namespace='customadmin')),
+    url(r'^customadmin/', include('customadmin.urls', namespace='customadmin')),
 
 
     url(r'^accounts/', include('authentication.urls', namespace='accounts')),

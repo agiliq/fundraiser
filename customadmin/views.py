@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from django.core.urlresolvers import reverse
 
 from books.models import Book
-from profiles.mails import SendEmail
+from profiles.mails import sendemail
 
 
 def approve(request, user_id):
@@ -13,7 +13,7 @@ def approve(request, user_id):
     if user:
         user.beneficiary.is_approved = True
         user.beneficiary.save()
-        SendEmail(sub="approve_sub", msg="approve_msg",
+        sendemail(sub="approve_sub", msg="approve_msg",
                   to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')

@@ -2,7 +2,7 @@ from django.core.mail import mail_admins, EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
-def SendEmail(sub, msg, to, user=None):
+def sendemail(sub, msg, to, user=None):
 
     if sub == "reg_sub":
         subject = "Thanks for registering with Pratham Books"

@@ -81,7 +81,7 @@ def user_login(request):
             login(request, user)
             return HttpResponseRedirect(reverse('books:listofbooks'))
     return render_to_response("authentication/login.html",
-                              {'form': login_form}, context_instance=RequestContext(request))
+            {'form': login_form}, context_instance=RequestContext(request))
 
 
 def user_logout(request):

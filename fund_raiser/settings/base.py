@@ -1,7 +1,10 @@
 # Django settings for fund_raiser project.
 import os
+
 from django.core.exceptions import ImproperlyConfigured
+
 from unipath import Path
+import djcelery
 
 SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (
@@ -120,6 +123,7 @@ INSTALLED_APPS = (
     'profiles',
     'customadmin',
     'south',
+    'djcelery',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -159,6 +163,7 @@ EMAIL_PORT = 587
 # Admin Email Settings
 EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
 
+djcelery.setup_loader()
 
 def get_env_variable(var_name):
     try:

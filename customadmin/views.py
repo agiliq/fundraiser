@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from django.core.urlresolvers import reverse
 
 from books.models import Book
-from profiles.mails import sendemail
+from profiles.tasks import sendemail
 
 
 def approve(request, user_id):

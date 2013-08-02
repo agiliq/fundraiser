@@ -1,7 +1,10 @@
 from django.core.mail import mail_admins, EmailMultiAlternatives
 from django.template.loader import render_to_string
 
+from celery import task
 
+
+@task()
 def sendemail(sub, msg, to, user=None):
 
     if sub == "reg_sub":
@@ -16,13 +19,13 @@ def sendemail(sub, msg, to, user=None):
         message = render_to_string("email/campaign_approved.html", {
                                    "username": user.username})
 
-    email = EmailMultiAlternatives(subject, "", "", ["shiva@agiliq.com"])
+    email = EmailMultiAlternatives(subject, "", "", [to])
     email.attach_alternative(message, "text/html")
     email.send()
 
     if not sub == "approve_sub":
         admin_sub = "New User Registered"
-        if user.profile.is_beneficiary:
+        if user.get_profile().is_beneficiary:
             admin_msg = render_to_string("email/admin_body.html", {
                                          "username": user.username, "ben": True})
         else:

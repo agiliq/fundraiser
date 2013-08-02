@@ -19,7 +19,7 @@ def sendemail(sub, msg, to, user=None):
         message = render_to_string("email/campaign_approved.html", {
                                    "username": user.username})
 
-    email = EmailMultiAlternatives(subject, "", "", ["akshar@agiliq.com"])
+    email = EmailMultiAlternatives(subject, "", "", [to])
     email.attach_alternative(message, "text/html")
     email.send()
 

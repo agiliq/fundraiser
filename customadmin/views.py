@@ -13,7 +13,7 @@ def approve(request, user_id):
     if user:
         user.beneficiary.is_approved = True
         user.beneficiary.save()
-        sendemail(sub="approve_sub", msg="approve_msg",
+        sendemail.delay(sub="approve_sub", msg="approve_msg",
                   to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')

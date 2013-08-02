@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import RegistrationForm
 from people.models import Beneficiary, Donor
-from profiles.mails import sendemail
+from profiles.tasks import sendemail
 
 
 class RegistrationView(FormView):
@@ -26,7 +26,7 @@ class RegistrationView(FormView):
                             password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
-            sendemail(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
+            sendemail.delay(sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(RegistrationView, self).form_valid(form)
 
     def get_success_url(self):

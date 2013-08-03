@@ -34,4 +34,3 @@ class PublishersListView(generic.ListView):
     template_name = 'books/publishers.html'
     context_object_name = 'publisher_list'
     paginate_by = 10
-

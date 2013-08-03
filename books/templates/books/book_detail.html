@@ -5,7 +5,7 @@
   <h1>Book Details</h1>
   {% if book %}
 	    <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-	      {% if book.image.url %}	
+	      {% if book.image %}	
 		      <tr>
 		      	<td>Image :</td>
 		      	<td><a href="{% url 'books:book_detail' book.id book.slug%}"><img src="{{book.image.url}}" height="100" width="200"></a></td></tr>

@@ -4,8 +4,8 @@ from books.models import Publisher, Book
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publisher', 'cost')
-    list_filter = ['cost']
-    search_fields = ['title', 'author', 'publisher']
+    list_filter = ['title', 'cost']
+    search_fields = ['title', 'author', 'publisher__name']
     prepopulated_fields = {"slug": ("title",)}
 
 

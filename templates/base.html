@@ -10,16 +10,19 @@
         <meta name="author" content="">
     {% endblock %}
     <title>{% block main_title %}{% endblock %} | {% block title %}{% endblock %}</title>
-    <!-- Le styles -->
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <script src="{{STATIC_URL}}bootstrap/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js" type="text/javascript"></script>
-    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
-    <style type="text/css">
-       body {padding-top: 60px;}
-    </style>
+    {% block stylesheets %}
+        <!-- Le styles -->
+        <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+        <style type="text/css">
+           body {padding-top: 60px;}
+        </style>
+    {% endblock %}
+    {% block javascript %}
+        <script src="{{STATIC_URL}}bootstrap/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+        <script src="{{STATIC_URL}}bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    {% endblock %}
     {% block extrahead %}
     {% endblock %}
 </head>

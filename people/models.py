@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Person(models.Model):
     user = models.OneToOneField(User)
     address = models.CharField(max_length=150)
-    website = models.URLField(blank=True, null=True)
+    website = models.URLField(blank=True)
 
     def __unicode__(self):
         return self.user.username

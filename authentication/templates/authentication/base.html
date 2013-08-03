@@ -1,2 +1,10 @@
 {% extends "base.html" %}
 {% block main_title %}User{% endblock %}
+{% block stylesheets %}
+    {{block.super}}
+    <style type="text/css">
+        form.form-horizontal {padding-left: 260px;}
+        h1 {padding-top:20px;}
+        span.help-inline {color:#b94a48;}
+    </style>
+{% endblock %}

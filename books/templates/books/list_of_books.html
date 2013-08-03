@@ -4,32 +4,32 @@
 {% block content %}
     <h1>List of Books</h1>
     <p>&nbsp;</p>
-	{% if list_of_books %}
-	    <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-	    {% for book in list_of_books %}
-	      <tr>
-	        <td>  
-	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
-	        </td>
-          </tr>
-	    {% endfor %}
-	    </table>
-	    {% if is_paginated %}
-	        <div class="pagination pull-right">
-	            <span class="page-links">
-	                {% if page_obj.has_previous %}
-	                    <a href="/books?page={{ page_obj.previous_page_number }}">previous</a>
-	                {% endif %}
-	                <span class="page-current">
-	                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-	                </span>
-	                {% if page_obj.has_next %}
-	                    <a href="/books?page={{ page_obj.next_page_number }}">next</a>
-	                {% endif %}
-	            </span>
-	        </div>
-	    {% endif %}
-	{% else %}
-	    <p>No Books available.</p>
-	{% endif %}
+    {% if list_of_books %}
+        <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+        {% for book in list_of_books %}
+            <tr>
+                <td>  
+                    {{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        {% if is_paginated %}
+            <div class="pagination pull-right">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/books?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/books?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>No Books available.</p>
+    {% endif %}
 {% endblock %} 

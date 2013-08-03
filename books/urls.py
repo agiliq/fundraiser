@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from books.views import BookDetail, BooksbyPubView, PublishersListView, BooksListView
+from .views import BookDetail, BooksbyPubView, PublishersListView, BooksListView
 
 
 urlpatterns = patterns('',

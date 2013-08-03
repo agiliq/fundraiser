@@ -1,6 +1,6 @@
 from django.views import generic
 
-from books.models import Book, Publisher
+from .models import Book, Publisher
 
 
 class BooksListView(generic.ListView):

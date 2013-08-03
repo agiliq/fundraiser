@@ -46,7 +46,6 @@
                     <li><a class= "" href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}">My Campaigns</a></li>  
                 </ul>
                 {% endif %}    
-                {% block extranav %}{% endblock %}
                 <ul class="nav pull-right">
                     <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;{{user|capfirst}}</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

@@ -64,4 +64,4 @@ class MyCampaigns(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['campaign_id'])
+        return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['user_id'])

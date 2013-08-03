@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 
 class Person(models.Model):
@@ -9,6 +10,12 @@ class Person(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def get_absolute_url(self):
+        if self.user.get_profile().is_beneficiary:
+            return reverse('people:beneficiary_detail', args=[self.id])
+        else:
+            return reverse('people:donor_detail', args=[self.id])
 
     class Meta:
         abstract = True

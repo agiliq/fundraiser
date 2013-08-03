@@ -9,7 +9,7 @@
 	    {% for book in list_of_books %}
 	      <tr>
 	        <td>  
-	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{% url 'books:book_detail' book.id book.slug%}">{{ book.title }}</a>
+	        	{{forloop.counter}}&nbsp; &nbsp; &nbsp;<a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
 	        </td>
           </tr>
 	    {% endfor %}

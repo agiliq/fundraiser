@@ -8,7 +8,7 @@
 	      {% if book.image %}	
 		      <tr>
 		      	<td>Image :</td>
-		      	<td><a href="{% url 'books:book_detail' book.id book.slug%}"><img src="{{book.image.url}}" height="100" width="200"></a></td></tr>
+		      	<td><a href="{{ book.get_absolute_url }}"><img src="{{book.image.url}}" height="100" width="200"></a></td></tr>
 		  {% else %}
 		  	  <tr><td>Image :</td><td><p>No image availabe</p></td></tr>    
 		  {% endif %}	  

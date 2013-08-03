@@ -4,15 +4,11 @@ from .models import Book, Publisher
 
 
 class BooksListView(generic.ListView):
+    model = Book
     template_name = 'books/list_of_books.html'
     context_object_name = 'list_of_books'
     paginate_by = 10
 
-    def get_queryset(self):
-        """
-        Returns the available books in the database
-        """
-        return Book.objects.all()
 
 
 class BooksbyPubView(generic.ListView):
@@ -34,12 +30,8 @@ class BookDetail(generic.DetailView):
 
 
 class PublishersListView(generic.ListView):
+    model = Publisher
     template_name = 'books/publishers.html'
     context_object_name = 'publisher_list'
     paginate_by = 10
 
-    def get_queryset(self):
-        """
-        Returns the available publishers in the database
-        """
-        return Publisher.objects.all()

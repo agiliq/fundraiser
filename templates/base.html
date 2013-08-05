@@ -18,6 +18,7 @@
            body {padding-top: 60px;}
            .follow_us {padding-left: 1200px}
            .container {padding-left: 40px;}
+           .like_share  {padding-top: 40px; padding-left: 0px;}
         </style>
     {% endblock %}
     {% block javascript %}
@@ -39,22 +40,26 @@
             <div class="addthis_toolbox addthis_default_style">
             <a class="addthis_button_facebook_follow" addthis:userid="pages/Pratham/495010943916683"></a>
             <a class="addthis_button_twitter_follow" addthis:userid="Pratham_India"></a>
-            <a class="addthis_button_google_follow" addthis:userid="b/114417499830073294773/114417499830073294773/posts"></a>
+            <a class="addthis_button_google_follow" addthis:userid="b/114417499830073294773/114417499830073294773/posts"
+            ></a>
             </div>
         <!-- AddThis Follow END -->
-
+    </div>
+    <div class="addthis_toolbox addthis_floating_style addthis_counter_style " style="left:50px;top:50px;">
+            <a class="addthis_button_facebook_like" fb:like:layout="box_count"></a>
+            <a class="addthis_button_tweet" tw:count="vertical"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="tall"></a>
+            <a class="addthis_counter"></a>
     </div>
     <div class="container">
         {% block content %}
         {% endblock %}
     </div> <!-- /container -->
-    <div class="social_sharing">
-
-    </div>
 </body>
 
 <script>
         $('.dropdown-toggle').dropdown()
 </script>
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fba2dd0787ef1a"></script>
 </html>

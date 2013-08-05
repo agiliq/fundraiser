@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^people/', include('people.urls', namespace='people')),
 
     url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
+
+    url(r'^ebs/', include('ebspayment.urls', namespace='ebs')),
     )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

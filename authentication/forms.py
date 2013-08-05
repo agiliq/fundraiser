@@ -12,7 +12,7 @@ class RegistrationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         try:
-            User.objects.get(email__iexact=email)
+            User.objects.get(email=email)
         except User.DoesNotExist:
             return self.cleaned_data['email']
         raise forms.ValidationError(_("Email already exists"))

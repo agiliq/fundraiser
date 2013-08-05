@@ -1,41 +1,40 @@
 {% extends "authentication/base.html" %}
 {% block title %}Login{% endblock %}
-{% block extrahead %}
- <style type="text/css">
-  form.form-horizontal {padding-left: 260px;}
-  h1 {padding-top:100px;padding-left: 400px;}
-  span.help-inline {color:#b94a48;}
-  </style>
+{% block stylesheets %}
+    {{block.super}}
+    <style type="text/css">
+        h1{padding-left: 400px}
+    </style>
 {% endblock %}
 {% block content %}
-      <h1>Login Form</h1>
-        {% if form.non_field_errors.0 %}
-          <span class='help-inline' style="padding-left:260px;">{{ form.non_field_errors.0 }}</span>
-        {% endif %}
-        <p>&nbsp;</p>
+    <h1>Login Form</h1>
+    {% if form.non_field_errors.0 %}
+        <span class='help-inline' style="padding-left:260px;">{{ form.non_field_errors.0 }}</span>
+    {% endif %}
+    <p>&nbsp;</p>
     <!-- <form method="post" action="/accounts/login/"> -->
     <form method="post" action="{% url 'accounts:login'%}" class="form-horizontal">
-     {% csrf_token %}
-      <div class="control-group">
-        <label class="control-label" for="username">Username</label>
-        <div class="controls">{{ form.username }}
-              {% if form.username.errors %}
-                 <span class="help-inline">{{ form.username.errors.0}}</span>
-              {% endif %}
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="password">Password</label>
-        <div class="controls">{{ form.password }}
-              {% if form.password.errors.0 %}
-                 <span class="help-inline">{{ form.password.errors.0}}</span>
-              {% endif %}
-        </div>
-      </div>
+        {% csrf_token %}
         <div class="control-group">
-          <div class="controls">
-            <button type="submit" value="login" class="btn btn-primary" >Login</button>
-          </div>
+            <label class="control-label" for="username">Username</label>
+            <div class="controls">{{ form.username }}
+                {% if form.username.errors %}
+                <span class="help-inline">{{ form.username.errors.0}}</span>
+                {% endif %}
+            </div>
         </div>
-    </form>  
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">{{ form.password }}
+                {% if form.password.errors.0 %}
+                <span class="help-inline">{{ form.password.errors.0}}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" value="login" class="btn btn-primary" >Login</button>
+            </div>
+        </div>
+    </form>
 {% endblock %} 

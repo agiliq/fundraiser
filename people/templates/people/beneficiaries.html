@@ -8,7 +8,7 @@
  	<table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
 	  {% for beneficiary in beneficiary_list%}
 	     <tr>
-	     	<td><a href="{% url 'people:beneficiary_detail' beneficiary.id%}">{{beneficiary}}</a></td>
+	     	<td><a href="{{ beneficiary.get_absolute_url }}">{{beneficiary}}</a></td>
 	     </tr>
 	  {% endfor %}
 	</table>  

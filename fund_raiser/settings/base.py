@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'customadmin',
     'south',
     'djcelery',
+    'ebspayment',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -171,3 +172,12 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set %s environment variable" % (var_name,)
         raise ImproperlyConfigured(error_msg)
+
+#Configs for EBS Payment
+EBS_ACCOUNT_ID = '5880'   #Enter Your Account Id here.This is a test id. 
+
+EBS_SECRET_KEY = 'ebskey' #Enter Your Secret Key here.This is a test key.
+
+EBS_ACTION_URL = 'https://secure.ebs.in/pg/ma/sale/pay' #Do not edit this URL.
+
+EBS_RETURN_URL = 'http://127.0.0.1:8000/ebs/ebspayment/response' #Enter your domain URL instead of 127.0.0.1:8000.  

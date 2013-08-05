@@ -7,8 +7,8 @@ class Publisher(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
     address = models.CharField(max_length=150)
     email = models.EmailField(
-        max_length=70, blank=True, null=True, unique=True)
-    website = models.URLField(blank=True, null=True)
+        max_length=70, blank=True, unique=True)
+    website = models.URLField(blank=True)
 
     def __unicode__(self):
         return self.name

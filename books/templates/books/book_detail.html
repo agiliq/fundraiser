@@ -5,10 +5,10 @@
   <h1>Book Details</h1>
   {% if book %}
 	    <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-	      {% if book.image.url %}	
+	      {% if book.image %}	
 		      <tr>
 		      	<td>Image :</td>
-		      	<td><a href="{% url 'books:book_detail' book.id book.slug%}"><img src="{{book.image.url}}" height="100" width="200"></a></td></tr>
+		      	<td><a href="{{ book.get_absolute_url }}"><img src="{{book.image.url}}" height="100" width="200"></a></td></tr>
 		  {% else %}
 		  	  <tr><td>Image :</td><td><p>No image availabe</p></td></tr>    
 		  {% endif %}	  
@@ -16,9 +16,9 @@
           <tr><td>Synopsis :</td><td><p>{{book.synopsis}}</p></td></tr>
           <tr><td>Cost :</td><td><p>{{book.cost}}</p></td></tr>
           <tr><td>Author :</td><td><p>{{book.author}}</p></td></tr>
-	    </table>
-	{% else %}
-	    <p>No details available.</p>
-	{% endif %}
+        </table>
+    {% else %}
+        <p>No details available.</p>
+    {% endif %}
   
 {% endblock %} 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block main_title %}Ebs{% endblock %}
+{% block title %}Payment{% endblock %}
+<style type="text/css">
+        table {padding-left: 400px}
+</style>
+{% block content %}
+<h1>Enter Card Details</h1> 
+<form action="{{ ebs_url }}" method="POST" name="frmTransaction" class="form-horizontal">
+	<table class="table span10" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%">
+		{{ form.as_table }}
+	</table>
+	<div class="control-group">
+            <div class="controls">
+                <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
+            </div>
+    </div>
+</form>
+{% endblock %} 

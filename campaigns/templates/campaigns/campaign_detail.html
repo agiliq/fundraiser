@@ -5,7 +5,8 @@
 <h2>Details of Campaign</h1>
   {% if user.profile.is_beneficiary or user.is_staff %}
     {% ifequal campaign.beneficiary.user user  %}  
-      <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:edit_campaign' campaign.id %}"><button type="submit" value="edit_campaign"  class="btn btn-primary" >Edit Campaign</button></a></p>
+      <p style="padding-top:10px; padding-left:1000px;"><a href="{{campaign.get_edit_url}}"><button type="submit" value="edit_campaign"  class="btn btn-primary" >Edit Campaign</button></a></p>
+      <p>&nbsp;</p>
      {% endifequal %}
   {% endif %} 
   {% if campaign %}
@@ -24,6 +25,7 @@
           <tr><td>Target Amount</td><td><p>{{campaign.target_amount}}</p></td></tr>
           <tr><td>Cause</td><td><p>{{campaign.cause}}</p></td></tr>
       </table>
+      <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'ebs:ebsindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p>
   {% else %}
       <p>No details available.</p>
   {% endif %}

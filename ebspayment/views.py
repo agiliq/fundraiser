@@ -2,23 +2,25 @@
 import base64
 import re
 from django.shortcuts import render_to_response, get_object_or_404
-# from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.template import RequestContext
-# from django.core.urlresolvers import reverse
+from django.conf import settings
+import hashlib
 
 from campaigns.models import Campaign
-from ebspayment.models import PaymentForm
+from ebspayment.forms import PaymentForm
 
 #sample payment page
 def ebspayment(request, campaign_id):
     campaign_obj = get_object_or_404(Campaign, pk=campaign_id)
+    hashstring = hashlib.md5(settings.EBS_ACCOUNT_ID+'|'+settings.EBS_SECRET_KEY).hexdigest()
     form = PaymentForm()
-    if form.is_valid():
+    if request.method == 'POST':
         form = PaymentForm(data=request.POST)
     return render_to_response('ebspayment/payment_form.html', {'form': form,
                                                       'campaign' : campaign_obj,
-                                                      'ebs_url': settings.EBS_ACTION_URL},
+                                                      'ebs_url': settings.EBS_ACTION_URL,
+                                                      'hashstring' : hashstring},
                                                       context_instance=RequestContext(request))
 
 #function to process response from EBS and decrypt

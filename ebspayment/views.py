@@ -8,7 +8,7 @@ from django.conf import settings
 import hashlib
 
 from campaigns.models import Campaign
-from ebspayment.models import PaymentForm
+from ebspayment.forms import PaymentForm
 
 #sample payment page
 def ebspayment(request, campaign_id):

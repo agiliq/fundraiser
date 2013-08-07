@@ -19,7 +19,7 @@ class BooksbyPubView(generic.ListView):
         """
         Returns the available books by the publisher in the database
         """
-        return Book.objects.filter(publisher__id=self.kwargs['pub_id'])
+        return Book.objects.filter(publisher__slug=self.kwargs['slug'])
 
 
 class BookDetail(generic.DetailView):

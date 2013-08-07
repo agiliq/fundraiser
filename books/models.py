@@ -17,7 +17,7 @@ class Publisher(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('books:books_by_pub', args=[self.id, self.slug])
+        return reverse('books:books_by_pub', args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -45,7 +45,7 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('books:book_detail', args=[self.id, self.slug])
+        return reverse('books:book_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.id:

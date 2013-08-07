@@ -52,7 +52,7 @@ class Book(models.Model):
             if not self.slug:
                 slug = slugify(self.title)
                 try:
-                    obj_with_slug_exits = Publisher.objects.get(slug=slug)
+                    obj_with_slug_exits = Book.objects.get(slug=slug)
                     if obj_with_slug_exits:
                         self.slug = slug + '_1'
                 except Book.DoesNotExist:

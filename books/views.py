@@ -10,7 +10,6 @@ class BooksListView(generic.ListView):
     paginate_by = 10
 
 
-
 class BooksbyPubView(generic.ListView):
     template_name = 'books/books_by_pub.html'
     context_object_name = 'books_by_pub'
@@ -20,7 +19,7 @@ class BooksbyPubView(generic.ListView):
         """
         Returns the available books by the publisher in the database
         """
-        return Book.objects.filter(publisher__id=self.kwargs['pub_id'])
+        return Book.objects.filter(publisher__slug=self.kwargs['slug'])
 
 
 class BookDetail(generic.DetailView):

@@ -55,7 +55,7 @@ class CampaignUpdate(generic.UpdateView):
     form_class = CampaignForm
 
     def get_success_url(self):
-        return reverse("campaigns:campaign_detail", args=[self.object.id])
+        return reverse("campaigns:campaign_detail", args=[self.object.slug])
 
 
 class MyCampaigns(generic.ListView):

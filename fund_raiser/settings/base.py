@@ -1,10 +1,9 @@
 # Django settings for fund_raiser project.
-import os
-
 from django.core.exceptions import ImproperlyConfigured
 
-from unipath import Path
+import os
 import djcelery
+from unipath import Path
 
 SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (

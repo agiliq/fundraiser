@@ -1,6 +1,7 @@
 from django import forms
-from ebspayment.fields import CountryField
 from django.conf import settings
+
+from ebspayment.fields import CountryField
 
 #Transaction Modes
 MODES = (

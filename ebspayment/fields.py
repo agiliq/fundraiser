@@ -1,7 +1,7 @@
 from django import forms
 
 COUNTRIES = (
-    ('IN', ('India')), 
+    ('IN', ('India')),
     ('US', ('United States of America')),
     ('CA', ('Canada')),
     ('AD', ('Andorra')),
@@ -53,11 +53,12 @@ COUNTRIES = (
     ('CU', ('Cuba')),
     ('CV', ('Cape Verde')),
     ('CX', ('Christmas Island')),
-    ('CY', ('Cyprus')),    
+    ('CY', ('Cyprus')),
 )
 
 
 class CountryField(forms.ChoiceField):
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('choices', COUNTRIES)
         super(CountryField, self).__init__(*args, **kwargs)

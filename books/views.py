@@ -10,7 +10,6 @@ class BooksListView(generic.ListView):
     paginate_by = 10
 
 
-
 class BooksbyPubView(generic.ListView):
     template_name = 'books/books_by_pub.html'
     context_object_name = 'books_by_pub'

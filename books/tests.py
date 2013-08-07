@@ -21,8 +21,9 @@ class BooksAppTestcase(TestCase):
             username="admin", email="admin@agiliq.com", password="admin")
         self.publisher = Publisher.objects.create(
             name='bsp', slug='bsp', address='address')
-        self.book = Book.objects.create(
-            publisher=self.publisher, image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png', title='title', slug='slug', author='author', cost='40.0')
+        self.book = Book.objects.create(publisher=self.publisher,
+            image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
+            title='title', slug='slug', author='author', cost='40.0')
         # self.campaign =
         # Choice.objects.create(poll=self.poll,choice_text="Nothing Doing")
 

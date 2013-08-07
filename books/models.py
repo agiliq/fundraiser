@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 
 class Publisher(models.Model):
@@ -16,6 +17,11 @@ class Publisher(models.Model):
     def get_absolute_url(self):
         return reverse('books:books_by_pub', args=[self.id, self.slug])
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            if not self.slug:
+                self.slug = slugify(self.name)
+        super(Publisher, self).save(*args, **kwargs)        
 
 class Book(models.Model):
     publisher = models.ForeignKey(Publisher)
@@ -32,3 +38,9 @@ class Book(models.Model):
 
     def get_absolute_url(self):
         return reverse('books:book_detail', args=[self.id, self.slug])
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            if not self.slug:
+                self.slug = slugify(self.title)
+        super(Book, self).save(*args, **kwargs)        

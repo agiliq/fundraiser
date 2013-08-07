@@ -2,6 +2,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
+# import re
+
 
 class Publisher(models.Model):
     name = models.CharField(max_length=200)
@@ -20,8 +22,14 @@ class Publisher(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             if not self.slug:
-                self.slug = slugify(self.name)
-        super(Publisher, self).save(*args, **kwargs)        
+                slug = slugify(self.name)
+                try:
+                    obj_with_slug_exits = Publisher.objects.get(slug=slug)
+                    if obj_with_slug_exits:
+                        self.slug = slug + '_1'
+                except Publisher.DoesNotExist:
+                    self.slug = slug
+        super(Publisher, self).save(*args, **kwargs)
 
 class Book(models.Model):
     publisher = models.ForeignKey(Publisher)
@@ -42,5 +50,11 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             if not self.slug:
-                self.slug = slugify(self.title)
-        super(Book, self).save(*args, **kwargs)        
+                slug = slugify(self.title)
+                try:
+                    obj_with_slug_exits = Publisher.objects.get(slug=slug)
+                    if obj_with_slug_exits:
+                        self.slug = slug + '_1'
+                except Book.DoesNotExist:
+                    self.slug = slug
+        super(Book, self).save(*args, **kwargs)

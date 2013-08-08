@@ -24,8 +24,6 @@ class BooksAppTestcase(TestCase):
         self.book = Book.objects.create(publisher=self.publisher,
             image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
             title='title', slug='slug', author='author', cost='40.0')
-        # self.campaign =
-        # Choice.objects.create(poll=self.poll,choice_text="Nothing Doing")
 
     def test_BooksListView(self):
         response = self.c.get(reverse("books:listofbooks"))
@@ -35,10 +33,10 @@ class BooksAppTestcase(TestCase):
         self.assertEqual(200, response.status_code)
 
     def test_BooksDetailView(self):
-        response = self.c.get(reverse("books:book_detail", args=[4, 'arg']))
+        response = self.c.get(reverse("books:book_detail", args=['arg']))
         self.assertEqual(404, response.status_code)
         response = self.c.get(reverse("books:book_detail", args=[
-                              self.book.id, self.book.slug]))
+                              self.book.slug]))
         self.assertEqual(200, response.status_code)
 
     def test_PublishersListView(self):
@@ -49,8 +47,8 @@ class BooksAppTestcase(TestCase):
         self.assertEqual(200, response.status_code)
 
     def test_PublishersDetailView(self):
-        response = self.c.get(reverse("books:books_by_pub", args=[3, 'arg']))
+        response = self.c.get(reverse("books:books_by_pub", args=['arg']))
         self.assertEqual(200, response.status_code)
         response = self.c.get(reverse("books:books_by_pub", args=[
-                              self.publisher.id, self.publisher.slug]))
+                              self.publisher.slug]))
         self.assertEqual(200, response.status_code)

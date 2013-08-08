@@ -6,14 +6,9 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-
-
-from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-
-# from books.models import Book, Publisher
 
 
 class PeopleAppTestcase(TestCase):

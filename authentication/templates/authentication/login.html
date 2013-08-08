@@ -12,8 +12,11 @@
         <span class='help-inline' style="padding-left:260px;">{{ form.non_field_errors.0 }}</span>
     {% endif %}
     <p>&nbsp;</p>
-    <!-- <form method="post" action="/accounts/login/"> -->
-    <form method="post" action="{% url 'accounts:login'%}" class="form-horizontal">
+    {% if next %}
+        <form method="post" action="{% url 'accounts:login'%}?next={{next}}" class="form-horizontal">
+    {% else %}
+        <form method="post" action="{% url 'accounts:login'%}" class="form-horizontal">
+    {% endif %}        
         {% csrf_token %}
         <div class="control-group">
             <label class="control-label" for="username">Username</label>

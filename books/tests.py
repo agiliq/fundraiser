@@ -22,8 +22,8 @@ class BooksAppTestcase(TestCase):
         self.publisher = Publisher.objects.create(
             name='bsp', slug='bsp', address='address')
         self.book = Book.objects.create(publisher=self.publisher,
-            image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
-            title='title', slug='slug', author='author', cost='40.0')
+                                        image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
+                                        title='title', slug='slug', author='author', cost='40.0')
 
     def test_BooksListView(self):
         response = self.c.get(reverse("books:listofbooks"))

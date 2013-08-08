@@ -52,3 +52,18 @@ class BooksAppTestcase(TestCase):
         response = self.c.get(reverse("books:books_by_pub", args=[
                               self.publisher.slug]))
         self.assertEqual(200, response.status_code)
+
+
+class ModelTests(TestCase):
+
+    def setUp(self):
+        self.publisher = create_publisher()
+        pass
+
+    def test_create_book(self):
+        for i in range(3):
+            Book.objects.create(publisher=self.publisher, title='abc')
+
+
+def create_publisher():
+    return Publisher.objects.create(name='test')

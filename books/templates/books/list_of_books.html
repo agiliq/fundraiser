@@ -2,17 +2,40 @@
 {% block main_title %}Books{% endblock %}
 {% block title %}List of Books{% endblock %}
 {% block content %}
+    <style type="text/css">
+       #changelist-search {padding-left: 30px;}
+    </style>
     <h1>List of Books</h1>
     <p>&nbsp;</p>
-	{% if list_of_books %}
-	    <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-	    {% for book in list_of_books %}
-	      <tr>
-	        <td>  
-	        	<a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-	        </td>
-          </tr>
-	    {% endfor %}
+	<div id="toolbar">
+	  <form id="changelist-search" action="." method="get">
+	   <div><!-- DIV needed for valid HTML -->
+	       <label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
+	       <input type="text" size="40" name="q" value="" id="searchbar" />
+		   <input class="btn btn-primary" type="submit" value="Search" />  
+	   </div>
+	  </form>
+	</div>
+	<script type="text/javascript">document.getElementById("searchbar").focus();</script>    
+	{% if list_of_books or search_results %}
+	   <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+	    {% if search_results %}
+		    {% for book in search_results %}
+		      <tr>
+		        <td>  
+		        	<a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+		        </td>
+	          </tr>
+		    {% endfor %}		    
+		{% else %}    
+		    {% for book in list_of_books %}
+		      <tr>
+		        <td>  
+		        	<a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+		        </td>
+	          </tr>
+		    {% endfor %}
+		{% endif %}    
 	    </table>
 	    {% if is_paginated %}
 	        <div class="pagination pull-right">

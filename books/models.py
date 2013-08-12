@@ -20,15 +20,20 @@ class Publisher(models.Model):
         return reverse('books:books_by_pub', args=[self.slug])
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            if not self.slug:
-                slug = slugify(self.name)
+        if not self.id and not self.slug:
+            slug = slugify(self.name)
+            slug_exists = True
+            self.slug = slug
+            counter = 1
+            while slug_exists:
                 try:
-                    obj_with_slug_exits = Publisher.objects.get(slug=slug)
-                    if obj_with_slug_exits:
-                        self.slug = slug + '_1'
+                    slug_exits = Publisher.objects.get(slug=slug)
+                    if slug_exits:
+                        slug = self.slug + '_' + str(counter)
+                        counter += 1
                 except Publisher.DoesNotExist:
                     self.slug = slug
+                    break
         super(Publisher, self).save(*args, **kwargs)
 
 class Book(models.Model):
@@ -48,13 +53,18 @@ class Book(models.Model):
         return reverse('books:book_detail', args=[self.slug])
 
     def save(self, *args, **kwargs):
-        if not self.id:
-            if not self.slug:
-                slug = slugify(self.title)
+        if not self.id and not self.slug:
+            slug = slugify(self.title)
+            slug_exists = True
+            self.slug = slug
+            counter = 1
+            while slug_exists:
                 try:
-                    obj_with_slug_exits = Book.objects.get(slug=slug)
-                    if obj_with_slug_exits:
-                        self.slug = slug + '_1'
+                    slug_exits = Book.objects.get(slug=slug)
+                    if slug_exits:
+                        slug = self.slug + '_' + str(counter)
+                        counter += 1
                 except Book.DoesNotExist:
                     self.slug = slug
+                    break
         super(Book, self).save(*args, **kwargs)

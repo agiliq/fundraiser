@@ -60,6 +60,10 @@ class ModelTests(TestCase):
         self.publisher = create_publisher()
         pass
 
+    def test_create_publisher(self):
+        for i in range(3):
+            Publisher.objects.create(name='pub', email='{0}@gmail.com'.format(i))
+
     def test_create_book(self):
         for i in range(3):
             Book.objects.create(publisher=self.publisher, title='abc')

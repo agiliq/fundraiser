@@ -2,9 +2,28 @@
 {% block main_title %}Books{% endblock %}
 {% block title %}List of Books{% endblock %}
 {% block content %}
+	<script src="http://connect.facebook.net/en_US/all.js"></script>
+	<script>
+				FB.init({
+				appId:'305620232908791',
+				cookie:true,
+				status:true,
+				xfbml:true
+				});
+				function FacebookInviteFriends()
+				{
+				FB.ui({
+				method: 'apprequests',
+				message: 'Hello Dude'
+				});
+				}
+	</script>
+
     <style type="text/css">
        #changelist-search {padding-left: 30px;}
+       .facebookapi {padding-top: 100px; padding-left: 30px;}
     </style>
+
     <h1>List of Books</h1>
     <p>&nbsp;</p>
     <form id="changelist-search" class="form-search" action="." method="get">
@@ -53,4 +72,13 @@
 	{% else %}
 	    <p>No Books available.</p>
 	{% endif %}
+	<div class="facebookapi">
+	   <span>Invite friends from <a href="http:/#" onclick="FacebookInviteFriends();">Facebook ?</a></span>
+	</div>
+<script type='text/javascript'>
+			if (top.location!= self.location)
+			{
+			top.location = self.location
+			}
+</script>	
 {% endblock %} 

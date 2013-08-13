@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.views import generic
+from django.db.models import Q
 
 from people.models import Beneficiary
 from campaigns.models import Campaign
@@ -48,6 +49,14 @@ class CampaignsListView(generic.ListView):
     def get_queryset(self):
         return Campaign.objects.all()
 
+    def get_context_data(self, **kwargs):
+        search_results = None    
+        if self.request.GET:
+            search_results = Campaign.objects.filter(Q(campaign_name__icontains=self.request.GET['q']))
+        context = super(CampaignsListView, self).get_context_data(**kwargs)
+        context['search_results'] = search_results
+        return context
+
 
 class CampaignUpdate(generic.UpdateView):
     model = Campaign
@@ -65,3 +74,11 @@ class MyCampaigns(generic.ListView):
 
     def get_queryset(self):
         return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['user_id'])
+
+    def get_context_data(self, **kwargs):
+        search_results = None    
+        if self.request.GET:
+            search_results = Campaign.objects.filter(Q(campaign_name__icontains=self.request.GET['q']))
+        context = super(MyCampaigns, self).get_context_data(**kwargs)
+        context['search_results'] = search_results
+        return context

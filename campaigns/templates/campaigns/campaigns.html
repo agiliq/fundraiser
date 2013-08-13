@@ -6,11 +6,41 @@
    {% if user.profile.is_beneficiary %}
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
 	{% endif %}
-   {% if campaign_list %} 
-   <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-      {% for campaign in campaign_list %}
-         <tr><td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td></tr>
-      {% endfor %}
+  <form id="changelist-search" class="form-search" action="." method="get">
+    <div class="input-append">
+      <label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
+      <input type="text" class="span2 search-query" name="q" value="" id="searchbar">
+      <button type="submit" class="btn btn-primary" value="Search">Search</button>
+    </div>
+  </form>  
+   {% if campaign_list or search_results %} 
+   <table class="table table-hover" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+       <thead>
+         <tr>
+             <td>Campaign Name</td>
+             <td>Amount</td>
+             <td>Created</td>
+         </tr>
+       </thead>  
+       <tbody>
+        {% if search_results %}
+          {% for campaign in search_results %}
+             <tr>
+                  <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
+                  <td>{{campaign.target_amount}}</td>
+                  <td>{{campaign.date_created}}</td>
+             </tr>
+          {% endfor %}
+        {% else %}        
+          {% for campaign in campaign_list %}
+             <tr>
+                  <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
+                  <td>{{campaign.target_amount}}</td>
+                  <td>{{campaign.date_created}}</td>
+             </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
    </table> 
       {% if is_paginated %}
           <div class="pagination pull-right">

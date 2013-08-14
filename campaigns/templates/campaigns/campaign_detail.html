@@ -26,7 +26,8 @@
           <tr><td>Cause</td><td><p>{{campaign.cause}}</p></td></tr>
       </table>
       {% if user.profile.is_donor %}
-        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'ebs:ebsindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p>
+<!--        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'paygate:ebsindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p> -->
+        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'paygate:stripeindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p>
       {% endif %}
   {% else %}
       <p>No details available.</p>

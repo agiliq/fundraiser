@@ -1,0 +1,5 @@
+<form action="{{ integration.service_url }}" method="post">
+  <input type="hidden" name="cart" value="{{ integration.generate_cart_xml }}" />
+  <input type="hidden" name="signature" value="{{ integration.signature }}" />
+  <input type="image" name="Google Checkout" alt="Fast checkout through Google" src="{{ integration.button_image_url }}" height="{{ integration.button_height }}" width="{{ integration.button_width }}" />
+</form>

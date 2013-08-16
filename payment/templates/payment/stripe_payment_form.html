@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block main_title %}Stripe{% endblock %}
+{% block title %}Payment{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <style type="text/css">
+         body {padding-top: 60px;}
+        .form-horizontal {padding-left: 200px}
+         h1 {padding-left: 60px;}
+         span.help-inline {color:#b94a48;}
+         .non-errors {color:#b94a48; padding-left: 40px;}
+    </style>   
+{% endblock %}
+
+{% block content %}
+  <h1>Enter Card Details</h1> 
+<form class="form-horizontal" action="{{ integration.service_url }}" method="POST">
+	{% if form.non_field_errors %}
+		<div class="alert alert-block alert-error">{{ form.non_field_errors }}</div>
+	{% endif %}	
+	{{ integration.service_url }}
+        {% csrf_token %}
+        <div class="control-group">
+            <label class="control-label" for="first_name">First Name</label>
+            <div class="controls">{{ form.first_name }}
+                {% if form.first_name.errors %}
+	                <span name="first_name" class="help-inline">{{ form.first_name.errors.0 }}</span>
+                {% endif %} 
+            </div>  
+        </div>          
+        <div class="control-group">
+            <label class="control-label" for="last_name">Last Name</label>
+            <div class="controls">{{ form.last_name }}
+                {% if form.last_name.errors %}
+	                <span name="last_name" class="help-inline">{{ form.last_name.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div>         
+        <div class="control-group">
+            <label class="control-label" for="month">Month</label>
+            <div class="controls">{{ form.month }}
+                {% if form.month.errors %}
+	                <span name="month" class="help-inline">{{ form.month.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div>         
+        <div class="control-group">
+            <label class="control-label" for="year">Year</label>
+            <div class="controls">{{ form.year }}
+                {% if form.year.errors %}
+	                <span name="year" class="help-inline">{{ form.year.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div> 
+        <div class="control-group">
+            <label class="control-label" for="number">Number</label>
+            <div class="controls">{{ form.number }}
+                {% if form.number.errors %}
+	                <span name="number" class="help-inline">{{ form.number.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div> 
+
+        <div class="control-group">
+            <label class="control-label" for="card_type">Card Type</label>
+            <div class="controls">{{ form.card_type }}
+                {% if form.card_type.errors %}
+	                <span name="card_type" class="help-inline">{{ form.card_type.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div> 
+
+        <div class="control-group">
+            <label class="control-label" for="verification_value">CVV</label>
+            <div class="controls">{{ form.verification_value }}
+                {% if form.verification_value.errors %}
+	                <span name="verification_value" class="help-inline">{{ form.verification_value.errors.0 }}</span>
+                {% endif %} 
+            </div>
+        </div> 
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
+            </div>
+        </div>
+</form>  
+{% endblock %} 

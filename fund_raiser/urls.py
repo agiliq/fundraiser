@@ -22,7 +22,7 @@ urlpatterns = patterns('',
 
     url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
 
-    url(r'^ebs/', include('ebspayment.urls', namespace='ebs')),
+    url(r'^', include('payment.urls', namespace='paygate')),
     )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

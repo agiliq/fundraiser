@@ -123,7 +123,8 @@ INSTALLED_APPS = (
     'customadmin',
     'south',
     'djcelery',
-    'ebspayment',
+    'payment',
+    'billing',
 )
 
 # A sample logging configuration. The only tangible logging

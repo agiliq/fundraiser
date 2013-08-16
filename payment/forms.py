@@ -74,9 +74,17 @@ class CreditCardForm(forms.Form):
     card_type = forms.ChoiceField(choices=CARD_TYPES, required=False)
     verification_value = forms.CharField(label='CVV', required=False)
 
+    def clean_year(self):
+        year = self.cleaned_data['year']
+        if year == str(today):
+            raise forms.ValidationError('Year should not be current year')
+        return year
+
     def clean(self):
         data = self.cleaned_data
         credit_card = CreditCard(**data)
         if not credit_card.is_valid():
             raise forms.ValidationError('Credit card validation failed')
         return data
+
+

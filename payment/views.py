@@ -5,6 +5,9 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
+# from django.contrib import messages
+# from django.core import serializers
+# from django.utils import simplejson
 
 import base64
 import re
@@ -84,7 +87,6 @@ def RC4(data, key):
 def stripepayment(request,  campaign_id):
     campaign_obj = get_object_or_404(Campaign, pk=campaign_id)
     amount = 1
-    response= None
     if request.method == 'POST':
         form = CreditCardForm(request.POST)
         # import ipdb; ipdb.set_trace()
@@ -93,15 +95,25 @@ def stripepayment(request,  campaign_id):
             credit_card = CreditCard(**data)
             merchant = get_gateway("stripe")
             response = merchant.purchase(amount,credit_card)
-            return HttpResponseRedirect(reverse('paygate:payment_success', kwargs={'response':response}))
+            response_dict = {}
+            response_dict.update({'status':response['status']})
+            response_dict.update(response['response'])
+            del response_dict['card']
+            response_dict.update(response['response']['card'])
+            request.session['response'] = response_dict
+            return HttpResponseRedirect(reverse('paygate:payment_success', args=[campaign_id]))
     else:
         form = CreditCardForm(initial={'number':'4242424242424242'})
     return render_to_response('payment/stripe_payment_form.html',{'form': form,
                                              'amount':amount,
-                                             'response':response,
                                              'campaign': campaign_obj},
                                              context_instance=RequestContext(request))
 
 
 class PaymentSuccess(TemplateView):
     template_name = 'payment/payment_success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PaymentSuccess, self).get_context_data(**kwargs)
+        context['response'] = self.request.session['response']
+        return context

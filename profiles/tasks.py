@@ -32,3 +32,15 @@ def sendemail(sub, msg, to, user=None):
             admin_msg = render_to_string("email/admin_body.html", {
                                          "username": user.username, "donr": True})
         mail_admins(admin_sub, "", html_message=admin_msg)
+
+
+@task()
+def massemail(sub, msg, email_list, user=None):
+    if sub == "gmail_invite":
+        sub = "Invitation from Pratham Books by {0}".format(user)
+    if msg == "gm_invite_msg":
+        msg = render_to_string(
+            "email/invitation_email.html", {"username": user.username})
+    email = EmailMultiAlternatives(sub, "", "", email_list)    
+    email.attach_alternative(msg, 'text/html')
+    email.send()

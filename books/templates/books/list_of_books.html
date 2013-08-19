@@ -23,7 +23,14 @@
        #changelist-search {padding-left: 30px;}
        .facebookapi {padding-top: 100px; padding-left: 30px;}
     </style>
-
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert">  
+		  <a class="close" data-dismiss="alert">×</a>  
+		  <strong>Congrats!</strong>&nbsp; &nbsp; {{message}}
+		</div>    
+	  {% endfor %} 	
+	{% endif %}
     <h1>List of Books</h1>
     <p>&nbsp;</p>
     <form id="changelist-search" class="form-search" action="." method="get">
@@ -74,7 +81,12 @@
 	{% endif %}
 	<div class="facebookapi">
 	   <span>Invite friends from <a href="http:/" onclick="FacebookInviteFriends();">Facebook ?</a></span>&nbsp;
-	   <span><a href="{% url 'social:gmail_contacts' %}">Gmail ?</a></span>
+	   <span>
+		   <a  onclick="window.open('{% url 'social:gmail_contacts' %}','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500')">
+				   Gmail ?
+		   </a>	
+	   </span>	   
+
 	</div>
 <script type='text/javascript'>
 			if (top.location!= self.location)

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load google_contacts %}
+{% load fetch_email %}
 {% block main_title %}Gmail{% endblock %}
 {% block title %}Contacts{% endblock %}
 {% block content %}
@@ -12,20 +13,28 @@
 	  href="{% google_auth_url request %}">Gmail</a>
 <!--	{% endif %}  -->
 	</p>
+
+	{% if google_contacts %}
     <h4>Select Contacts</h4>
     <p>&nbsp;</p>
-	{% if google_contacts %}
-	<form class="form" action="">
-		<div class="row">
-		  <div class="span2">
+    <form id="changelist-search" class="form-search" action="{% url 'social:gmail_contacts' %}" method="get">
+		  <div class="input-append">
+		  	<label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
+		    <input type="text" class="span2 search-query" name="q" value="" id="searchbar">
+		    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 		  </div>
-		  <div class="span10">
+	</form>
+	<form class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
+		{% csrf_token %}
+		<div class="row">
+
+		  <div class="span4">
 		  	<table class="table">
 		  		<tr>
 				  {% for contact in google_contacts %}
 		  			<td>
 		  			   <div class="contact_align">	 
-		  			    	<input type="checkbox" name="invite" value="{{forloop.counter0}}">
+		  			    	<input type="checkbox" name="invite" value="{{contact|fetch_email}}">
 				 	  	    {{ contact }}
 				 	  </div>	 
 				  	</td>  
@@ -33,7 +42,7 @@
 		  	    </tr>
 		  	</table>  
 		  <p style="padding-top:40px;padding-left:320px;">
-			  <button class="btn btn-primary">Send Request</button>
+		  	  <input type="submit" class="btn btn-primary" value="Send Request"/>
           </p> 
 	  	  </div>	  
 		</div>

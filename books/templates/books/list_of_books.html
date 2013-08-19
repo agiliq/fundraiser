@@ -73,7 +73,8 @@
 	    <p>No Books available.</p>
 	{% endif %}
 	<div class="facebookapi">
-	   <span>Invite friends from <a href="http:/" onclick="FacebookInviteFriends();">Facebook ?</a></span>
+	   <span>Invite friends from <a href="http:/" onclick="FacebookInviteFriends();">Facebook ?</a></span>&nbsp;
+	   <span><a href="{% url 'social:gmail_contacts' %}">Gmail ?</a></span>
 	</div>
 <script type='text/javascript'>
 			if (top.location!= self.location)

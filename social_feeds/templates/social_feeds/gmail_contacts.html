@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load google_contacts %}
+{% block main_title %}Gmail{% endblock %}
+{% block title %}Contacts{% endblock %}
+{% block content %}
+	<p>
+<!--	{% if google_state %}
+	  Using imported contacts from Gmail [<a
+	  href="{% google_auth_url request %}">stop using</a>]
+	{% else %} -->
+	  Invite contacts from <a
+	  href="{% google_auth_url request %}">Gmail</a>
+<!--	{% endif %}  -->
+	</p>
+    <h4>Select Contacts</h4>
+    <p>&nbsp;</p>
+	{% if google_contacts %}
+	<form class="form" action="">
+		<div class="row">
+		  <div class="span2">
+		  </div>
+		  <div class="span10">
+		  	<table class="table">
+		  		<tr>
+				  {% for contact in google_contacts %}
+		  			<td>
+		  			   <div class="contact_align">	 
+		  			    	<input type="checkbox" name="invite" value="{{forloop.counter0}}">
+				 	  	    {{ contact }}
+				 	  </div>	 
+				  	</td>  
+				  {% endfor %} 
+		  	    </tr>
+		  	</table>  
+		  <p style="padding-top:40px;padding-left:320px;">
+			  <button class="btn btn-primary">Send Request</button>
+          </p> 
+	  	  </div>	  
+		</div>
+	</form>
+	{% endif %}
+
+{% endblock %}	

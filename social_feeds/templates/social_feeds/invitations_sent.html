@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block main_title %}Gmail Invitations{% endblock %}
+{% block title %}
+	{% if error %}
+		Not Sent
+	{% else %}	
+	   Sent
+	{% endif %}   
+{% endblock %}
+{% block content %}
+    <h4>Hi, <span>{{request.user.username}}</span></h4>
+    <p>&nbsp;</p>
+    {% if error %}
+        <p>You have not selected any <b>user/email</b> to invite,<br>Please select a user</p>
+    {% else %}
+	    <!--<p>Invitations has been sent to the selected users !!!!</p>  -->
+	    <script>
+	        window.close()
+	        window.opener.location.href ='{% url "index:home" %}' 
+	    </script>
+    {% endif %}
+    <p>&nbsp;</p>
+    <p>Want to invite more ? click here to <a href="{% url 'social:gmail_contacts' %}">Invite</a></p>
+
+{% endblock %}	    

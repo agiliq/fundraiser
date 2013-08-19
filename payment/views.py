@@ -86,7 +86,7 @@ def RC4(data, key):
 
 def stripepayment(request,  campaign_id):
     campaign_obj = get_object_or_404(Campaign, pk=campaign_id)
-    amount = 1
+    amount = int(campaign_obj.target_amount)
     if request.method == 'POST':
         form = CreditCardForm(request.POST)
         # import ipdb; ipdb.set_trace()
@@ -105,7 +105,6 @@ def stripepayment(request,  campaign_id):
     else:
         form = CreditCardForm(initial={'number':'4242424242424242'})
     return render_to_response('payment/stripe_payment_form.html',{'form': form,
-                                             'amount':amount,
                                              'campaign': campaign_obj},
                                              context_instance=RequestContext(request))
 

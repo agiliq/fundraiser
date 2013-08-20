@@ -167,7 +167,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request"
-    )
+)
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
@@ -181,5 +181,3 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set %s environment variable" % (var_name,)
         raise ImproperlyConfigured(error_msg)
-
-

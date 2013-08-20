@@ -33,5 +33,5 @@ MERCHANT_SETTINGS = {
     "stripe": {
         "API_KEY" : 'sk_test_4JHUaTtmtU8cnYoS8uEzQnRZ',
         "PUBLISHABLE_KEY" : 'pk_test_k0vg9IfB2dYLbnZCa2EnR24H'
-        }
-        }
+    }
+}

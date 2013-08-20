@@ -34,6 +34,7 @@ class Publisher(models.Model):
                     break
         super(Publisher, self).save(*args, **kwargs)
 
+
 class Book(models.Model):
     publisher = models.ForeignKey(Publisher)
     image = models.ImageField(upload_to="book_covers/", blank=True, null=True)

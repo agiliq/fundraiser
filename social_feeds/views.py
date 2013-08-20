@@ -16,14 +16,22 @@ def invite_gmail_contacts(request):
     request.session[settings.GOOGLE_REDIRECT_SESSION_VAR] = request.path
     google_state = google_get_state(request)
     gcs = gdata.contacts.service.ContactsService()
-    if request.GET:
-    	if request.GET.has_key('q'):
-    		print request.GET.get('q',None),"yes>>>>>>>>>>>>"
     google_contacts = google_import(request, gcs, cache=True)
-    return render_to_response('social_feeds/gmail_contacts.html', {
-        'google_state': google_state,
-        'google_contacts': google_contacts
-    }, context_instance=RequestContext(request))
+    filtered_contacts = []
+    if request.GET.has_key('q') and request.GET['q']:
+		search_string = request.GET.get('q',None)
+		filtered_contacts = [contact.decode('utf-8') for contact in google_contacts if search_string in contact.decode('utf-8')]
+    if filtered_contacts:
+        return render_to_response('social_feeds/gmail_contacts.html', {
+            'google_state': google_state,
+            'google_contacts': filtered_contacts,
+        }, context_instance=RequestContext(request))
+    else:
+        return render_to_response('social_feeds/gmail_contacts.html', {
+            'google_state': google_state,
+            'google_contacts': google_contacts,
+            'filtered_contacts' : filtered_contacts
+        }, context_instance=RequestContext(request))
 
 
 def send_invitation_to_gcontacts(request):

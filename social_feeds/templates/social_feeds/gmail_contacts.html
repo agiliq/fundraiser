@@ -14,7 +14,7 @@
 <!--	{% endif %}  -->
 	</p>
 	{% if not  google_contacts %}
-		<p>Fetching contacts of your friends may take sometime. Please wait.......</p>
+		<p><b>Note : </b>Fetching contacts of your friends may take sometime</p> 
 	{% endif %}
 
 	{% if google_contacts %}
@@ -52,5 +52,7 @@
           </p> 	  	  		
 	</form>
 	{% endif %}
-    <script type="text/javascript">document.getElementById("searchbar").focus();</script>    
+    <script type="text/javascript">
+        document.getElementById("searchbar").focus();
+    </script>    
 {% endblock %}	

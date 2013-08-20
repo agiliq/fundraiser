@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from social_feeds.json_response import JsonResponse
 from models import ActionState
 
+
 def google_get_state_token(request, action_type_id, action_id):
     action_state = ActionState.objects.create(**{
         'action_type_id': action_type_id,
@@ -13,6 +14,7 @@ def google_get_state_token(request, action_type_id, action_id):
         'data': request.GET
     })
     return JsonResponse({'stat': 'ok', 'token': action_state.uuid})
+
 
 def google_login(request):
     token_login = request.GET.get('token')

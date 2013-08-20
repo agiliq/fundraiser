@@ -31,8 +31,6 @@ MERCHANT_TEST_MODE = True
 MERCHANT_SETTINGS = {
     # Stripe Payment Settings
     "stripe": {
-        # "API_KEY" : 'sk_test_4JHUaTtmtU8cnYoS8uEzQnRZ',
-        # "PUBLISHABLE_KEY" : 'pk_test_k0vg9IfB2dYLbnZCa2EnR24H',
         "API_KEY" : get_env_variable('MERCHANT_API_KEY'),
         "PUBLISHABLE_KEY" : get_env_variable('MERCHANT_PUBLISHABLE_KEY'),
         }

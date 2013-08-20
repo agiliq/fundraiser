@@ -19,10 +19,7 @@
 				}
 	</script>
 
-    <style type="text/css">
-       #changelist-search {padding-left: 30px;}
-       .facebookapi {padding-top: 100px; padding-left: 30px;}
-    </style>
+
     {% if messages %}
       {% for message in messages %}
         <div class="alert">  
@@ -35,7 +32,7 @@
     <p>&nbsp;</p>
     <form id="changelist-search" class="form-search" action="." method="get">
 	  <div class="input-append">
-	  	<label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
+	  	<label for="searchbar"><img src="{{STATIC_URL}}/images/icon_searchbox.png" alt="Search" /></label>
 	    <input type="text" class="span2 search-query" name="q" value="" id="searchbar">
 	    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 	  </div>

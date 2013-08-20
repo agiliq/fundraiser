@@ -2,8 +2,6 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-# import re
-
 
 class Publisher(models.Model):
     name = models.CharField(max_length=200)
@@ -35,6 +33,7 @@ class Publisher(models.Model):
                     self.slug = slug
                     break
         super(Publisher, self).save(*args, **kwargs)
+
 
 class Book(models.Model):
     publisher = models.ForeignKey(Publisher)

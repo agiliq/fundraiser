@@ -22,11 +22,11 @@ urlpatterns = patterns('',
 
     url(r'^campaigns/', include('campaigns.urls', namespace='campaigns')),
 
-    url(r'^', include('payment.urls', namespace='paygate')),
+    url(r'^payment/', include('payment.urls', namespace='paygate')),
     
-    url(r'^', include('social_feeds.urls', namespace='social')),
+    url(r'^contacts/', include('social_feeds.urls', namespace='social')),
 
-    url(r'^', include('google_contacts.urls', namespace='google_contacts')),
+    url(r'^invite/', include('contacts.urls', namespace='contacts')),
     )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

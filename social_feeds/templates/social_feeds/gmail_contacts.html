@@ -13,6 +13,9 @@
 	  href="{% google_auth_url request %}">Gmail</a>
 <!--	{% endif %}  -->
 	</p>
+	{% if not  google_contacts %}
+		<p><b>Note : </b>Fetching contacts of your friends may take sometime</p> 
+	{% endif %}
 
 	{% if google_contacts %}
     <h4>Select Contacts</h4>
@@ -24,29 +27,32 @@
 		    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 		  </div>
 	</form>
+
 	<form class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
 		{% csrf_token %}
 		<div class="row">
-
+         {% for contact in google_contacts %}
 		  <div class="span4">
 		  	<table class="table">
 		  		<tr>
-				  {% for contact in google_contacts %}
 		  			<td>
 		  			   <div class="contact_align">	 
 		  			    	<input type="checkbox" name="invite" value="{{contact|fetch_email}}">
 				 	  	    {{ contact }}
 				 	  </div>	 
 				  	</td>  
-				  {% endfor %} 
+				  
 		  	    </tr>
 		  	</table>  
-		  <p style="padding-top:40px;padding-left:320px;">
-		  	  <input type="submit" class="btn btn-primary" value="Send Request"/>
-          </p> 
-	  	  </div>	  
+	  	  </div>
+	  	  {% endfor %} 	  
 		</div>
+		  <p style="padding-top:40px;padding-left:250px;">
+		  	  <input type="submit" class="btn btn-primary" value="Send Request"/>
+          </p> 	  	  		
 	</form>
 	{% endif %}
-
+    <script type="text/javascript">
+        document.getElementById("searchbar").focus();
+    </script>    
 {% endblock %}	

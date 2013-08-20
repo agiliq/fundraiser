@@ -12,8 +12,8 @@ register = template.Library()
 def google_auth_url(request):
     state = google_get_state(request)
     if not state:
-        next = '%s%s' % (settings.GOOGLE_REDIRECT_BASE_URL, reverse('google_contacts:google_contacts_login'))
+        next = '%s%s' % (settings.GOOGLE_REDIRECT_BASE_URL, reverse('contacts:google_contacts_login'))
         scope = 'http://www.google.com/m8/feeds/'
         return GenerateAuthSubUrl(next, scope, secure=False, session=True)
     else:
-        return reverse('google_contacts:google_contacts_logout')
+        return reverse('contacts:google_contacts_logout')

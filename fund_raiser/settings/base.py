@@ -61,7 +61,7 @@ STATIC_URL = '/static/'
 # Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(SITE_PATH, 'staticfiles'),
-    SITE_PATH.child('static'),
+    # SITE_PATH.child('static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'djcelery',
     'payment',
     'billing',
-    'google_contacts',
+    'contacts',
     'social_feeds',
 )
 
@@ -167,17 +167,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request"
-    )
+)
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
-# Email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-
-# Admin Email Settings
-EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
 
 djcelery.setup_loader()
 
@@ -188,20 +181,3 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set %s environment variable" % (var_name,)
         raise ImproperlyConfigured(error_msg)
-
-
-# Configs for EBS Payment
-EBS_ACCOUNT_ID = '5880'  # Enter Your Account Id here.This is a test id.
-
-EBS_SECRET_KEY = 'ebskey'  # Enter Your Secret Key here.This is a test key.
-
-# Do not edit this URL.
-EBS_ACTION_URL = 'https://secure.ebs.in/pg/ma/sale/pay'
-
-#Enter your domain URL instead of 127.0.0.1:8000.
-EBS_RETURN_URL = 'http://127.0.0.1:8000/ebs/ebspayment/response'
-
-## Gmail Import Contacts
-GOOGLE_COOKIE_CONSENT = 'google_token_consent'
-GOOGLE_REDIRECT_SESSION_VAR = 'google_contacts_redirect'
-GOOGLE_REDIRECT_BASE_URL = 'http://localhost:8000'

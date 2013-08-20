@@ -2,8 +2,6 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-# import re
-
 
 class Publisher(models.Model):
     name = models.CharField(max_length=200)

@@ -9,7 +9,7 @@ from django.contrib import messages
 # from django.core.urlresolvers import reverse
 
 from profiles.tasks import massemail
-from google_contacts.utils import google_get_state, google_import
+from contacts.utils import google_get_state, google_import
 
 
 def invite_gmail_contacts(request):

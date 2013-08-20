@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'djcelery',
     'payment',
     'billing',
-    'google_contacts',
+    'contacts',
     'social_feeds',
 )
 

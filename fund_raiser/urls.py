@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     
     url(r'^', include('social_feeds.urls', namespace='social')),
 
-    url(r'^', include('google_contacts.urls', namespace='google_contacts')),
+    url(r'^', include('contacts.urls', namespace='contacts')),
     )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

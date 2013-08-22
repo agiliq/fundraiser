@@ -34,7 +34,8 @@
     	  <a name="Top"></a>
           <a style="padding-left:160px;" href="#Bottom">Go to Bottom</a>
     </p>
-	<form id="form_check" class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
+	{# <form id="form_check" class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST"> #}
+	<form onsubmit="return atleast_onecheckbox(event)" id="form_check" class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
 		{% csrf_token %}
 		<div class="row">
          {% for contact in google_contacts %}
@@ -82,6 +83,14 @@
           alert("please check atleast one..");
           return false;
            }    
-        }   			    
+        }   	*/
+
+		function atleast_onecheckbox(e) {
+		  if ($("input[type=checkbox]:checked").length === 0) {
+		      e.preventDefault();
+		      alert('Please select a user to invite !!!!');
+		      return false;
+		  }
+		}        		    
     </script>    
 {% endblock %}	

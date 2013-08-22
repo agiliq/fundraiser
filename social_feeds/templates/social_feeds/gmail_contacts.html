@@ -27,7 +27,7 @@
 		    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 		  </div>
 	</form>
-
+    <p><a href="javascript:" onclick="select()">Select All</a>&nbsp; / &nbsp;<a href="javascript:" onclick="unselect()" >Unselect All</a> </p>
 	<form class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
 		{% csrf_token %}
 		<div class="row">
@@ -37,7 +37,7 @@
 		  		<tr>
 		  			<td>
 		  			   <div class="contact_align">	 
-		  			    	<input type="checkbox" name="invite" value="{{contact|fetch_email}}">
+		  			    	<input class="select-unselect" type="checkbox" name="invite" value="{{contact|fetch_email}}">
 				 	  	    {{ contact }}
 				 	  </div>	 
 				  	</td>  
@@ -54,5 +54,13 @@
 	{% endif %}
     <script type="text/javascript">
         document.getElementById("searchbar").focus();
+        function select(){
+			        $('.select-unselect').prop('checked',true);
+			        return false;
+			    }
+        function unselect(){
+			        $('.select-unselect').prop('checked',false);
+			        return false;
+			    }			    
     </script>    
 {% endblock %}	

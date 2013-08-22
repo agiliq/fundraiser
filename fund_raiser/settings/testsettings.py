@@ -13,3 +13,27 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+EMAIL_HOST_USER = get_env_variable('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
+
+# MERCHANT SETTINGS
+MERCHANT_TEST_MODE = True
+MERCHANT_SETTINGS = {
+    # Stripe Payment Settings
+    "stripe": {
+        "API_KEY": get_env_variable('MERCHANT_API_KEY'),
+        "PUBLISHABLE_KEY": get_env_variable('MERCHANT_PUBLISHABLE_KEY'),
+    }
+}
+
+
+# Configs for EBS Payment
+# Enter Your Account Id here.This is a test id.
+EBS_ACCOUNT_ID = get_env_variable('EBS_ACCOUNT_ID')
+
+# Enter Your Secret Key here.This is a test key.
+EBS_SECRET_KEY = get_env_variable('EBS_SECRET_KEY')
+
+# Enter your domain URL instead of 127.0.0.1:8000.
+EBS_RETURN_URL = 'http://127.0.0.1:8000/ebs/ebspayment/response'

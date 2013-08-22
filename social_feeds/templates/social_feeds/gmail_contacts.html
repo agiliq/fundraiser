@@ -27,7 +27,12 @@
 		    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 		  </div>
 	</form>
-    <p><a href="javascript:" onclick="select()">Select All</a>&nbsp; / &nbsp;<a href="javascript:" onclick="unselect()" >Unselect All</a> </p>
+    <p>
+    	  <a href="javascript:" onclick="select()">Select All</a>&nbsp; / &nbsp;
+    	  <a href="javascript:" onclick="unselect()" >Unselect All</a>
+    	  <a name="Top"></a>
+          <a style="padding-left:160px;" href="#Bottom">Go to Bottom</a>
+    </p>
 	<form class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
 		{% csrf_token %}
 		<div class="row">
@@ -47,6 +52,8 @@
 	  	  </div>
 	  	  {% endfor %} 	  
 		</div>
+	  	  <a name="Bottom"></a>
+	      <a style="padding-left:320px;" href="#Top">Return to top</a>
 		  <p style="padding-top:40px;padding-left:250px;">
 		  	  <input type="submit" class="btn btn-primary" value="Send Request"/>
           </p> 	  	  		

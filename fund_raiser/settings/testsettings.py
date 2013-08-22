@@ -34,3 +34,6 @@ EBS_ACCOUNT_ID = get_env_variable('EBS_ACCOUNT_ID')
 
 # Enter Your Secret Key here.This is a test key.
 EBS_SECRET_KEY = get_env_variable('EBS_SECRET_KEY')
+
+# Enter your domain URL instead of 127.0.0.1:8000.
+EBS_RETURN_URL = 'http://127.0.0.1:8000/ebs/ebspayment/response'

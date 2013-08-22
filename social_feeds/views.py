@@ -18,9 +18,10 @@ def invite_gmail_contacts(request):
     gcs = gdata.contacts.service.ContactsService()
     google_contacts = google_import(request, gcs, cache=True)
     filtered_contacts = []
-    if request.GET.has_key('q') and request.GET['q']:
-		search_string = request.GET.get('q',None)
-		filtered_contacts = [contact.decode('utf-8') for contact in google_contacts if search_string in contact.decode('utf-8')]
+    if 'q' in request.GET and request.GET['q']:
+        search_string = request.GET.get('q', None)
+        filtered_contacts = [contact.decode('utf-8')
+                             for contact in google_contacts if search_string in contact.decode('utf-8')]
     if filtered_contacts:
         return render_to_response('social_feeds/gmail_contacts.html', {
             'google_state': google_state,
@@ -30,18 +31,20 @@ def invite_gmail_contacts(request):
         return render_to_response('social_feeds/gmail_contacts.html', {
             'google_state': google_state,
             'google_contacts': google_contacts,
-            'filtered_contacts' : filtered_contacts
+            'filtered_contacts': filtered_contacts
         }, context_instance=RequestContext(request))
 
 
 def send_invitation_to_gcontacts(request):
     error = True
     if request.method == 'POST':
-    	if request.POST.has_key('invite'):
-    		error = False
-    		email_list = request.POST.getlist('invite')
-    		massemail.delay('gmail_invite', 'gm_invite_msg', email_list, request.user)
-    		messages.add_message(request, messages.SUCCESS, 'Your invitations has been sent to the selected users !!!!')
-    	else:
-    		error = True
-    return render_to_response('social_feeds/invitations_sent.html', {'error':error}, context_instance=RequestContext(request))
+        if 'invite' in request.POST:
+            error = False
+            email_list = request.POST.getlist('invite')
+            massemail.delay(
+                'gmail_invite', 'gm_invite_msg', email_list, request.user)
+            messages.add_message(
+                request, messages.SUCCESS, 'Your invitations has been sent to the selected users !!!!')
+        else:
+            error = True
+    return render_to_response('social_feeds/invitations_sent.html', {'error': error}, context_instance=RequestContext(request))

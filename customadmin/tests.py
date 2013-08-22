@@ -31,4 +31,3 @@ class CustomAdminTestcase(TestCase):
         self.c.login(username="admin", password="admin")
         response = self.c.get(reverse("customadmin:unapproved"))
         self.assertEqual(200, response.status_code)
-

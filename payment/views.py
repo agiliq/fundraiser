@@ -35,9 +35,9 @@ def ebspayment(request, campaign_id):
     print string
     secure_hash = hashlib.md5(string).hexdigest()
     return render_to_response('payment/payment_form.html', {'form': form,
-                                                               'campaign': campaign_obj,
-                                                               'ebs_url': settings.EBS_ACTION_URL,
-                                                               'secure_hash': secure_hash},
+                                                            'campaign': campaign_obj,
+                                                            'ebs_url': settings.EBS_ACTION_URL,
+                                                            'secure_hash': secure_hash},
                               context_instance=RequestContext(request))
 
 # function to process response from EBS and decrypt
@@ -94,19 +94,20 @@ def stripepayment(request,  campaign_id):
             data = form.cleaned_data
             credit_card = CreditCard(**data)
             merchant = get_gateway("stripe")
-            response = merchant.purchase(amount,credit_card)
+            response = merchant.purchase(amount, credit_card)
             response_dict = {}
-            response_dict.update({'status':response['status']})
+            response_dict.update({'status': response['status']})
             response_dict.update(response['response'])
             del response_dict['card']
             response_dict.update(response['response']['card'])
             request.session['response'] = response_dict
             return HttpResponseRedirect(reverse('paygate:payment_success', args=[campaign_id]))
     else:
-        form = CreditCardForm(initial={'number':'4242424242424242'})
-    return render_to_response('payment/stripe_payment_form.html',{'form': form,
+        form = CreditCardForm(initial={'number': '4242424242424242'})
+    return render_to_response(
+        'payment/stripe_payment_form.html', {'form': form,
                                              'campaign': campaign_obj},
-                                             context_instance=RequestContext(request))
+        context_instance=RequestContext(request))
 
 
 class PaymentSuccess(TemplateView):

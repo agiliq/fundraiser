@@ -50,9 +50,10 @@ class CampaignsListView(generic.ListView):
         return Campaign.objects.all()
 
     def get_context_data(self, **kwargs):
-        search_results = None    
+        search_results = None
         if self.request.GET:
-            search_results = Campaign.objects.filter(Q(campaign_name__icontains=self.request.GET['q']))
+            search_results = Campaign.objects.filter(
+                Q(campaign_name__icontains=self.request.GET['q']))
         context = super(CampaignsListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context
@@ -76,9 +77,10 @@ class MyCampaigns(generic.ListView):
         return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['user_id'])
 
     def get_context_data(self, **kwargs):
-        search_results = None    
+        search_results = None
         if self.request.GET:
-            search_results = Campaign.objects.filter(Q(campaign_name__icontains=self.request.GET['q']))
+            search_results = Campaign.objects.filter(
+                Q(campaign_name__icontains=self.request.GET['q']))
         context = super(MyCampaigns, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context

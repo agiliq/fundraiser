@@ -73,7 +73,7 @@ class BeneficiaryRegistrationView(RegistrationView):
 
 def user_login(request):
     next = None
-    if request.GET:  
+    if request.GET:
         next = request.GET['next']
     login_form = AuthenticationForm()
     if request.user.is_authenticated():
@@ -88,7 +88,7 @@ def user_login(request):
             else:
                 return HttpResponseRedirect(next)
     return render_to_response("authentication/login.html",
-                {'form': login_form, 'next':next}, context_instance=RequestContext(request))
+                {'form': login_form, 'next': next}, context_instance=RequestContext(request))
 
 
 def user_logout(request):

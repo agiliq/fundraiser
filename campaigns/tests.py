@@ -23,7 +23,7 @@ class CampaignsAppTestcase(TestCase):
         #     name='bsp', slug='bsp', address='address')
         # self.book = Book.objects.create(publisher=self.publisher,
         #                                 image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
-        #                                 title='title', slug='slug', author='author', cost='40.0')
+        # title='title', slug='slug', author='author', cost='40.0')
 
     def test_CampaignsListView(self):
         response = self.c.get(reverse("campaigns:list_of_campaigns"))
@@ -32,10 +32,11 @@ class CampaignsAppTestcase(TestCase):
         response = self.c.get(reverse("campaigns:list_of_campaigns"))
         self.assertEqual(200, response.status_code)
 
-
     def test_MycampaignsView(self):
-        response = self.c.get(reverse("campaigns:my_campaigns", args=[self.user.id]))
+        response = self.c.get(
+            reverse("campaigns:my_campaigns", args=[self.user.id]))
         self.assertEqual(302, response.status_code)
         self.c.login(username="admin", password="admin")
-        response = self.c.get(reverse("campaigns:my_campaigns", args=[self.user.id]))
-        self.assertEqual(200, response.status_code)                
+        response = self.c.get(
+            reverse("campaigns:my_campaigns", args=[self.user.id]))
+        self.assertEqual(200, response.status_code)

@@ -14,7 +14,7 @@ def approve(request, user_id):
         user.beneficiary.is_approved = True
         user.beneficiary.save()
         sendemail.delay(sub="approve_sub", msg="approve_msg",
-                  to=user.email, user=user)
+                        to=user.email, user=user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
     return render_to_response('unapproved_users.html')
 
@@ -27,7 +27,7 @@ class UnapprovedUsers(ListView):
         if not request.user.is_staff:
             raise Http404
         return super(UnapprovedUsers, self).get(request, *args, **kwargs)
-        
+
     def get_queryset(self):
         """
         Returns the unapproved users related to beneficiary in

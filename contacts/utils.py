@@ -1,5 +1,6 @@
 from django.conf import settings
 
+
 def google_import(request, gcs, cache=False):
     """
     Uses the given contacts service object to retrieve Google Contacts and
@@ -10,13 +11,14 @@ def google_import(request, gcs, cache=False):
     """
     state = google_get_state(request)
     contacts = []
-    
+
     if state == 'authorized':
         if cache and request.session.get('google_contacts_cached'):
             return request.session.get('google_contacts_cached')
-        
-        gcs.SetAuthSubToken(request.session.get(settings.GOOGLE_COOKIE_CONSENT))
-    
+
+        gcs.SetAuthSubToken(
+            request.session.get(settings.GOOGLE_COOKIE_CONSENT))
+
         entries = []
         feed = gcs.GetContactsFeed()
         entries.extend(feed.entry)
@@ -25,13 +27,13 @@ def google_import(request, gcs, cache=False):
             feed = gcs.GetContactsFeed(uri=next_link.href)
             entries.extend(feed.entry)
             next_link = feed.GetNextLink()
-    
+
         for entry in entries:
             for email in entry.email:
                 if email.primary:
                     contact = '%s <%s>' % (entry.title.text, email.address)
                     contacts.append(contact)
-        
+
         if cache:
             request.session['google_contacts_cached'] = contacts
 
@@ -48,5 +50,5 @@ def google_get_state(request):
     state = None
     if request.session.get(settings.GOOGLE_COOKIE_CONSENT):
         state = 'authorized'
-    
+
     return state

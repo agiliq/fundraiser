@@ -5,8 +5,8 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
-# from django.http import HttpResponseRedirect
-# from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from profiles.tasks import massemail
 from contacts.utils import google_get_state, google_import
@@ -45,6 +45,7 @@ def send_invitation_to_gcontacts(request):
                 'gmail_invite', 'gm_invite_msg', email_list, request.user)
             messages.add_message(
                 request, messages.SUCCESS, 'Your invitations has been sent to the selected users !!!!')
+            # return HttpResponseRedirect(reverse('index:home'))
         else:
             error = True
     return render_to_response('social_feeds/invitations_sent.html', {'error': error}, context_instance=RequestContext(request))

@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block main_title %}Stripe{% endblock %}
 {% block title %}Payment{% endblock %}
-
-
+<div class="alert alert-error span12">
+    {% for message in messages %}
+       {{message}}
+    {% endfor %} 
+</div>
 {% block content %}
   <h1>Response Details</h1>
-  <h4>Hi {{campaign.campaign_name}},</h4>
+  <h4>Hi {{request.user}},</h4>
   <p>Below are your response details,</p>
   <table>
   	{% for i, k in response.items %}  

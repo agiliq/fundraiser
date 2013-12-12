@@ -47,7 +47,7 @@
   <h4>Create a Campaign</h4>
   	<p>&nbsp;</p>
   <div>
-  <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal">
+  <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
   	         
 		<div class="control-group">

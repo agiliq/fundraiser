@@ -16,7 +16,7 @@ class Campaign(models.Model):
         max_digits=10, decimal_places=2, default=0.00)
     modified = models.DateTimeField(auto_now=True)
     cause = models.TextField()
-    image = models.ImageField(upload_to="book_covers/", blank=True, null=True)
+    image = models.ImageField(upload_to="campaign_covers/", blank=True, null=True)
 
     def __unicode__(self):
         return self.campaign_name

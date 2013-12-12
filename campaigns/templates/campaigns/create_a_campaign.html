@@ -1,18 +1,53 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% block main_title %}Campaigns{% endblock %}
 {% block title %}Create a Campaign{%endblock%}
 {% block extrahead %}
  <style type="text/css">
-  form.form-horizontal {padding-left: 260px;}
+  form.form-horizontal {padding-left: 150px;}
   h4 {padding-top:30px;padding-left: 40px;}
   div.errors {padding-left: 400px;}
   span.help-inline {color:#b94a48;}
   </style>
+
+    <script src="{{STATIC_URL}}fundraiser/js/bootbox.min.js"></script>
+
+  <script type="text/javascript">
+     $(document).ready(function(){
+			function readURL(input) {
+			        if (input.files && input.files[0]) 
+			        {
+			        	 if (input.files[0].size > 3145728 )
+				        	   {
+                                  bootbox.alert("Image size should not be greater than 3MB");
+                                  // console.log(input.files[0].size);
+				        	   }
+			        	 else 
+			        	   {  
+					            var reader = new FileReader();
+					            
+					            reader.onload = function (e) {
+									$('#info_img').attr('src', e.target.result);
+									$('.show_man').show();
+					                $('#upload_change_image').val('Change Image');
+					            }
+					            
+					            reader.readAsDataURL(input.files[0]);
+					       }     
+			        }
+			    }
+		    $("#upload_change_image").change(function(){
+		        readURL(this);
+		    });			    
+
+     });
+  </script>
 {% endblock %}
 {% block content %}
-  <h4>Create a Campaign</h1>
+  <h4>Create a Campaign</h4>
   	<p>&nbsp;</p>
-  <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal">
+  <div>
+  <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
   	         
 		<div class="control-group">
@@ -48,11 +83,23 @@
 		            	<span class="help-inline">{{ errors.cause.0}}</span>
 	            {% endif %}
 	        </div>
-        </div>                                                                  
-	        <div class="control-group">
-	          <div class="controls">
-	            <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
-	          </div>
-	        </div>      
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label" for="cause">Image</label>
+	        <div class="controls">
+		        {% render_field form.image placeholder=form.image.label id="upload_change_image" %}
+	        </div>
+	    </div>
+	    <div class="hide show_man" >
+	    	<div class="" style="padding-left: 185px;padding-bottom: 50px;padding-top: 20px;"> 
+		    	 <img id="info_img" src=""  width="300" height="300">
+	    	</div>
+	    </div>
+        <div class="control-group" >
+          <div class="controls">
+            <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
+          </div>
+        </div>      
   </form
+  </div>
 {% endblock %}

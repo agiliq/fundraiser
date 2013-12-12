@@ -16,15 +16,18 @@ def create_a_campaign(request):
     if request.user.beneficiary.is_approved:
         form = CampaignForm()
         if request.method == 'POST':
-            form = CampaignForm(request.POST)
+            form = CampaignForm(request.POST, request.FILES)
             if form.is_valid():
                 beneficiary = Beneficiary.objects.get(user=request.user)
-                cam_obj = Campaign.objects.create(beneficiary=beneficiary,
-                                                  campaign_name=request.POST[
-                                                      'campaign_name'],
-                                                  target_amount=request.POST[
-                                                      'target_amount'],
-                                                  cause=request.POST['cause'])
+                # cam_obj = Campaign.objects.create(beneficiary=beneficiary,
+                #                                   campaign_name=request.POST[
+                #                                       'campaign_name'],
+                #                                   target_amount=request.POST[
+                #                                       'target_amount'],
+                #                                   cause=request.POST['cause'])
+                cam_obj = form.save(commit=False)
+                cam_obj.beneficiary = beneficiary
+                cam_obj.save()
                 if request.POST.getlist('books'):
                     for m2m in request.POST.getlist('books'):
                         cam_obj.books.add(m2m)

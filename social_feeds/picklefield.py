@@ -11,9 +11,11 @@ except ImportError:
 from django.db import models
 from django.utils.encoding import force_unicode
 
-from picklefield import DEFAULT_PROTOCOL
+from .picklefield import DEFAULT_PROTOCOL
+
 
 class PickledObject(str):
+
     """
     A subclass of string so it can be told whether a string is a pickled
     object or not (if the object is an instance of this class then it must
@@ -51,6 +53,7 @@ def dbsafe_decode(value, compress_object=False):
 
 
 class PickledObjectField(models.Field):
+
     """
     A field that will accept *any* python object and store it in the
     database. PickledObjectField will optionally compress its values if
@@ -126,7 +129,8 @@ class PickledObjectField(models.Field):
             # marshaller (telling it to store it like it would a string), but
             # since both of these methods result in the same value being stored,
             # doing things this way is much easier.
-            value = force_unicode(dbsafe_encode(value, self.compress, self.protocol))
+            value = force_unicode(
+                dbsafe_encode(value, self.compress, self.protocol))
         return value
 
     def value_to_string(self, obj):
@@ -151,7 +155,8 @@ class PickledObjectField(models.Field):
                 lookup_type, value)
 
 
-# South support; see http://south.aeracode.org/docs/tutorial/part4.html#simple-inheritance
+# South support; see
+# http://south.aeracode.org/docs/tutorial/part4.html#simple-inheritance
 try:
     from south.modelsinspector import add_introspection_rules
 except ImportError:

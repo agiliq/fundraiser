@@ -4,6 +4,7 @@
 {% block main_title %}Gmail{% endblock %}
 {% block title %}Contacts{% endblock %}
 {% block content %}
+
 	<p>
 <!--	{% if google_state %}
 	  Using imported contacts from Gmail [<a
@@ -27,8 +28,14 @@
 		    <button type="submit" class="btn btn-primary" value="Search">Search</button>
 		  </div>
 	</form>
-    <p><a href="javascript:" onclick="select()">Select All</a>&nbsp; / &nbsp;<a href="javascript:" onclick="unselect()" >Unselect All</a> </p>
-	<form class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
+    <p>
+    	  <a href="javascript:" onclick="select()">Select All</a>&nbsp; / &nbsp;
+    	  <a href="javascript:" onclick="unselect()" >Unselect All</a>
+    	  <a name="Top"></a>
+          <a style="padding-left:160px;" href="#Bottom">Go to Bottom</a>
+    </p>
+	{# <form id="form_check" class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST"> #}
+	<form onsubmit="return atleast_onecheckbox(event)" id="form_check" class="form" action="{% url 'social:send_invitation_to_gcontacts' %}" method="POST">
 		{% csrf_token %}
 		<div class="row">
          {% for contact in google_contacts %}
@@ -37,7 +44,7 @@
 		  		<tr>
 		  			<td>
 		  			   <div class="contact_align">	 
-		  			    	<input class="select-unselect" type="checkbox" name="invite" value="{{contact|fetch_email}}">
+		  			    	<input class="select-unselect" id="invite" type="checkbox" name="invite" value="{{contact|fetch_email}}">
 				 	  	    {{ contact }}
 				 	  </div>	 
 				  	</td>  
@@ -47,9 +54,13 @@
 	  	  </div>
 	  	  {% endfor %} 	  
 		</div>
+	  	  <a name="Bottom"></a>
+	      <a style="padding-left:320px;" href="#Top">Return to top</a>
 		  <p style="padding-top:40px;padding-left:250px;">
 		  	  <input type="submit" class="btn btn-primary" value="Send Request"/>
+		  	  {# <input type="submit" class="btn btn-primary" value="Send Request" onclick=" return  atleast_onecheckbox()"/> #}
           </p> 	  	  		
+
 	</form>
 	{% endif %}
     <script type="text/javascript">
@@ -62,5 +73,24 @@
 			        $('.select-unselect').prop('checked',false);
 			        return false;
 			    }			    
+/*		function atleast_onecheckbox()
+        { 
+         if (document.getElementById('invite').checked) {
+            alert('the checkbox is checked');
+            }
+         else
+           {
+          alert("please check atleast one..");
+          return false;
+           }    
+        }   	*/
+
+		function atleast_onecheckbox(e) {
+		  if ($("input[type=checkbox]:checked").length === 0) {
+		      e.preventDefault();
+		      alert('Please select a user to invite !!!!');
+		      return false;
+		  }
+		}        		    
     </script>    
 {% endblock %}	

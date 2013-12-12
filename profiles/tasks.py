@@ -41,6 +41,6 @@ def massemail(sub, msg, email_list, user=None):
     if msg == "gm_invite_msg":
         msg = render_to_string(
             "email/invitation_email.html", {"username": user.username})
-    email = EmailMultiAlternatives(sub, "", "", email_list)    
+    email = EmailMultiAlternatives(sub, "", "", email_list)
     email.attach_alternative(msg, 'text/html')
     email.send()

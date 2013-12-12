@@ -11,13 +11,13 @@ class BooksListView(generic.ListView):
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        search_results = None    
+        search_results = None
         if self.request.GET:
-            search_results = Book.objects.filter(Q(title__icontains=self.request.GET['q']))
+            search_results = Book.objects.filter(
+                Q(title__icontains=self.request.GET['q']))
         context = super(BooksListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context
-
 
 
 class BooksbyPubView(generic.ListView):

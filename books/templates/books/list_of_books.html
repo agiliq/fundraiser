@@ -77,9 +77,9 @@
 	    <p>No Books available.</p>
 	{% endif %}
 	<div class="facebookapi">
-	   <span>Invite friends from <a href="http:/" onclick="FacebookInviteFriends();">Facebook ?</a></span>&nbsp;
+	   <span>Invite friends from <a href="javascript:" onclick="FacebookInviteFriends();">Facebook ?</a></span>&nbsp;
 	   <span>
-		   <a  onclick="window.open('{% url 'social:gmail_contacts' %}','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500')">
+		   <a  href="javascript:" onclick="window.open('{% url 'social:gmail_contacts' %}','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500')">
 				   Gmail ?
 		   </a>	
 	   </span>	   

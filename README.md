@@ -1,5 +1,5 @@
 
-[![Build Status](https://www.travis-ci.org/agiliq/fundraiser.png?branch=master)](https://www.travis-ci.org/agiliq/fundraiser)
+[![Build Status](https://travis-ci.org/agiliq/fundraiser.png?branch=license)](https://travis-ci.org/agiliq/fundraiser)
 
 Fundraiser
 ------------------

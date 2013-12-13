@@ -10,3 +10,4 @@ django-picklefield==0.1.8
 stripe==1.9.3
 gdata==2.0.18
 django-merchant==0.0.8a0
+django-widget-tweaks==1.3

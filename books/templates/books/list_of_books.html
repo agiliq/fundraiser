@@ -76,7 +76,7 @@
 	{% else %}
 	    <p>No Books available.</p>
 	{% endif %}
-	<div class="facebookapi">
+	<div class="facebookapi" style="position : absolute;bottom : 0; height : 40px; margin-top : 40px;">
 	   <span>Invite friends from <a href="javascript:" onclick="FacebookInviteFriends();">Facebook ?</a></span>&nbsp;
 	   <span>
 		   <a  href="javascript:" onclick="window.open('{% url 'social:gmail_contacts' %}','targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500')">

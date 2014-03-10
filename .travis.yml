@@ -22,4 +22,7 @@ install:
 - pip install -r requirements/base.txt --use-mirrors
 
 script:
-- python manage.py test books people --settings=fund_raiser.settings.testsettings
+- coverage run --source=python manage.py test books people --settings=fund_raiser.settings.testsettings
+
+after_success:
+    coveralls

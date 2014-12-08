@@ -11,10 +11,10 @@ urlpatterns = patterns('',
                            login_required(ebsresponse),
                            name='ebsresponse'),
                        url(r'^stripe/(?P<campaign_id>\d+)/$',
-                           stripepayment, name='stripeindex'),
-                       url(r'^success/(?P<campaign_id>\d+)/$',
-                           PaymentSuccess.as_view(),
-                           name='payment_success'),
-                       url(r'^payment/success/$',
-                           PaymentSuccess,
-                           name='payment_success'), )
+                           stripepayment, name='stripeindex'), )
+                       # url(r'^success/(?P<campaign_id>\d+)/$',
+                       #     PaymentSuccess.as_view(),
+                       #     name='payment_success'),
+                       # url(r'^payment/success/$',
+                       #     PaymentSuccess,
+                       #     name='payment_success'), )

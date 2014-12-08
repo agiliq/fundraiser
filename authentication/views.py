@@ -65,8 +65,7 @@ def user_login(request):
             user = login_form.get_user()
             login(request, user)
             if next is None:
-                return HttpResponseRedirect(reverse('campaigns:\
-                                                    list_of_campaigns'))
+                return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
             else:
                 return HttpResponseRedirect(next)
     return render_to_response("authentication/login.html",

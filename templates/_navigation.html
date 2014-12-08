@@ -25,9 +25,6 @@
                         <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unactivated Campaigns</a></li>  
                     </ul>
                 {% endif %}
-                <ul class="nav">
-                    <li><a class= "" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
-                </ul>
                 {% if user.person %}
                 <ul class="nav">
                     <li><a class= "" href="{% url 'campaigns:my_campaigns' user.person.id %}">My Campaigns</a></li>  

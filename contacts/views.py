@@ -18,7 +18,7 @@ def google_get_state_token(request, action_type_id, action_id):
 
 def google_login(request):
     token_login = request.GET.get('token')
-    
+
     if token_login:
         gcs = gdata.contacts.service.ContactsService()
         gcs.SetAuthSubToken(token_login)

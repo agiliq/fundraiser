@@ -1,3 +1,5 @@
+import decimal
+
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
@@ -6,36 +8,30 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import Q
 
-from people.models import Beneficiary
+from people.models import Person
 from campaigns.models import Campaign
 from campaigns.forms import CampaignForm
 
 
 @login_required
 def create_a_campaign(request):
-    if request.user.beneficiary.is_approved:
-        form = CampaignForm()
-        if request.method == 'POST':
-            form = CampaignForm(request.POST, request.FILES)
-            if form.is_valid():
-                beneficiary = Beneficiary.objects.get(user=request.user)
-                # cam_obj = Campaign.objects.create(beneficiary=beneficiary,
-                #                                   campaign_name=request.POST[
-                #                                       'campaign_name'],
-                #                                   target_amount=request.POST[
-                #                                       'target_amount'],
-                #                                   cause=request.POST['cause'])
-                cam_obj = form.save(commit=False)
-                cam_obj.beneficiary = beneficiary
-                cam_obj.save()
-                if request.POST.getlist('books'):
-                    for m2m in request.POST.getlist('books'):
-                        cam_obj.books.add(m2m)
-                return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
+    form = CampaignForm()
+    if request.method == 'POST':
+        form = CampaignForm(request.POST, request.FILES)
+        if form.is_valid():
+            person = Person.objects.get(user=request.user)
+            cam_obj = form.save(commit=False)
+            cam_obj.person = person
+            cam_obj.save()
+            return HttpResponseRedirect(reverse('campaigns: \
+                                                list_of_campaigns'))
+        else:
+            form = CampaignForm()
 
-        return render_to_response('campaigns/create_a_campaign.html', {'form': form, 'errors': dict(form.errors.viewitems())}, context_instance=RequestContext(request))
-    else:
-        return render_to_response('campaigns/campaign_unapproved.html', context_instance=RequestContext(request))
+    return render_to_response('campaigns/create_a_campaign.html',
+                              {'form': form,
+                               'errors': dict(form.errors.viewitems())},
+                              context_instance=RequestContext(request))
 
 
 class CampaignDetail(generic.DetailView):
@@ -50,7 +46,7 @@ class CampaignsListView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Campaign.objects.all()
+        return Campaign.objects.filter(is_approved=True)
 
     def get_context_data(self, **kwargs):
         search_results = None
@@ -68,7 +64,7 @@ class CampaignUpdate(generic.UpdateView):
     form_class = CampaignForm
 
     def get_success_url(self):
-        return reverse("campaigns:campaign_detail", args=[self.object.slug])
+        return reverse("campaigns: campaign_detail", args=[self.object.slug])
 
 
 class MyCampaigns(generic.ListView):
@@ -77,7 +73,7 @@ class MyCampaigns(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Campaign.objects.filter(beneficiary__id__exact=self.kwargs['user_id'])
+        return Campaign.objects.filter(person__id__exact=self.kwargs['user_id'])
 
     def get_context_data(self, **kwargs):
         search_results = None
@@ -87,3 +83,16 @@ class MyCampaigns(generic.ListView):
         context = super(MyCampaigns, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context
+
+
+def testpay(request, campaign_id):
+
+    if request.method == 'POST':
+        campaign = get_object_or_404(Campaign, id=campaign_id)
+        if campaign:
+            campaign.donation += decimal.Decimal(request.POST['donation'])
+            campaign.save()
+            return render(request, 'campaigns/campaign_detail.html',
+                          {'donation': 'success', 'campaign': campaign})
+    return render(request, 'campaigns/donate.html',
+                  {'campaign_id': campaign_id})

@@ -1,17 +1,16 @@
 from django.conf.urls import patterns, url
 from django.views.generic import ListView
 
-from people.models import Donor, Beneficiary
-from people.views import DonorDetailView, BeneficiaryDetailView
+from people.models import Person
+from people.views import PersonDetailView
 
 
 urlpatterns = patterns('',
-    url(r'^beneficiaries/$', ListView.as_view(template_name='people/beneficiaries.html',
-                queryset=Beneficiary.objects.all(), context_object_name='beneficiary_list', paginate_by=10), name='list_of_bnfs'),
-    url(r'^beneficiary/detail/(?P<pk>\d+)/$', BeneficiaryDetailView.as_view(), name='beneficiary_detail'),
-
-
-    url(r'^donors/$', ListView.as_view(template_name='people/donors.html',
-                queryset=Donor.objects.all(), context_object_name='donor_list', paginate_by=10), name='list_of_donors'),
-    url(r'^donor/detail/(?P<pk>\d+)/$', DonorDetailView.as_view(), name='donor_detail'),
-    )
+                       url(r'^persons/$',
+                           ListView.as_view(template_name='people/person.html',
+                                            queryset=Person.objects.all(),
+                                            context_object_name='person_list',
+                                            paginate_by=10), name='list'),
+                       url(r'^person/detail/(?P<pk>\d+)/$',
+                           PersonDetailView.as_view(),
+                           name='person_detail'), )

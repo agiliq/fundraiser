@@ -10,11 +10,7 @@
             <a class= "brand" href="/">Home</a>
             {% if not user.is_authenticated %}
                 <ul class="nav pull-right ">
-                    <li><a class= "dropdown-toggle" data-toggle="dropdown" data-target="#" href="#"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <li><a tabindex="-1" href="{% url 'accounts:beneficiary' %}">Beneficiary</a></li>
-                            <li><a tabindex="-1" href="{% url 'accounts:donor' %}">Donor</a></li>       
-                        </ul> 
+                    <li><a class= "" href="{% url 'accounts:person' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li> 
                     </li>
                 </ul>
                 <ul class="nav pull-right">
@@ -22,28 +18,19 @@
                 </ul>
             {% else %}
                 <ul class="nav">
-                    <li><a class= "" href="{% url 'people:list_of_donors' %}">Donors</a></li>  
-                </ul>
-                <ul class="nav">
-                    <li><a class= "" href="{% url 'people:list_of_bnfs' %}">Beneficiaries</a></li>  
-                </ul>
-                <ul class="nav">
-                    <li><a class= "" href="{% url 'books:listofbooks' %}">Books</a></li>  
-                </ul>
-                <ul class="nav">
-                    <li><a class= "" href="{% url 'books:publishers' %}">Publishers</a></li>  
+                    <li><a class= "" href="{% url 'people:list' %}">Persons</a></li>  
                 </ul>
                 {% if user.is_staff %}
                     <ul class="nav">
-                        <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unactivated Users</a></li>  
+                        <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unactivated Campaigns</a></li>  
                     </ul>
                 {% endif %}
                 <ul class="nav">
                     <li><a class= "" href="{% url 'campaigns:list_of_campaigns' %}">Campaigns</a></li>  
                 </ul>
-                {% if user.profile.is_beneficiary %}
+                {% if user.person %}
                 <ul class="nav">
-                    <li><a class= "" href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}">My Campaigns</a></li>  
+                    <li><a class= "" href="{% url 'campaigns:my_campaigns' user.person.id %}">My Campaigns</a></li>  
                 </ul>
                 {% endif %}    
                 <ul class="nav pull-right">

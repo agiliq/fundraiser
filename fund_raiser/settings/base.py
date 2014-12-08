@@ -2,12 +2,12 @@
 from django.core.exceptions import ImproperlyConfigured
 
 import os
-import djcelery
 from unipath import Path
 
 SITE_PATH = Path(__file__).ancestor(3)
 ADMINS = (
     ('Shiva', 'shiva@agiliq.com'),
+    ('Yogesh Kumar', 'yogesh@agiliq.com'),
 )
 
 MANAGERS = ADMINS
@@ -102,7 +102,8 @@ WSGI_APPLICATION = 'fund_raiser.wsgi.application'
 
 TEMPLATE_DIRS = (
     SITE_PATH.child('templates'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
@@ -115,7 +116,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'books',
     'people',
     'authentication',
     'campaigns',
@@ -171,9 +171,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
-
-
-djcelery.setup_loader()
 
 
 def get_env_variable(var_name):

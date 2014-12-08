@@ -3,9 +3,7 @@
 {% block title %}My Campaigns{% endblock %}
 {% block content %}
 <h2>My Campaigns</h1>
-   {% if user.profile.is_beneficiary %}
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
-	{% endif %}
   <form id="changelist-search" class="form-search" action="." method="get">
     <div class="input-append">
       <label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
@@ -20,6 +18,8 @@
              <td>Campaign Name</td>
              <td>Amount</td>
              <td>Created</td>
+             <td>Target Completion</td>
+             <td>Approved</td>
          </tr>
        </thead>  
        <tbody>
@@ -29,6 +29,8 @@
                   <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
                   <td>{{campaign.target_amount}}</td>
                   <td>{{campaign.date_created}}</td>
+                    <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
+                    <td>{% if campaign.is_approved %} Yes {% else %} No {% endif %} </td>
              </tr>
           {% endfor %}
         {% else %}
@@ -37,6 +39,8 @@
                   <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
                   <td>{{campaign.target_amount}}</td>
                   <td>{{campaign.date_created}}</td>
+                    <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
+                    <td>{% if campaign.is_approved %} Yes {% else %} No {% endif %} </td>
              </tr>
           {% endfor %}        
         {% endif %}          
@@ -46,13 +50,13 @@
           <div class="pagination pull-right">
               <span class="page-links">
                   {% if page_obj.has_previous %}
-                      <a href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}?page={{ page_obj.previous_page_number }}">previous</a>
+                      <a href="{% url 'campaigns:my_campaigns' user.person.id %}?page={{ page_obj.previous_page_number }}">previous</a>
                   {% endif %}
                   <span class="page-current">
                       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                   </span>
                   {% if page_obj.has_next %}
-                      <a href="{% url 'campaigns:my_campaigns' user.beneficiary.id %}?page={{ page_obj.next_page_number }}">next</a>
+                      <a href="{% url 'campaigns:my_campaigns' user.person.id %}?page={{ page_obj.next_page_number }}">next</a>
                   {% endif %}
               </span>
           </div>

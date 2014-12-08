@@ -26,19 +26,26 @@ class PaymentForm(forms.Form):
         max_length=70, required=True, initial="xyz@ebs.in")
     address = forms.CharField(required=True, initial="Kodambakkam")
     city = forms.CharField(max_length=60, required=True, initial="Chennai")
-    state = forms.CharField(max_length=60, required=True, initial="Tamil Nadu")
+    state = forms.CharField(max_length=60, required=True,
+                            initial="Tamil Nadu")
     country = CountryField()
     postal_code = forms.IntegerField(required=True, initial="600098")
     phone = forms.IntegerField(required=True, initial="044123456")
-    # ship_name = forms.CharField(50, label="Shipping Name",initial="Sheeba V")
-    # ship_address = forms.CharField(100, label="Shipping Address", initial="Saketh")
-    # ship_city = forms.CharField(40, label="Shipping City", initial="New Delhi")
-    # ship_state = forms.CharField(40, label="Shipping State", initial="Delhi")
+    # ship_name = forms.CharField(50, label="Shipping Name",
+    #                             initial="Sheeba V")
+    # ship_address = forms.CharField(100, label="Shipping Address",
+    #                                initial="Saketh")
+    # ship_city = forms.CharField(40, label="Shipping City",
+    #                             initial="New Delhi")
+    # ship_state = forms.CharField(40, label="Shipping State",
+    #                              initial="Delhi")
     # ship_country = CountryField(label="Shipping Country")
-    # ship_postal_code = forms.CharField(20, label="Shipping Postal Code", initial="110098")
-    # ship_phone = forms.CharField(20, label="Shipping Phone", initial="011123456")
-    return_url = forms.URLField(
-        label="Return URL", required=True, initial=settings.EBS_RETURN_URL + '?DR={DR}')
+    # ship_postal_code = forms.CharField(20, label="Shipping Postal Code",
+    #                                    initial="110098")
+    # ship_phone = forms.CharField(20, label="Shipping Phone",
+    #                              initial="011123456")
+    return_url = forms.URLField(label="Return URL", required=True,
+                                initial=settings.EBS_RETURN_URL + '?DR={DR}')
     description = forms.CharField(required=True, initial="Testing EBS-Django")
     mode = forms.ChoiceField(choices=MODES)
 

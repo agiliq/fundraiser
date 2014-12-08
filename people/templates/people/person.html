@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {% block main_title %}People{% endblock %}
-{% block title %}Donors{%endblock%}
+{% block title %}Persons{%endblock%}
 {% block content %}
-<h1>Donors</h1>
+<h1>Persons</h1>
  <p>&nbsp;</p>
-{% if donor_list %}
+{% if person_list %}
  <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-  {% for donor in donor_list%}
+  {% for person in person_list%}
      <tr>
-     	<td><a href="{{ donor.get_absolute_url }}">{{donor}}</a></td>
+     	<td><a href="{{ person.get_absolute_url }}">{{person}}</a></td>
      </tr>
   {% endfor %}
  {% else %}
-	 <p>There are no donors</p> 
+	 <p>There are no persons</p> 
  {% endif %}
  </table>   
  {% if is_paginated %}
      <div class="pagination pull-right">
          <span class="page-links">
              {% if page_obj.has_previous %}
-                 <a href="{% url "people:list_of_donors" %}?page={{ page_obj.previous_page_number }}">previous</a>
+                 <a href="{% url "people:list_of_persons" %}?page={{ page_obj.previous_page_number }}">previous</a>
              {% endif %}
              <span class="page-current">
                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
              </span>
              {% if page_obj.has_next %}
-                 <a href="{% url "people:list_of_donors" %}?page={{ page_obj.next_page_number }}">next</a>
+                 <a href="{% url "people:list_of_persons" %}?page={{ page_obj.next_page_number }}">next</a>
              {% endif %}
          </span>
      </div>

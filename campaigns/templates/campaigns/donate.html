@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block main_title %}Campaigns{% endblock %}
+{% block title %}Campaign Donation{% endblock %}
+{% block content %}
+{{campaign_id}}
+    <form method="post" action="{% url 'campaigns:testpay' campaign_id%}" >
+        {% csrf_token %}
+        <p>Enter amount to donate to the Campaign: <input type="text" placeholder="Enter amount" name="donation" /></p>
+        <input type="submit" value="Donate"/>
+    </form>
+{% endblock %}

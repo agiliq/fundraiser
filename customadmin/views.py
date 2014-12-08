@@ -4,48 +4,36 @@ from django.http import HttpResponseRedirect, Http404
 from django.views.generic import ListView
 from django.core.urlresolvers import reverse
 
-from books.models import Book
+from campaigns.models import Campaign
 from profiles.tasks import sendemail
 
 
-def approve(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    if user:
-        user.beneficiary.is_approved = True
-        user.beneficiary.save()
-        sendemail.delay(sub="approve_sub", msg="approve_msg",
-                        to=user.email, user=user)
+def approve(request, campaign_id):
+    campaign = get_object_or_404(Campaign, pk=campaign_id)
+    if campaign:
+        campaign.is_approved = True
+        campaign.save()
+        # sendemail.delay(sub="approve_sub", msg="approve_msg",
+        #                 to=campaign.person.user.email,
+        #                 user=campaign.person.user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
-    return render_to_response('unapproved_users.html')
+    return render_to_response('unapproved_campaigns.html')
 
 
-class UnapprovedUsers(ListView):
-    template_name = 'customadmin/unapproved_users.html'
-    context_object_name = 'unapproved_users'
+class UnapprovedCampaigns(ListView):
+    template_name = 'customadmin/unapproved_campaigns.html'
+    context_object_name = 'unapproved_campaigns'
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_staff:
             raise Http404
-        return super(UnapprovedUsers, self).get(request, *args, **kwargs)
+        return super(UnapprovedCampaigns, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
         """
-        Returns the unapproved users related to beneficiary in
+        Returns the unapproved users related to person in
         the database
 
         """
 
-        return User.objects.filter(beneficiary__is_approved=False)
-
-
-class CustomAdminIndex(ListView):
-    template_name = 'customadmin/customadmin_index.html'
-    context_object_name = 'books'
-
-    def get(self, request, *args, **kwargs):
-        if not request.user.is_staff:
-            raise Http404
-        return super(CustomAdminIndex, self).get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return Book.objects.all()
+        return Campaign.objects.filter(is_approved=False)

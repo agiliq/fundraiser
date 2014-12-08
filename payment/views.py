@@ -1,4 +1,3 @@
-# Create your views here.
 from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
 from django.template import RequestContext
@@ -24,20 +23,25 @@ from billing import CreditCard, get_gateway
 
 def ebspayment(request, campaign_id):
     campaign_obj = get_object_or_404(Campaign, pk=campaign_id)
-    # hashstring = hashlib.md5(settings.EBS_ACCOUNT_ID+'|'+settings.EBS_SECRET_KEY).hexdigest()
+    # hashstring = hashlib.md5(settings.EBS_ACCOUNT_ID+\
+    #                          '|'+settings.EBS_SECRET_KEY).hexdigest()
     form = PaymentForm()
 
-    # string = settings.EBS_SECRET_KEY+"|"+form.cleaned_data['account_id']+"|"
-    #               +form.cleaned_data['amount']+"|"+form.cleaned_data['reference_no'] +"|"
-    #               +form.cleaned_data['return_url']+"|"+form.cleaned_data['mode']
+    # string = settings.EBS_SECRET_KEY+"|"+
+    #          form.cleaned_data['account_id']+"|"
+    #          +form.cleaned_data['amount']+"|"+
+    #          form.cleaned_data['reference_no'] +"|"
+    #          +form.cleaned_data['return_url']+"|"+
+    #          form.cleaned_data['mode']
     string = settings.EBS_SECRET_KEY + "|" + '5880' + "|" + \
         '1.00' + "|" + '223' + "|" + settings.EBS_RETURN_URL + "|" + "TEST"
     print string
     secure_hash = hashlib.md5(string).hexdigest()
-    return render_to_response('payment/payment_form.html', {'form': form,
-                                                            'campaign': campaign_obj,
-                                                            'ebs_url': settings.EBS_ACTION_URL,
-                                                            'secure_hash': secure_hash},
+    return render_to_response('payment/payment_form.html',
+                              {'form': form,
+                               'campaign': campaign_obj,
+                               'ebs_url': settings.EBS_ACTION_URL,
+                               'secure_hash': secure_hash},
                               context_instance=RequestContext(request))
 
 # function to process response from EBS and decrypt
@@ -60,7 +64,8 @@ def ebsresponse(request):
 
     else:
         paramdetail = {}
-    return render_to_response('payment/response.html', {'response': paramdetail})
+    return render_to_response('payment/response.html',
+                              {'response': paramdetail})
 
 # RC4 Decryption function.Do Not edit it.
 
@@ -89,7 +94,6 @@ def stripepayment(request,  campaign_id):
     amount = int(campaign_obj.target_amount)
     if request.method == 'POST':
         form = CreditCardForm(request.POST)
-        # import ipdb; ipdb.set_trace()
         if form.is_valid():
             data = form.cleaned_data
             credit_card = CreditCard(**data)
@@ -101,11 +105,13 @@ def stripepayment(request,  campaign_id):
             del response_dict['card']
             response_dict.update(response['response']['card'])
             # request.session['response_data'] = response_dict
-            # return HttpResponseRedirect(reverse('paygate:payment_success', args=[campaign_id]))
+            # return HttpResponseRedirect(reverse('paygate:payment_success',
+            #                            args=[campaign_id]))
             return render_to_response('payment/payment_success.html',
-                                       {'campaign': campaign_obj,
-                                        'response': response_dict,},
-                                             context_instance=RequestContext(request))
+                                      {'campaign': campaign_obj,
+                                       'response': response_dict, },
+                                      context_instance=RequestContext(request)
+                                      )
     else:
         form = CreditCardForm(initial={'number': '4242424242424242'})
     return render_to_response(
@@ -123,6 +129,7 @@ def stripepayment(request,  campaign_id):
 #             context['response'] = self.request.session['response_data']
 #             del self.request.session['response_data']
 #         except KeyError:
-#             messages.add_message(self.request, messages.INFO, 'No response exists in session becasue the User has been Logged Out !!!')
-        
+#             messages.add_message(self.request, messages.INFO,
+#            'No response exists in session becasue the User has been \
+#             Logged Out !!!')
 #         return context

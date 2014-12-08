@@ -5,8 +5,6 @@ from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    is_beneficiary = models.BooleanField(default=False)
-    is_donor = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'authentication_userprofile'

@@ -2,21 +2,23 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from books.models import Book
-from people.models import Beneficiary
+from people.models import Person
 
 
 class Campaign(models.Model):
-    beneficiary = models.ForeignKey(Beneficiary)
+    person = models.ForeignKey(Person)
     campaign_name = models.CharField(max_length=260)
     slug = models.SlugField(max_length=150, unique=True)
-    books = models.ManyToManyField(Book)
     date_created = models.DateTimeField(auto_now_add=True)
     target_amount = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00)
     modified = models.DateTimeField(auto_now=True)
     cause = models.TextField()
-    image = models.ImageField(upload_to="campaign_covers/", blank=True, null=True)
+    image = models.ImageField(upload_to="campaign_covers/",
+                              blank=True, null=True)
+    is_approved = models.BooleanField(blank=True, default=False)
+    donation = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00)
 
     def __unicode__(self):
         return self.campaign_name

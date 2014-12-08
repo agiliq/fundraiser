@@ -12,22 +12,4 @@ class Person(models.Model):
         return self.user.username
 
     def get_absolute_url(self):
-        if self.user.get_profile().is_beneficiary:
-            return reverse('people:beneficiary_detail', args=[self.id])
-        else:
-            return reverse('people:donor_detail', args=[self.id])
-
-    class Meta:
-        abstract = True
-
-
-class Beneficiary(Person):
-    is_approved = models.BooleanField(blank=True, default=False)
-
-    class Meta(Person.Meta):
-        verbose_name = "Beneficiary"
-        verbose_name_plural = "Beneficiaries"
-
-
-class Donor(Person):
-    pass
+        return reverse('people:person_detail', args=[self.id])

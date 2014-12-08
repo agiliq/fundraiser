@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block main_title %}Admin{% endblock %}
+{% block title %}Unapproved{%endblock%}
+{% block content %}
+{% if unapproved_campaigns %}
+ <table >
+  {% for campaign in unapproved_campaigns%}
+     <tr>
+     	<td>{{ campaign }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+     	{# <td><a href="{% url 'approve' campaign.id %}">Approve</a></td> #}
+     	<td><a href="{% url 'customadmin:approve' campaign.id %}"><button type="submit" value="{{campaign.id}}"  class="btn btn-primary" >Approve</button>
+     	</a></td>
+     </tr>
+  {% endfor %}
+ {% else %}
+	 <p>There are no unapproved Campaigns</p> 
+ {% endif %}
+ </table>      
+{% endblock %}

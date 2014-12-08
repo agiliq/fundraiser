@@ -25,12 +25,8 @@ def sendemail(sub, msg, to, user=None):
 
     if not sub == "approve_sub":
         admin_sub = "New User Registered"
-        if user.get_profile().is_beneficiary:
-            admin_msg = render_to_string("email/admin_body.html", {
-                                         "username": user.username, "ben": True})
-        else:
-            admin_msg = render_to_string("email/admin_body.html", {
-                                         "username": user.username, "donr": True})
+        admin_msg = render_to_string("email/admin_body.html", {
+                                     "username": user.username})
         mail_admins(admin_sub, "", html_message=admin_msg)
 
 

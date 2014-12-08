@@ -10,8 +10,6 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-# from books.models import Book, Publisher
-
 
 class CampaignsAppTestcase(TestCase):
 
@@ -19,11 +17,6 @@ class CampaignsAppTestcase(TestCase):
         self.c = Client()
         self.user = User.objects.create_user(
             username="admin", email="admin@agiliq.com", password="admin")
-        # self.publisher = Publisher.objects.create(
-        #     name='bsp', slug='bsp', address='address')
-        # self.book = Book.objects.create(publisher=self.publisher,
-        #                                 image='/home/agiliq/Desktop/screenshots/gradmale_avatar.png',
-        # title='title', slug='slug', author='author', cost='40.0')
 
     def test_CampaignsListView(self):
         response = self.c.get(reverse("campaigns:list_of_campaigns"))

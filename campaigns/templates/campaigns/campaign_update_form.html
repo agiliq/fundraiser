@@ -51,16 +51,8 @@
 </form> -->
   <form method="post" action="" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
-  	         
-	<!--	<div class="control-group">
-	        <label class="control-label" for="beneficiary">Beneficiary</label>
-	        <div class="controls">{{ form.beneficiary }}
-	        	 {% if errors.beneficiary.0 %}
-		            	<span class="help-inline">{{ errors.beneficiary.0}}</span>
-	            {% endif %}
-	        </div>  
             
-        </div>   -->
+        </div>
 		<div class="control-group">
 	        <label class="control-label" for="campaign_name">Campaign Name</label>
 	        <div class="controls">{{ form.campaign_name }}

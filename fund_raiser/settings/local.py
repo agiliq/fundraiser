@@ -1,5 +1,7 @@
 from .base import *
 
+import djcelery
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -9,18 +11,20 @@ DB_PASSWORD = get_env_variable('DB_PASSWORD')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        'HOST': '',
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
 INSTALLED_APPS += (
     'django_extensions',
 )
+
+djcelery.setup_loader()
 
 EMAIL_HOST_USER = get_env_variable('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
@@ -58,8 +62,8 @@ GOOGLE_REDIRECT_BASE_URL = 'http://localhost:8000'
 
 # Email settings
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = 'imap.gmail.com'
+EMAIL_PORT = 993
 
 # Admin Email Settings
 EMAIL_SUBJECT_PREFIX = 'Pratham Books : '

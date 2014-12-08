@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block main_title %}People{% endblock %}
+{% block title %}Person Details{% endblock %}
+{% block content %}
+  <h1>Person Details</h1>
+  {% if person %}
+	  <table class="table table-hover " border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
+          <tr><td>Person Name :</td><td><p>{{person.user.username}}</p></td></tr>
+          <tr><td>Address :</td><td><p>{{person.address}}</p></td></tr>
+          <tr><td>Website :</td><td><p>{{person.website}}</p></td></tr>
+	    </table>
+	{% else %}
+	    <p>No details available.</p>
+	{% endif %}
+  
+{% endblock %} 

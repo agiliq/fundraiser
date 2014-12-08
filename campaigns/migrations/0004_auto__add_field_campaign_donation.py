@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Campaign.image'
-        db.add_column(u'campaigns_campaign', 'image',
-                      self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True),
+        # Adding field 'Campaign.donation'
+        db.add_column(u'campaigns_campaign', 'donation',
+                      self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Campaign.image'
-        db.delete_column(u'campaigns_campaign', 'image')
+        # Deleting field 'Campaign.donation'
+        db.delete_column(u'campaigns_campaign', 'donation')
 
 
     models = {
@@ -51,13 +51,15 @@ class Migration(SchemaMigration):
         },
         u'campaigns.campaign': {
             'Meta': {'object_name': 'Campaign'},
-            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']"}),
             'campaign_name': ('django.db.models.fields.CharField', [], {'max_length': '260'}),
             'cause': ('django.db.models.fields.TextField', [], {}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'donation': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'is_approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']"}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '150'}),
             'target_amount': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'})
         },

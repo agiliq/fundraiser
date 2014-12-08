@@ -6,7 +6,7 @@ def google_import(request, gcs, cache=False):
     Uses the given contacts service object to retrieve Google Contacts and
     import the entries with an email address into the contacts of the
     given user.
-    
+
     Returns a list of 'contact name <contact@email>' strings.
     """
     state = google_get_state(request)

@@ -7,7 +7,7 @@ from django.views.generic import FormView
 from django.contrib.auth.forms import AuthenticationForm
 
 from .forms import RegistrationForm
-from people.models import Beneficiary, Donor
+from people.models import Person
 from profiles.tasks import sendemail
 
 
@@ -31,40 +31,21 @@ class RegistrationView(FormView):
         return super(RegistrationView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('books:listofbooks')
+        return reverse('campaigns:list_of_campaigns')
 
 
-class DonorRegistrationView(RegistrationView):
+class PersonRegistrationView(RegistrationView):
 
-    person_klass = Donor
-
-    def get_context_data(self, **kwargs):
-        kwargs = super(DonorRegistrationView, self).get_context_data(**kwargs)
-        kwargs['formname'] = 'Donor'
-        kwargs['post_url'] = reverse('accounts:donor')
-        return kwargs
-
-    def person_klass_specific_stuff(self, form, user):
-        user.profile.is_donor = True
-        user.profile.save()
-        self.person_klass.objects.create(
-            user=user, address=form.cleaned_data['address'],
-            website=form.cleaned_data['website'])
-
-
-class BeneficiaryRegistrationView(RegistrationView):
-
-    person_klass = Beneficiary
+    person_klass = Person
 
     def get_context_data(self, **kwargs):
-        kwargs = super(BeneficiaryRegistrationView, self).get_context_data(
+        kwargs = super(PersonRegistrationView, self).get_context_data(
             **kwargs)
-        kwargs['formname'] = 'Beneficiary'
-        kwargs['post_url'] = reverse('accounts:beneficiary')
+        kwargs['formname'] = 'Person'
+        kwargs['post_url'] = reverse('accounts:person')
         return kwargs
 
     def person_klass_specific_stuff(self, form, user):
-        user.profile.is_beneficiary = True
         user.profile.save()
         self.person_klass.objects.create(
             user=user, address=form.cleaned_data['address'],
@@ -77,18 +58,20 @@ def user_login(request):
         next = request.GET['next']
     login_form = AuthenticationForm()
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('books:listofbooks'))
+        return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
     if request.method == 'POST':
         login_form = AuthenticationForm(data=request.POST)
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
-            if next == None:
-                return HttpResponseRedirect(reverse('books:listofbooks'))
+            if next is None:
+                return HttpResponseRedirect(reverse('campaigns:\
+                                                    list_of_campaigns'))
             else:
                 return HttpResponseRedirect(next)
     return render_to_response("authentication/login.html",
-                {'form': login_form, 'next': next}, context_instance=RequestContext(request))
+                              {'form': login_form, 'next': next},
+                              context_instance=RequestContext(request))
 
 
 def user_logout(request):

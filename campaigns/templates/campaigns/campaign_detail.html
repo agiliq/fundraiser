@@ -3,26 +3,19 @@
 {% block title %}Campaign Detail{% endblock %}
 {% block content %}
 <h2>Details of Campaign</h1>
-  {% if user.profile.is_beneficiary or user.is_staff %}
-    {% ifequal campaign.beneficiary.user user  %}  
+  {% if user.profile or user.is_staff %}
+    {% ifequal campaign.person.user user  %}  
       <p style="padding-top:10px; padding-left:1000px;"><a href="{{campaign.get_edit_url}}"><button type="submit" value="edit_campaign"  class="btn btn-primary" >Edit Campaign</button></a></p>
       <p>&nbsp;</p>
      {% endifequal %}
   {% endif %} 
   {% if campaign %}
       <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-          <tr><td>Campaign created by</td><td><p>{{campaign.beneficiary|capfirst}}</p></td></tr>
+          <tr><td>Campaign created by</td><td><p>{{campaign.person|capfirst}}</p></td></tr>
           <tr><td>Campaign Name</td><td><p>{{campaign.campaign_name}}</p></td></tr>
-          <tr>
-              <td>Books Selected</td>
-              <td>
-                 {% for book in campaign.books.all %} 
-                   {{book}}<br>
-                 {% endfor %}  
-              </td>
-          </tr>
           <tr><td>Created</td><td><p>{{campaign.date_created}}</p></td></tr>
           <tr><td>Target Amount</td><td><p>{{campaign.target_amount}}</p></td></tr>
+          <tr><td>Total Donation</td><td><p>{{campaign.donation}}</p></td></tr>
           <tr><td>Cause</td><td><p>{{campaign.cause}}</p></td></tr>
           {% if campaign.image %}
               <tr><td>Image</td><td><p><img src="{{campaign.image.url}}" height="300" width="300"></p></td></tr>
@@ -30,12 +23,10 @@
               <tr><td>Image</td><td>No Image Available</td></tr>
           {% endif %}
       </table>
-      {% if user.profile.is_donor %}
 <!--        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'paygate:ebsindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p> -->
-        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'paygate:stripeindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p>
-      {% endif %}
-  {% else %}
-      <p>No details available.</p>
+  {% if user !=  campaign.person.user %}
+        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'campaigns:testpay' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p>
+  {% endif %}
   {% endif %}
 {% endblock %}
 

@@ -30,7 +30,8 @@ class PickledObject(str):
     """
 
 
-def dbsafe_encode(value, compress_object=False, pickle_protocol=DEFAULT_PROTOCOL):
+def dbsafe_encode(value, compress_object=False,
+                  pickle_protocol=DEFAULT_PROTOCOL):
     # We use deepcopy() here to avoid a problem with cPickle, where dumps
     # can generate different character streams for same lookup value if
     # they are referenced differently.
@@ -127,8 +128,8 @@ class PickledObjectField(models.Field):
             # isn't rejected by the postgresql_psycopg2 backend. Alternatively,
             # we could have just registered PickledObject with the psycopg
             # marshaller (telling it to store it like it would a string), but
-            # since both of these methods result in the same value being stored,
-            # doing things this way is much easier.
+            # since both of these methods result in the same value being
+            # stored, doing things this way is much easier.
             value = force_unicode(
                 dbsafe_encode(value, self.compress, self.protocol))
         return value
@@ -140,7 +141,8 @@ class PickledObjectField(models.Field):
     def get_internal_type(self):
         return 'TextField'
 
-    def get_db_prep_lookup(self, lookup_type, value, connection=None, prepared=False):
+    def get_db_prep_lookup(self, lookup_type, value,
+                           connection=None, prepared=False):
         if lookup_type not in ['exact', 'in', 'isnull']:
             raise TypeError('Lookup type %s is not supported.' % lookup_type)
         # The Field model already calls get_db_prep_value before doing the

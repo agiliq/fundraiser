@@ -7,7 +7,7 @@ from people.models import Person
 
 class Campaign(models.Model):
     person = models.ForeignKey(Person)
-    campaign_name = models.CharField(max_length=260)
+    campaign_name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=150, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)
     target_amount = models.DecimalField(

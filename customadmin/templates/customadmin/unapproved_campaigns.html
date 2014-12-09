@@ -6,7 +6,7 @@
  <table >
   {% for campaign in unapproved_campaigns%}
      <tr>
-     	<td>{{ campaign }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+     	<td><a href="{% url 'campaigns:campaign_detail' campaign.slug %}">{{ campaign }}</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
      	{# <td><a href="{% url 'approve' campaign.id %}">Approve</a></td> #}
      	<td><a href="{% url 'customadmin:approve' campaign.id %}"><button type="submit" value="{{campaign.id}}"  class="btn btn-primary" >Approve</button>
      	</a></td>

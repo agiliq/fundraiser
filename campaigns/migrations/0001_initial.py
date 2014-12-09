@@ -8,26 +8,37 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Category'
+        db.create_table(u'campaigns_category', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        ))
+        db.send_create_signal(u'campaigns', ['Category'])
+
         # Adding model 'Campaign'
         db.create_table(u'campaigns_campaign', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('person', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['people.Person'])),
-            ('campaign_name', self.gf('django.db.models.fields.CharField')(max_length=260)),
+            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['campaigns.Category'])),
+            ('campaign_name', self.gf('django.db.models.fields.CharField')(max_length=60)),
             ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=150)),
             ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('target_amount', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
             ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('cause', self.gf('django.db.models.fields.TextField')()),
+            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('is_approved', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('donation', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
         ))
         db.send_create_signal(u'campaigns', ['Campaign'])
 
 
     def backwards(self, orm):
+        # Deleting model 'Category'
+        db.delete_table(u'campaigns_category')
+
         # Deleting model 'Campaign'
         db.delete_table(u'campaigns_campaign')
-
-        # Removing M2M table for field books on 'Campaign'
-        db.delete_table(db.shorten_name(u'campaigns_campaign'))
 
 
     models = {
@@ -62,15 +73,23 @@ class Migration(SchemaMigration):
         },
         u'campaigns.campaign': {
             'Meta': {'object_name': 'Campaign'},
-            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']"}),
-
-            'campaign_name': ('django.db.models.fields.CharField', [], {'max_length': '260'}),
+            'campaign_name': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
+            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['campaigns.Category']"}),
             'cause': ('django.db.models.fields.TextField', [], {}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'donation': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'is_approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']"}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '150'}),
             'target_amount': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'})
+        },
+        u'campaigns.category': {
+            'Meta': {'object_name': 'Category'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

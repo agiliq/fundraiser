@@ -6,7 +6,7 @@
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
   <form id="changelist-search" class="form-search" action="." method="get">
     <div class="input-append">
-      <label for="searchbar"><img src="{{MEDIA_URL}}/images/icon_searchbox.png" alt="Search" /></label>
+      <label for="searchbar"><img src="{{STATIC_URL}}images/icon_searchbox.png" alt="Search" /></label>
       <input type="text" class="span2 search-query" name="q" value="" id="searchbar">
       <button type="submit" class="btn btn-primary" value="Search">Search</button>
     </div>

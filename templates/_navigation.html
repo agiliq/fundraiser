@@ -8,6 +8,9 @@
         <!-- <a class="brand" href="/polls">Polls</a> -->
         <div class="nav-collapse collapse">
             <a class= "brand" href="/">Home</a>
+            <ul class="nav">
+                <li><a class= "" href="{% url 'campaigns:category_list' %}">Categories</a></li>  
+            </ul>
             {% if not user.is_authenticated %}
                 <ul class="nav pull-right ">
                     <li><a class= "" href="{% url 'accounts:person' %}"><i class="icon-user icon-white"></i>&nbsp;&nbsp;Sign Up</a></li> 

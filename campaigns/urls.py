@@ -20,4 +20,10 @@ urlpatterns = patterns('',
                            login_required(views.MyCampaigns.as_view()),
                            name='my_campaigns'),
                        url(r'^test_payment/(?P<campaign_id>\d+)$',
-                           login_required(views.testpay), name='testpay'), )
+                           login_required(views.testpay), name='testpay'),
+                       url(r'^categories/$',
+                           views.CategoryListView.as_view(),
+                           name='category_list'),
+                       url(r'^category/detail/(?P<pk>\d+)/$',
+                           views.CategoryDetail.as_view(),
+                           name='category_detail'), )

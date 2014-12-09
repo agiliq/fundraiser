@@ -9,7 +9,7 @@ from django.views import generic
 from django.db.models import Q
 
 from people.models import Person
-from campaigns.models import Campaign
+from campaigns.models import Campaign, Category
 from campaigns.forms import CampaignForm
 
 
@@ -23,8 +23,7 @@ def create_a_campaign(request):
             cam_obj = form.save(commit=False)
             cam_obj.person = person
             cam_obj.save()
-            return HttpResponseRedirect(reverse('campaigns: \
-                                                list_of_campaigns'))
+            return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
         else:
             form = CampaignForm()
 
@@ -96,3 +95,26 @@ def testpay(request, campaign_id):
                           {'donation': 'success', 'campaign': campaign})
     return render(request, 'campaigns/donate.html',
                   {'campaign_id': campaign_id})
+
+class CategoryListView(generic.ListView):
+    template_name = 'campaigns/categories.html'
+    context_object_name = 'categories'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Category.objects.all()
+
+    def get_context_data(self, **kwargs):
+        search_results = None
+        if self.request.GET:
+            search_results = Category.objects.filter(
+                Q(name__icontains=self.request.GET['q']))
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        context['search_results'] = search_results
+        return context
+
+
+class CategoryDetail(generic.DetailView):
+    model = Category
+    template_name = 'campaigns/category_detail.html'
+    context_object_name = 'category'

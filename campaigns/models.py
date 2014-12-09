@@ -5,8 +5,23 @@ from django.template.defaultfilters import slugify
 from people.models import Person
 
 
+class Category(models.Model):
+
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('categories:category_detail', args=[self.id])
+
+
 class Campaign(models.Model):
     person = models.ForeignKey(Person)
+    category = models.ForeignKey(Category)
     campaign_name = models.CharField(max_length=60)
     slug = models.SlugField(max_length=150, unique=True)
     date_created = models.DateTimeField(auto_now_add=True)

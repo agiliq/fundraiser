@@ -6,4 +6,8 @@ class CampaignForm(ModelForm):
 
     class Meta:
         model = Campaign
-        exclude = ('person', 'slug', 'donation')
+        exclude = ('person',
+                   'slug',
+                   'donation',
+                   'rewards',
+                   'fund_distribution')

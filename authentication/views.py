@@ -26,8 +26,8 @@ class RegistrationView(FormView):
                             password=form.cleaned_data['password1'])
         if user is not None and user.is_active:
             login(self.request, user)
-            sendemail.delay(
-                sub="reg_sub", msg="reg_msg", to=user.email, user=user)
+            # sendemail.delay(
+            #     sub="reg_sub", msg="reg_msg", to=user.email, user=user)
         return super(RegistrationView, self).form_valid(form)
 
     def get_success_url(self):
@@ -65,7 +65,8 @@ def user_login(request):
             user = login_form.get_user()
             login(request, user)
             if next is None:
-                return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
+                return HttpResponseRedirect(
+                    reverse('campaigns:list_of_campaigns'))
             else:
                 return HttpResponseRedirect(next)
     return render_to_response("authentication/login.html",
@@ -75,4 +76,4 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('accounts:login'))
+    return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))

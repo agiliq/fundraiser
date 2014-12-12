@@ -15,6 +15,22 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'campaigns', ['Category'])
 
+        # Adding model 'Reward'
+        db.create_table(u'campaigns_reward', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'campaigns', ['Reward'])
+
+        # Adding model 'FundDistribution'
+        db.create_table(u'campaigns_funddistribution', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('usage', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('allocation', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
+        ))
+        db.send_create_signal(u'campaigns', ['FundDistribution'])
+
         # Adding model 'Campaign'
         db.create_table(u'campaigns_campaign', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -32,13 +48,57 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'campaigns', ['Campaign'])
 
+        # Adding M2M table for field rewards on 'Campaign'
+        m2m_table_name = db.shorten_name(u'campaigns_campaign_rewards')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('campaign', models.ForeignKey(orm[u'campaigns.campaign'], null=False)),
+            ('reward', models.ForeignKey(orm[u'campaigns.reward'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['campaign_id', 'reward_id'])
+
+        # Adding M2M table for field fund_distribution on 'Campaign'
+        m2m_table_name = db.shorten_name(u'campaigns_campaign_fund_distribution')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('campaign', models.ForeignKey(orm[u'campaigns.campaign'], null=False)),
+            ('funddistribution', models.ForeignKey(orm[u'campaigns.funddistribution'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['campaign_id', 'funddistribution_id'])
+
+        # Adding model 'TeamMember'
+        db.create_table(u'campaigns_teammember', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('role', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('short_description', self.gf('django.db.models.fields.CharField')(max_length=400)),
+            ('fb_url', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('campaign', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['campaigns.Campaign'])),
+        ))
+        db.send_create_signal(u'campaigns', ['TeamMember'])
+
 
     def backwards(self, orm):
         # Deleting model 'Category'
         db.delete_table(u'campaigns_category')
 
+        # Deleting model 'Reward'
+        db.delete_table(u'campaigns_reward')
+
+        # Deleting model 'FundDistribution'
+        db.delete_table(u'campaigns_funddistribution')
+
         # Deleting model 'Campaign'
         db.delete_table(u'campaigns_campaign')
+
+        # Removing M2M table for field rewards on 'Campaign'
+        db.delete_table(db.shorten_name(u'campaigns_campaign_rewards'))
+
+        # Removing M2M table for field fund_distribution on 'Campaign'
+        db.delete_table(db.shorten_name(u'campaigns_campaign_fund_distribution'))
+
+        # Deleting model 'TeamMember'
+        db.delete_table(u'campaigns_teammember')
 
 
     models = {
@@ -78,11 +138,13 @@ class Migration(SchemaMigration):
             'cause': ('django.db.models.fields.TextField', [], {}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'donation': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
+            'fund_distribution': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['campaigns.FundDistribution']", 'symmetrical': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'is_approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'person': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['people.Person']"}),
+            'rewards': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['campaigns.Reward']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '150'}),
             'target_amount': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'})
         },
@@ -90,6 +152,27 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Category'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'campaigns.funddistribution': {
+            'Meta': {'object_name': 'FundDistribution'},
+            'allocation': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'usage': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+        },
+        u'campaigns.reward': {
+            'Meta': {'object_name': 'Reward'},
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '200'})
+        },
+        u'campaigns.teammember': {
+            'Meta': {'object_name': 'TeamMember'},
+            'campaign': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['campaigns.Campaign']"}),
+            'fb_url': ('django.db.models.fields.URLField', [], {'max_length': '200'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'role': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'short_description': ('django.db.models.fields.CharField', [], {'max_length': '400'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

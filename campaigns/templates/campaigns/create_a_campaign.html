@@ -84,6 +84,92 @@
 	            {% endif %}
 	        </div>
 	    </div>
+        <div class="control-group">
+            <label class="control-label">Fund Distribution</label>
+            <div class="controls">
+                <table class="fund-dist">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row1">
+                            <td >
+                                <input type="text" value="" name="fund-dist-desc1">
+                            </td>
+                            <td >
+                            <input type="text"  value="" name="fund-dist-amt1">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign" hidden></i>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Total</label>
+            <div class="controls">
+                <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Rewards</label>
+            <div class="controls">
+                <table class="rewards">
+                    <tbody>
+                        <tr class="row1">
+                            <td >
+                                <input type="text" value="" name="rewards1">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign" hidden></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Team Members</label>
+            <div class="controls">
+                <table class="team-member">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Short Bio</th>
+                            <th>Facebook URL</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row1">
+                            <td >
+                                <input type="text" name="name1" value="{{user}}">
+                            </td>
+                            <td >
+                            <input type="text"   name="role1">
+                            </td>
+                            <td >
+                                <input type="text" name="short-bio1">
+                            </td>
+                            <td >
+                            <input type="text" name="fb-url1">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+        </div>
 	    <div class="control-group">
 	        <label class="control-label" for="cause">Image</label>
 	        <div class="controls">
@@ -100,6 +186,6 @@
             <button type="submit" value="submit"  class="btn btn-primary" >Submit</button>
           </div>
         </div>      
-  </form
+  </form>
   </div>
 {% endblock %}

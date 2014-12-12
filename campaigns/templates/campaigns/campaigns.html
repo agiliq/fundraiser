@@ -3,7 +3,9 @@
 {% block title %}List of Campaigns{% endblock %}
 {% block content %}
 <h2>List of Campaigns</h1>
+    {% if not user.is_staff %}
 	    <p style="padding-top:10px; padding-left:1000px;"><a href="{% url 'campaigns:create_a_campaign' %}"><button type="submit" value="creat_a_campaign"  class="btn btn-primary" >Create a Campaign</button></a></p>
+    {% endif %}
   <form id="changelist-search" class="form-search" action="." method="get">
     <div class="input-append">
       <label for="searchbar"><img src="{{STATIC_URL}}images/icon_searchbox.png" alt="Search" /></label>
@@ -18,6 +20,7 @@
              <td>Campaign Name</td>
              <td>Amount</td>
              <td>Created</td>
+             <td>Category</td>
              <td>Target Completion</td>
          </tr>
        </thead>  
@@ -28,8 +31,8 @@
                   <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
                   <td>{{campaign.target_amount}}</td>
                   <td>{{campaign.date_created}}</td>
-                    <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
-                    <td>{% widthratio campaign.donation campaign.target_amount 100 %}%</td>
+                  <td>{{campaign.category}}</td>
+                  <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
              </tr>
           {% endfor %}
         {% else %}        
@@ -39,6 +42,7 @@
                     <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
                     <td>{{campaign.target_amount}}</td>
                     <td>{{campaign.date_created}}</td>
+                    <td>{{campaign.category}}</td>
                     <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
                </tr>
             {% endif %}

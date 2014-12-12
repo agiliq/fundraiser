@@ -2,7 +2,7 @@
 {% block main_title %}Campaigns{% endblock %}
 {% block title %}Campaign Detail{% endblock %}
 {% block content %}
-  {% if user.is_staff %}
+  {% if user.is_staff and not campaign.is_approved %}
       <a href="{% url 'customadmin:approve' campaign.id %}"><button type="submit" value="{{campaign.id}}"  class="btn btn-primary" >Approve</button></a>
   {% endif %}
 <h2>Details of Campaign</h1>
@@ -15,16 +15,39 @@
   {% endif %} 
   {% if campaign %}
       <table class="table table-hover span10 well" border="0" align="left"  cellpadding="1" cellspacing="1"  width="70%"> 
-          <tr><td>Campaign created by</td><td><p>{{campaign.person|capfirst}}</p></td></tr>
-          <tr><td>Campaign Name</td><td><p>{{campaign.campaign_name}}</p></td></tr>
-          <tr><td>Created</td><td><p>{{campaign.date_created}}</p></td></tr>
-          <tr><td>Target Amount</td><td><p>{{campaign.target_amount}}</p></td></tr>
-          <tr><td>Total Donation</td><td><p>{{campaign.donation}}</p></td></tr>
-          <tr><td>Cause</td><td><p>{{campaign.cause}}</p></td></tr>
+
+          <tr><th>Campaign created by</th><td><p>{{campaign.person|capfirst}}</p></td></tr>
+          <tr><th>Category</th><td><p>{{campaign.category|capfirst}}</p></td></tr>
+          <tr><th>Campaign Name</th><td><p>{{campaign.campaign_name}}</p></td></tr>
+          <tr><th>Created</th><td><p>{{campaign.date_created}}</p></td></tr>
+          <tr><th>Target Amount</th><td><p>{{campaign.target_amount}}</p></td></tr>
+          <tr><th>Total Donation</th><td><p>{{campaign.donation}}</p></td></tr>
+          <tr><th>Cause</th><td><p>{{campaign.cause}}</p></td></tr>
+          <tr><th rowspan="{{campaign.fund_distribution.all|length|add:'1'}}">Fund Distribution</th>
+            {% for each in campaign.fund_distribution.all %}
+            <tr>
+              <td> {{each.usage}} : {{each.allocation}} </td>
+            </tr>
+            {% endfor %}
+          </tr>
+          <tr><th rowspan="{{campaign.rewards.all|length|add:'1'}}">Rewards</th>
+            {% for each in campaign.rewards.all %}
+            <tr>
+              <td> {{each}} </td>
+            </tr>
+            {% endfor %}
+          </tr>
+          <tr><th rowspan="{{campaign.teammember_set.all|length|add:'1'}}">Team members</th>
+            {% for each in campaign.teammember_set.all %}
+            <tr>
+              <td> {{each.name}}, {{each.role}}, {{each.short_description}}, {{each.fb_url}} </td>
+            </tr>
+            {% endfor %}
+          </tr>
           {% if campaign.image %}
               <tr><td>Image</td><td><p><img src="{{campaign.image.url}}" height="300" width="300"></p></td></tr>
           {% else %}
-              <tr><td>Image</td><td>No Image Available</td></tr>
+              <tr><th>Image</th><td>No Image Available</td></tr>
           {% endif %}
       </table>
 <!--        <p style="padding-top:340px; padding-left:600px;"><a href="{% url 'paygate:ebsindex' campaign.id%}"><button type="submit" value="donate_for_campaign"  class="btn btn-success" >Donate</button></a></p> -->

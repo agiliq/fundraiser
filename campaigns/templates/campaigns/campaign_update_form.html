@@ -49,6 +49,7 @@
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form> -->
+<div>
   <form method="post" action="" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
             
@@ -61,15 +62,7 @@
 	            {% endif %}
 	        </div>
             
-        </div>        
-		<div class="control-group">
-	        <label class="control-label" for="books">Books</label>
-	        <div class="controls">{{ form.books }}
-	        	 {% if errors.books.0 %}
-		            	<span class="help-inline">{{ errors.books.0}}</span>
-	            {% endif %}
-	        </div>
-        </div>        
+        </div>               
 		<div class="control-group">
 	        <label class="control-label" for="target_amount">Target Amount</label>
 	        <div class="controls">{{ form.target_amount }}
@@ -104,4 +97,5 @@
 	          </div>
 	        </div>      
   </form>
+  </div>
 {% endblock %}

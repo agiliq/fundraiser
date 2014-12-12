@@ -9,7 +9,13 @@ from django.views import generic
 from django.db.models import Q
 
 from people.models import Person
-from campaigns.models import Campaign, Category
+from campaigns.models import (
+    Campaign,
+    Category,
+    Reward,
+    FundDistribution,
+    TeamMember
+)
 from campaigns.forms import CampaignForm
 
 
@@ -18,12 +24,55 @@ def create_a_campaign(request):
     form = CampaignForm()
     if request.method == 'POST':
         form = CampaignForm(request.POST, request.FILES)
+        fdd = [k for k in request.POST.keys() if k.startswith('fund-dist-d')]
+        fda = [k for k in request.POST.keys() if k.startswith('fund-dist-a')]
+        fdd.sort()
+        fda.sort()
+        tup_fd = [(request.POST[fdd[i]],
+                   request.POST[fda[i]]) for i in range(len(fda))]
+        rew = [k for k in request.POST.keys() if k.startswith('reward')]
+        rew.sort()
+        tup_rew = [request.POST[rew[i]] for i in range(len(rew))]
+        name = [k for k in request.POST.keys() if k.startswith('name')]
+        role = [k for k in request.POST.keys() if k.startswith('role')]
+        short_desc = [k for k in request.POST.keys()
+                      if k.startswith('short-bio')]
+        fb_url = [k for k in request.POST.keys() if k.startswith('fb')]
+        name.sort()
+        role.sort()
+        short_desc.sort()
+        fb_url.sort()
+        tup_tm = [(request.POST[name[i]],
+                   request.POST[role[i]],
+                   request.POST[short_desc[i]],
+                   request.POST[fb_url[i]])
+                  for i in range(len(name))]
         if form.is_valid():
             person = Person.objects.get(user=request.user)
             cam_obj = form.save(commit=False)
             cam_obj.person = person
             cam_obj.save()
-            return HttpResponseRedirect(reverse('campaigns:list_of_campaigns'))
+            for each in tup_rew:
+                if each:
+                    reward = Reward(title=each)
+                    reward.save()
+                    cam_obj.rewards.add(reward)
+            for each in tup_fd:
+                if each[0] and each[1]:
+                    fd = FundDistribution(usage=each[0], allocation=each[1])
+                    fd.save()
+                    cam_obj.fund_distribution.add(fd)
+            for each in tup_tm:
+                if each[0] and each[1] and each[2] and each[3]:
+                    tm = TeamMember(name=each[0],
+                                    role=each[1],
+                                    short_description=each[2],
+                                    fb_url=each[3],
+                                    campaign=cam_obj)
+                    tm.save()
+
+            return HttpResponseRedirect(
+                reverse('campaigns: list_of_campaigns'))
         else:
             form = CampaignForm()
 
@@ -72,7 +121,8 @@ class MyCampaigns(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Campaign.objects.filter(person__id__exact=self.kwargs['user_id'])
+        return Campaign.objects.filter(
+            person__id__exact=self.kwargs['user_id'])
 
     def get_context_data(self, **kwargs):
         search_results = None
@@ -95,6 +145,7 @@ def testpay(request, campaign_id):
                           {'donation': 'success', 'campaign': campaign})
     return render(request, 'campaigns/donate.html',
                   {'campaign_id': campaign_id})
+
 
 class CategoryListView(generic.ListView):
     template_name = 'campaigns/categories.html'

@@ -19,34 +19,42 @@ from campaigns.models import (
 from campaigns.forms import CampaignForm
 
 
+def get_extra_data(post):
+    fdd = [k for k in post.keys() if k.startswith('fund-dist-d')]
+    fda = [k for k in post.keys() if k.startswith('fund-dist-a')]
+    fdd.sort()
+    fda.sort()
+    tup_fd = [(post[fdd[i]],
+               post[fda[i]]) for i in range(len(fda))]
+    rew = [k for k in post.keys() if k.startswith('reward')]
+    rew.sort()
+    tup_rew = [post[rew[i]] for i in range(len(rew))]
+    name = [k for k in post.keys() if k.startswith('name')]
+    role = [k for k in post.keys() if k.startswith('role')]
+    short_desc = [k for k in post.keys()
+                  if k.startswith('short-bio')]
+    fb_url = [k for k in post.keys() if k.startswith('fb')]
+    name.sort()
+    role.sort()
+    short_desc.sort()
+    fb_url.sort()
+    tup_tm = [(post[name[i]],
+               post[role[i]],
+               post[short_desc[i]],
+               post[fb_url[i]])
+              for i in range(len(name))]
+    return (tup_fd, tup_rew, tup_tm)
+
+
 @login_required
 def create_a_campaign(request):
     form = CampaignForm()
     if request.method == 'POST':
         form = CampaignForm(request.POST, request.FILES)
-        fdd = [k for k in request.POST.keys() if k.startswith('fund-dist-d')]
-        fda = [k for k in request.POST.keys() if k.startswith('fund-dist-a')]
-        fdd.sort()
-        fda.sort()
-        tup_fd = [(request.POST[fdd[i]],
-                   request.POST[fda[i]]) for i in range(len(fda))]
-        rew = [k for k in request.POST.keys() if k.startswith('reward')]
-        rew.sort()
-        tup_rew = [request.POST[rew[i]] for i in range(len(rew))]
-        name = [k for k in request.POST.keys() if k.startswith('name')]
-        role = [k for k in request.POST.keys() if k.startswith('role')]
-        short_desc = [k for k in request.POST.keys()
-                      if k.startswith('short-bio')]
-        fb_url = [k for k in request.POST.keys() if k.startswith('fb')]
-        name.sort()
-        role.sort()
-        short_desc.sort()
-        fb_url.sort()
-        tup_tm = [(request.POST[name[i]],
-                   request.POST[role[i]],
-                   request.POST[short_desc[i]],
-                   request.POST[fb_url[i]])
-                  for i in range(len(name))]
+        extra_data = get_extra_data(request.POST)
+        tup_fd = extra_data[0]
+        tup_rew = extra_data[1]
+        tup_tm = extra_data[2]
         if form.is_valid():
             person = Person.objects.get(user=request.user)
             cam_obj = form.save(commit=False)
@@ -72,7 +80,7 @@ def create_a_campaign(request):
                     tm.save()
 
             return HttpResponseRedirect(
-                reverse('campaigns: list_of_campaigns'))
+                reverse('campaigns:list_of_campaigns'))
         else:
             form = CampaignForm()
 
@@ -112,7 +120,13 @@ class CampaignUpdate(generic.UpdateView):
     form_class = CampaignForm
 
     def get_success_url(self):
-        return reverse("campaigns: campaign_detail", args=[self.object.slug])
+        return reverse("campaigns:campaign_detail", args=[self.object.slug])
+
+    def post(self, request, *args, **kwargs):
+        form = CampaignForm(self.request.POST, self.request.FILES)
+        if form.is_valid():
+            print get_extra_data(form.data)
+        return super(CampaignUpdate, self).post(request, *args, **kwargs)
 
 
 class MyCampaigns(generic.ListView):

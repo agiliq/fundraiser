@@ -42,6 +42,8 @@
 
      });
   </script>
+
+    <script src="{{STATIC_URL}}bootstrap/js/campaign_add.js"></script>
 {% endblock %}
 {% block content %}
   <h4>Create a Campaign</h4>
@@ -50,7 +52,7 @@
   <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
         <div class="control-group">
-            <label class="control-label" for="campaign_name">Category</label>
+            <label class="control-label" for="category">Category</label>
             <div class="controls">{{ form.category }}
                  {% if errors.category.0 %}
                         <span class="help-inline">{{ errors.category.0}}</span>

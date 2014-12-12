@@ -50,9 +50,15 @@
     <input type="submit" value="Submit" />
 </form> -->
 <div>
-  <form method="post" action="" class="form-horizontal" enctype="multipart/form-data">
+  <form method="post" action="{% url 'campaigns:edit_campaign' campaign.slug%}" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
-            
+        <div class="control-group">
+            <label class="control-label" for="category">Category</label>
+            <div class="controls">{{ form.category }}
+                 {% if errors.category.0 %}
+                        <span class="help-inline">{{ errors.category.0}}</span>
+                {% endif %}
+            </div>
         </div>
 		<div class="control-group">
 	        <label class="control-label" for="campaign_name">Campaign Name</label>
@@ -79,7 +85,97 @@
 		            	<span class="help-inline">{{ errors.cause.0}}</span>
 	            {% endif %}
 	        </div>
-        </div>                       
+        </div>
+        <div class="control-group">
+            <label class="control-label">Fund Distribution</label>
+            <div class="controls">
+                <table class="fund-dist">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for each in campaign.fund_distribution.all %}
+                        <tr class="row{{forloop.counter}}">
+                            <td >
+                               <input type="text" value="{{each.usage}}" name="fund-dist-desc{{forloop.counter}}">
+                            </td>
+                            <td >
+                            <input type="text"  value="{{each.allocation}}" name="fund-dist-amt{{forloop.counter}}">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign" hidden></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Total</label>
+            <div class="controls">
+                <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Rewards</label>
+            <div class="controls">
+                <table class="rewards">
+                    <tbody>
+                    {% for each in campaign.rewards.all %}
+                        <tr class="row1">
+                            <td >
+                                <input type="text" value="{{each.title}}" name="rewards{{forloop.counter}}">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign" hidden></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Team Members</label>
+            <div class="controls">
+                <table class="team-member">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Short Bio</th>
+                            <th>Facebook URL</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for each in campaign.teammember_set.all %}
+                        <tr class="row1">
+                            <td >
+                                <input type="text" name="name{{forloop.counter}}" value="{{each.name}}">
+                            </td>
+                            <td >
+                            <input type="text" value="{{each.role}}" name="role{{forloop.counter}}">
+                            </td>
+                            <td >
+                                <input type="text" value="{{each.short_desc}}" name="short-bio{{forloop.counter}}">
+                            </td>
+                            <td >
+                            <input type="text" value="{{each.fb_url}}" name="fb-url{{forloop.counter}}">
+                            </td>
+                            <td>
+                                <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+        </div>                    
 	    <div class="control-group">
 	        <label class="control-label" for="cause">Image</label>
 	        <div class="controls">

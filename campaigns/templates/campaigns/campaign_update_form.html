@@ -13,6 +13,9 @@
 
   <script type="text/javascript">
      $(document).ready(function(){
+            $('option:not(:selected)').attr('disabled', true);
+            $("#id_target_amount").focusout(display_total_funds)
+            display_total_funds();
 			function readURL(input) {
 			        if (input.files && input.files[0]) 
 			        {
@@ -39,8 +42,34 @@
 		        readURL(this);
 		    });			    
 
-     });
+            $(document).on('focusout', "input[name^='fund-dist-a']", display_total_funds);
+
+            function display_total_funds (){
+                var sum=0;
+
+               $("input[name^='fund-dist-amt']").each(function(){
+                  if ($.isNumeric($(this).val())) {
+                  sum += parseInt($(this).val(),10);
+                if ($(this).is(":hidden"))
+                    sum -= parseInt($(this).val(), 10);
+            }
+        });
+        $("#total").html($("input#id_target_amount").val());
+        $("#from-fund").html(sum);
+        if (parseInt($("span#total").text()) < parseInt($("span#from-fund").text())) {
+            $("span#errors").html("<strong>&nbsp;&nbsp;You have exceeded your target amount.</strong>");
+        }
+        else {
+            $("span#errors").html("");
+        };
+    };
+
+});
+
   </script>
+
+    <script src="{{STATIC_URL}}bootstrap/js/campaign.js"></script>
+
 {% endblock %}
 {% block content %}
 <h2>Edit Campaign</h2>
@@ -52,6 +81,14 @@
 <div>
   <form method="post" action="{% url 'campaigns:edit_campaign' campaign.slug%}" class="form-horizontal" enctype="multipart/form-data">
   	 {% csrf_token %}
+        <div class="control-group">
+            <label class="control-label" for="person">Created by:</label>
+            <div class="controls">{{ form.person }}
+                 {% if errors.person.0 %}
+                        <span class="help-inline">{{ errors.person.0}}</span>
+                {% endif %}
+            </div>
+        </div>
         <div class="control-group">
             <label class="control-label" for="category">Category</label>
             <div class="controls">{{ form.category }}
@@ -98,7 +135,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for each in campaign.fund_distribution.all %}
+                    {% for each in campaign.funddistribution_set.all %}
                         <tr class="row{{forloop.counter}}">
                             <td >
                                <input type="text" value="{{each.usage}}" name="fund-dist-desc{{forloop.counter}}">
@@ -126,7 +163,7 @@
             <div class="controls">
                 <table class="rewards">
                     <tbody>
-                    {% for each in campaign.rewards.all %}
+                    {% for each in campaign.reward_set.all %}
                         <tr class="row1">
                             <td >
                                 <input type="text" value="{{each.title}}" name="rewards{{forloop.counter}}">
@@ -163,7 +200,7 @@
                             <input type="text" value="{{each.role}}" name="role{{forloop.counter}}">
                             </td>
                             <td >
-                                <input type="text" value="{{each.short_desc}}" name="short-bio{{forloop.counter}}">
+                                <input type="text" value="{{each.short_description}}" name="short-bio{{forloop.counter}}">
                             </td>
                             <td >
                             <input type="text" value="{{each.fb_url}}" name="fb-url{{forloop.counter}}">

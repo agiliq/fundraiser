@@ -26,27 +26,6 @@ $(document).ready(function() {
             $('table.team-member i.icon-minus-sign').show();
         };
     };
-    $(document).on('focusout', "input[name^='fund-dist-a']", display_total_funds);
-
-    function display_total_funds (){
-        var sum=0;
-
-        $("input[name^='fund-dist-amt']").each(function(){
-            if ($.isNumeric($(this).val())) {
-                sum += parseInt($(this).val(),10);
-                if ($(this).is(":hidden"))
-                    sum -= parseInt($(this).val(), 10);
-            }
-        });
-        $("#total").html($("input#id_target_amount").val());
-        $("#from-fund").html(sum);
-        if (parseInt($("span#total").text()) < parseInt($("span#from-fund").text())) {
-            $("span#errors").html("<strong>&nbsp;&nbsp;You have exceeded your target amount.</strong>");
-        }
-        else {
-            $("span#errors").html("");
-        };
-    };
     toggleMinusFundDist();
     toggleMinusRewards();
     toggleMinusTeam();

@@ -23,15 +23,15 @@
           <tr><th>Target Amount</th><td><p>{{campaign.target_amount}}</p></td></tr>
           <tr><th>Total Donation</th><td><p>{{campaign.donation}}</p></td></tr>
           <tr><th>Cause</th><td><p>{{campaign.cause}}</p></td></tr>
-          <tr><th rowspan="{{campaign.fund_distribution.all|length|add:'1'}}">Fund Distribution</th>
-            {% for each in campaign.fund_distribution.all %}
+          <tr><th rowspan="{{campaign.funddistribution_set.all|length|add:'1'}}">Fund Distribution</th>
+            {% for each in campaign.funddistribution_set.all %}
             <tr>
               <td> {{each.usage}} : {{each.allocation}} </td>
             </tr>
             {% endfor %}
           </tr>
-          <tr><th rowspan="{{campaign.rewards.all|length|add:'1'}}">Rewards</th>
-            {% for each in campaign.rewards.all %}
+          <tr><th rowspan="{{campaign.reward_set.all|length|add:'1'}}">Rewards</th>
+            {% for each in campaign.reward_set.all %}
             <tr>
               <td> {{each}} </td>
             </tr>
@@ -45,7 +45,7 @@
             {% endfor %}
           </tr>
           {% if campaign.image %}
-              <tr><td>Image</td><td><p><img src="{{campaign.image.url}}" height="300" width="300"></p></td></tr>
+              <tr><th>Image</th><td><p><img src="{{campaign.image.url}}" height="300" width="300"></p></td></tr>
           {% else %}
               <tr><th>Image</th><td>No Image Available</td></tr>
           {% endif %}

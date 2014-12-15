@@ -24,25 +24,6 @@ class Category(models.Model):
 #     pass
 
 
-class Reward(models.Model):
-
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-
-    def __unicode__(self):
-        return self.title
-
-
-class FundDistribution(models.Model):
-
-    usage = models.CharField(max_length=200)
-    allocation = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0.00)
-
-    def __unicode__(self):
-        return self.usage
-
-
 class Campaign(models.Model):
     person = models.ForeignKey(Person)
     category = models.ForeignKey(Category)
@@ -58,8 +39,6 @@ class Campaign(models.Model):
     is_approved = models.BooleanField(blank=True, default=False)
     donation = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00)
-    rewards = models.ManyToManyField(Reward)
-    fund_distribution = models.ManyToManyField(FundDistribution)
 
     def __unicode__(self):
         return self.campaign_name
@@ -93,3 +72,24 @@ class TeamMember(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Reward(models.Model):
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    campaign = models.ForeignKey(Campaign)
+
+    def __unicode__(self):
+        return self.title
+
+
+class FundDistribution(models.Model):
+
+    usage = models.CharField(max_length=200)
+    allocation = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00)
+    campaign = models.ForeignKey(Campaign)
+
+    def __unicode__(self):
+        return self.usage

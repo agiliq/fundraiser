@@ -11,3 +11,13 @@ class CampaignForm(ModelForm):
                    'donation',
                    'rewards',
                    'fund_distribution')
+
+
+class CampaignUpdateForm(ModelForm):
+
+    class Meta:
+        model = Campaign
+        exclude = ('slug',
+                   'donation',
+                   'rewards',
+                   'fund_distribution')

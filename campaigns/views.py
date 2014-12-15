@@ -16,7 +16,7 @@ from campaigns.models import (
     FundDistribution,
     TeamMember
 )
-from campaigns.forms import CampaignForm
+from campaigns.forms import CampaignForm, CampaignUpdateForm
 
 
 def get_extra_data(post):
@@ -43,6 +43,7 @@ def get_extra_data(post):
                post[short_desc[i]],
                post[fb_url[i]])
               for i in range(len(name))]
+    print tup_tm
     return (tup_fd, tup_rew, tup_tm)
 
 
@@ -62,14 +63,14 @@ def create_a_campaign(request):
             cam_obj.save()
             for each in tup_rew:
                 if each:
-                    reward = Reward(title=each)
+                    reward = Reward(title=each, campaign=cam_obj)
                     reward.save()
-                    cam_obj.rewards.add(reward)
             for each in tup_fd:
                 if each[0] and each[1]:
-                    fd = FundDistribution(usage=each[0], allocation=each[1])
+                    fd = FundDistribution(usage=each[0],
+                                          allocation=each[1],
+                                          campaign=cam_obj)
                     fd.save()
-                    cam_obj.fund_distribution.add(fd)
             for each in tup_tm:
                 if each[0] and each[1] and each[2] and each[3]:
                     tm = TeamMember(name=each[0],
@@ -117,15 +118,38 @@ class CampaignsListView(generic.ListView):
 class CampaignUpdate(generic.UpdateView):
     model = Campaign
     template_name_suffix = '_update_form'
-    form_class = CampaignForm
+    form_class = CampaignUpdateForm
 
     def get_success_url(self):
         return reverse("campaigns:campaign_detail", args=[self.object.slug])
 
     def post(self, request, *args, **kwargs):
-        form = CampaignForm(self.request.POST, self.request.FILES)
+        form = CampaignUpdateForm(self.request.POST, self.request.FILES)
         if form.is_valid():
-            print get_extra_data(form.data)
+            extra_data = get_extra_data(form.data)
+            cam_obj = Campaign.objects.get(slug=request.META[
+                        'HTTP_REFERER'].split('/')[-2])
+            for each in extra_data[1]:
+                if each:
+                    reward = Reward.objects.get_or_create(title=each,
+                                                          campaign=cam_obj)
+                    if reward[1]:
+                        reward[0].save()
+            for each in extra_data[0]:
+                if each[0] and each[1]:
+                    fd = FundDistribution.objects.get_or_create(
+                        usage=each[0],
+                        campaign=cam_obj)
+                    fd[0].allocation = each[1]
+                    fd[0].save()
+            for each in extra_data[2]:
+                if each[0] and each[1] and each[2] and each[3]:
+                    tm = TeamMember.objects.get_or_create(name=each[0],
+                                campaign=cam_obj)
+                    tm[0].role = each[1]
+                    tm[0].short_description = each[2]
+                    tm[0].fb_url = each[3]
+                    tm[0].save()
         return super(CampaignUpdate, self).post(request, *args, **kwargs)
 
 

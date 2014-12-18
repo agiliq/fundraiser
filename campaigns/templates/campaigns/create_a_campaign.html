@@ -39,11 +39,12 @@
 		    $("#upload_change_image").change(function(){
 		        readURL(this);
 		    });
-            $(document).on('focusout', "input[name^='fund-dist-a']", display_total_funds);
-
+            $(document).on('click keypress keyup', "input[name^='fund-dist-a']", display_total_funds);
             function display_total_funds (){
                 var sum=0;
-
+            if ((parseInt($("input#id_target_amount").val(), 10) == 0.0) or ($("input#id_target_amount").val() == "")) {
+                alert("Please enter the target amount first.");
+            }
                 $("input[name^='fund-dist-amt']").each(function(){
                     if ($.isNumeric($(this).val())) {
                         sum += parseInt($(this).val(),10);
@@ -67,6 +68,7 @@
     <script src="{{STATIC_URL}}bootstrap/js/campaign.js"></script>
 {% endblock %}
 {% block content %}
+<h6 id='demo'></h6>
   <h4>Create a Campaign</h4>
   	<p>&nbsp;</p>
   <div>
@@ -75,8 +77,8 @@
         <div class="control-group">
             <label class="control-label" for="category">Category</label>
             <div class="controls">{{ form.category }}
-                 {% if errors.category.0 %}
-                        <span class="help-inline">{{ errors.category.0}}</span>
+                 {% if form.errors.category.0 %}
+                        <span class="help-inline">{{ form.errors.category.0}}</span>
                 {% endif %}
             </div>
             
@@ -84,8 +86,8 @@
 		<div class="control-group">
 	        <label class="control-label" for="campaign_name">Campaign Name</label>
 	        <div class="controls">{{ form.campaign_name }}
-	        	 {% if errors.campaign_name.0 %}
-		            	<span class="help-inline">{{ errors.campaign_name.0}}</span>
+	        	 {% if form.errors.campaign_name.0 %}
+		            	<span class="help-inline">{{ form.errors.campaign_name.0}}</span>
 	            {% endif %}
 	        </div>
             
@@ -93,8 +95,8 @@
 		<div class="control-group">
 	        <label class="control-label" for="target_amount">Target Amount</label>
 	        <div class="controls">{{ form.target_amount }}
-	        	 {% if errors.target_amount.0 %}
-		            	<span class="help-inline">{{ errors.target_amount.0}}</span>
+	        	 {% if form.errors.target_amount.0 %}
+		            	<span class="help-inline">{{ form.errors.target_amount.0}}</span>
 	            {% endif %}
 	        </div>
         </div>        
@@ -102,8 +104,8 @@
 		<div class="control-group">
 	        <label class="control-label" for="cause">Cause</label>
 	        <div class="controls">{{ form.cause }}
-	        	 {% if errors.cause.0 %}
-		            	<span class="help-inline">{{ errors.cause.0}}</span>
+	        	 {% if form.errors.cause.0 %}
+		            	<span class="help-inline">{{ form.errors.cause.0}}</span>
 	            {% endif %}
 	        </div>
 	    </div>
@@ -138,7 +140,7 @@
         <div class="control-group">
             <label class="control-label">Total</label>
             <div class="controls">
-                <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
+               &#8377 <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
             </div>
         </div>
         <div class="control-group">
@@ -166,7 +168,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Role</th>
-                            <th>Short Bio</th>
+                            <th>Short Description</th>
                             <th>Facebook URL</th>
                             <th></th>
                         </tr>
@@ -180,7 +182,7 @@
                             <input type="text"   name="role1">
                             </td>
                             <td >
-                                <input type="text" name="short-bio1">
+                                <input type="text" name="short-description1">
                             </td>
                             <td >
                             <input type="text" name="fb-url1">

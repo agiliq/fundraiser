@@ -8,9 +8,7 @@ class CampaignForm(ModelForm):
         model = Campaign
         exclude = ('person',
                    'slug',
-                   'donation',
-                   'rewards',
-                   'fund_distribution')
+                   'donation', )
 
 
 class CampaignUpdateForm(ModelForm):
@@ -18,6 +16,10 @@ class CampaignUpdateForm(ModelForm):
     class Meta:
         model = Campaign
         exclude = ('slug',
-                   'donation',
-                   'rewards',
-                   'fund_distribution')
+                   'donation', )
+
+
+class FundDistributionForm(ModelForm):
+
+    class Meta:
+        model = Campaign

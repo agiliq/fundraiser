@@ -56,7 +56,7 @@ $(document).ready(function() {
             var suffix = $("table.team-member tr").length;
             new_cols.children()[0].children[0].name = "name"+suffix;
             new_cols.children()[1].children[0].name = "role"+suffix;
-            new_cols.children()[2].children[0].name = "short-bio"+suffix;
+            new_cols.children()[2].children[0].name = "short-description"+suffix;
             new_cols.children()[3].children[0].name = "fb-url"+suffix;            
             new_cols.children()[0].children[0].value = "";
             new_cols.children()[1].children[0].value = "";
@@ -68,15 +68,32 @@ $(document).ready(function() {
             toggleMinusTeam();
         });
     $(document).on('click', 'table.rewards i.icon-minus-sign', function() {
-            $(this).parents("tr").hide();
+            $(this).parents("tr").remove();
             toggleMinusRewards();
         });
     $(document).on('click', 'table.fund-dist i.icon-minus-sign', function() {
-            $(this).parents("tr").hide();    
+            $(this).parents("tr").remove();    
             toggleMinusFundDist();
     });
     $(document).on('click', 'table.team-member i.icon-minus-sign', function() {
-            $(this).parents("tr").hide();    
+            $(this).parents("tr").remove();    
             toggleMinusTeam();
     });
+
+    $(document).on('keydown', 'input[name^=fund-dist-amt]', function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                 // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) || 
+                 // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
 });

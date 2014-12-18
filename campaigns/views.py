@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.db.models import Q
+from django.forms import ValidationError
 
 from people.models import Person
 from campaigns.models import (
@@ -16,7 +17,11 @@ from campaigns.models import (
     FundDistribution,
     TeamMember
 )
-from campaigns.forms import CampaignForm, CampaignUpdateForm
+from campaigns.forms import (
+    CampaignForm,
+    CampaignUpdateForm,
+    FundDistributionForm,
+)
 
 
 def get_extra_data(post):
@@ -24,24 +29,24 @@ def get_extra_data(post):
     fda = [k for k in post.keys() if k.startswith('fund-dist-a')]
     fdd.sort()
     fda.sort()
-    tup_fd = [(post[fdd[i]],
-               post[fda[i]]) for i in range(len(fda))]
+    tup_fd = [(post[fdd[i]].strip(),
+               post[fda[i]].strip()) for i in range(len(fda))]
     rew = [k for k in post.keys() if k.startswith('reward')]
     rew.sort()
-    tup_rew = [post[rew[i]] for i in range(len(rew))]
+    tup_rew = [post[rew[i]].strip() for i in range(len(rew))]
     name = [k for k in post.keys() if k.startswith('name')]
     role = [k for k in post.keys() if k.startswith('role')]
     short_desc = [k for k in post.keys()
-                  if k.startswith('short-bio')]
-    fb_url = [k for k in post.keys() if k.startswith('fb')]
+                  if k.startswith('short-description')]
+    fb_url = [k for k in post.keys() if k.startswith('fb-url')]
     name.sort()
     role.sort()
     short_desc.sort()
     fb_url.sort()
-    tup_tm = [(post[name[i]],
-               post[role[i]],
-               post[short_desc[i]],
-               post[fb_url[i]])
+    tup_tm = [(post[name[i]].strip(),
+               post[role[i]].strip(),
+               post[short_desc[i]].strip(),
+               post[fb_url[i]].strip())
               for i in range(len(name))]
     print tup_tm
     return (tup_fd, tup_rew, tup_tm)
@@ -83,7 +88,7 @@ def create_a_campaign(request):
             return HttpResponseRedirect(
                 reverse('campaigns:list_of_campaigns'))
         else:
-            form = CampaignForm()
+            form.errors
 
     return render_to_response('campaigns/create_a_campaign.html',
                               {'form': form,
@@ -128,7 +133,25 @@ class CampaignUpdate(generic.UpdateView):
         if form.is_valid():
             extra_data = get_extra_data(form.data)
             cam_obj = Campaign.objects.get(slug=request.META[
-                        'HTTP_REFERER'].split('/')[-2])
+                'HTTP_REFERER'].split('/')[-2])
+            fd_old = [each.usage for each in cam_obj.funddistribution_set.all()]
+            fd_new = [each[0] for each in extra_data[0]]
+            fd_to_delete = [each for each in fd_old if each not in fd_new]
+            rew_old = [each.title for each in cam_obj.reward_set.all()]
+            rew_new = [each for each in extra_data[1]]
+            rew_to_delete = [each for each in rew_old if each not in rew_new]
+            tm_old = [each.name for each in cam_obj.teammember_set.all()]
+            tm_new = [each[0] for each in extra_data[2]]
+            tm_to_delete = [each for each in tm_old if each not in tm_new]
+            for each in fd_to_delete:
+                fd = FundDistribution.objects.get(usage=each, campaign=cam_obj)
+                fd.delete()
+            for each in rew_to_delete:
+                rew = Reward.objects.get(title=each, campaign=cam_obj)
+                rew.delete()
+            for each in tm_to_delete:
+                tm = TeamMember.objects.get(name=each, campaign=cam_obj)
+                tm.delete()
             for each in extra_data[1]:
                 if each:
                     reward = Reward.objects.get_or_create(title=each,
@@ -145,12 +168,28 @@ class CampaignUpdate(generic.UpdateView):
             for each in extra_data[2]:
                 if each[0] and each[1] and each[2] and each[3]:
                     tm = TeamMember.objects.get_or_create(name=each[0],
-                                campaign=cam_obj)
+                                                          campaign=cam_obj)
                     tm[0].role = each[1]
                     tm[0].short_description = each[2]
                     tm[0].fb_url = each[3]
-                    tm[0].save()
+                    try:
+                        tm[0].save()
+                        tm[0].full_clean()
+                    except ValidationError, e:
+                        pass
+        else:
+            form.errors
         return super(CampaignUpdate, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CampaignUpdate, self).get_context_data(**kwargs)
+        cam_obj = context['campaign']
+        for each in cam_obj.teammember_set.all():
+            try:
+                each.full_clean()
+            except ValidationError, e:
+                context['tm_errors'] = [e.message_dict, each.name]
+        return context
 
 
 class MyCampaigns(generic.ListView):

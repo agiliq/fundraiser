@@ -1,7 +1,7 @@
 import decimal
 
 from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -20,7 +20,6 @@ from campaigns.models import (
 from campaigns.forms import (
     CampaignForm,
     CampaignUpdateForm,
-    FundDistributionForm,
 )
 
 
@@ -114,9 +113,11 @@ class CampaignsListView(generic.ListView):
         search_results = None
         if self.request.GET:
             search_results = Campaign.objects.filter(
-                Q(campaign_name__icontains=self.request.GET['q']))
+                is_approved=True).filter(Q(
+                    campaign_name__icontains=self.request.GET['q']))
         context = super(CampaignsListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
+        import ipdb;ipdb.set_trace()
         return context
 
 
@@ -205,7 +206,8 @@ class MyCampaigns(generic.ListView):
         search_results = None
         if self.request.GET:
             search_results = Campaign.objects.filter(
-                Q(campaign_name__icontains=self.request.GET['q']))
+                is_approved=True).filter(Q(
+                    campaign_name__icontains=self.request.GET['q']))
         context = super(MyCampaigns, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context
@@ -235,8 +237,8 @@ class CategoryListView(generic.ListView):
     def get_context_data(self, **kwargs):
         search_results = None
         if self.request.GET:
-            search_results = Category.objects.filter(
-                Q(name__icontains=self.request.GET['q']))
+            search_results = Category.objects.filter(Q(
+                    campaign_name__icontains=self.request.GET['q']))
         context = super(CategoryListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context

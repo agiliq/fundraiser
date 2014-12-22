@@ -18,8 +18,8 @@ class PeopleAppTestcase(TestCase):
         self.user = User.objects.create_user(
             username="admin", email="admin@agiliq.com", password="admin")
 
-    def test_BeneficiariesListView(self):
-        response = self.c.get(reverse("people:list_of_bnfs"))
+    def test_PersonListView(self):
+        response = self.c.get(reverse("people:list"))
         self.assertEqual(200, response.status_code)
         self.c.login(username="admin", password="admin")
         response = self.c.get(reverse("people:list_of_bnfs"))

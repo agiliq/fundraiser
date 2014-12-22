@@ -8,12 +8,15 @@
   h4 {padding-top:30px;padding-left: 40px;}
   div.errors {padding-left: 400px;}
   span.help-inline {color:#b94a48;}
+  input.required {border:1px solid #b94a48;}
+  select.required {border:1px solid #b94a48;}
   </style>
 
     <script src="{{STATIC_URL}}fundraiser/js/bootbox.min.js"></script>
 
   <script type="text/javascript">
      $(document).ready(function(){
+            $("#id_target_amount").focusout(display_total_funds)
 			function readURL(input) {
 			        if (input.files && input.files[0]) 
 			        {
@@ -39,10 +42,11 @@
 		    $("#upload_change_image").change(function(){
 		        readURL(this);
 		    });
-            $(document).on('click keypress keyup', "input[name^='fund-dist-a']", display_total_funds);
+            $(document).on('focus click keypress keyup', "input[name^='fund-dist-a']", display_total_funds);
+            
             function display_total_funds (){
                 var sum=0;
-            if ((parseInt($("input#id_target_amount").val(), 10) == 0.0) or ($("input#id_target_amount").val() == "")) {
+            if ((parseInt($("input#id_target_amount").val(), 10) == 0.0) || ($("input#id_target_amount").val() == "")) {
                 alert("Please enter the target amount first.");
             }
                 $("input[name^='fund-dist-amt']").each(function(){
@@ -60,25 +64,25 @@
                 else {
                     $("span#errors").html("");
                 };
-            };	    
-
+            };	
      });
   </script>
 
     <script src="{{STATIC_URL}}bootstrap/js/campaign.js"></script>
 {% endblock %}
 {% block content %}
-<h6 id='demo'></h6>
   <h4>Create a Campaign</h4>
-  	<p>&nbsp;</p>
+    <p>&nbsp;</p>
   <div>
   <form method="post" action="{% url 'campaigns:create_a_campaign' %}" class="form-horizontal" enctype="multipart/form-data">
-  	 {% csrf_token %}
+     {% csrf_token %}
         <div class="control-group">
             <label class="control-label" for="category">Category</label>
             <div class="controls">{{ form.category }}
                  {% if form.errors.category.0 %}
-                        <span class="help-inline">{{ form.errors.category.0}}</span>
+                        <span class="help-inline" id="required-fields">{{ form.errors.category.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                
                 {% endif %}
             </div>
             
@@ -87,7 +91,9 @@
 	        <label class="control-label" for="campaign_name">Campaign Name</label>
 	        <div class="controls">{{ form.campaign_name }}
 	        	 {% if form.errors.campaign_name.0 %}
-		            	<span class="help-inline">{{ form.errors.campaign_name.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.campaign_name.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                
 	            {% endif %}
 	        </div>
             
@@ -96,7 +102,9 @@
 	        <label class="control-label" for="target_amount">Target Amount</label>
 	        <div class="controls">{{ form.target_amount }}
 	        	 {% if form.errors.target_amount.0 %}
-		            	<span class="help-inline">{{ form.errors.target_amount.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.target_amount.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                  
 	            {% endif %}
 	        </div>
         </div>        
@@ -105,13 +113,16 @@
 	        <label class="control-label" for="cause">Cause</label>
 	        <div class="controls">{{ form.cause }}
 	        	 {% if form.errors.cause.0 %}
-		            	<span class="help-inline">{{ form.errors.cause.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.cause.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                  
 	            {% endif %}
 	        </div>
 	    </div>
         <div class="control-group">
             <label class="control-label">Fund Distribution</label>
             <div class="controls">
+            <span class="help-inline" id="required-fields"></span>            
                 <table class="fund-dist">
                     <thead>
                         <tr>
@@ -140,12 +151,13 @@
         <div class="control-group">
             <label class="control-label">Total</label>
             <div class="controls">
-               &#8377 <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
+               &#8377 <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:#b94a48"></span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Rewards</label>
             <div class="controls">
+            <span class="help-inline" id="required-fields"></span>            
                 <table class="rewards">
                     <tbody>
                         <tr class="row1">
@@ -163,6 +175,7 @@
         <div class="control-group">
             <label class="control-label">Team Members</label>
             <div class="controls">
+            <span class="help-inline" id="required-fields"></span>            
                 <table class="team-member">
                     <thead>
                         <tr>

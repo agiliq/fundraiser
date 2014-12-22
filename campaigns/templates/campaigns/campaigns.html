@@ -23,7 +23,7 @@
              <td>Category</td>
              <td>Target Completion</td>
          </tr>
-       </thead>  
+       </thead>
        <tbody>
         {% if search_results %}
           {% for campaign in search_results %}
@@ -35,7 +35,8 @@
                   <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
              </tr>
           {% endfor %}
-        {% else %}        
+        {% else %}
+          {{}}
           {% for campaign in campaign_list %}
             {% if campaign.is_approved %}
                <tr>

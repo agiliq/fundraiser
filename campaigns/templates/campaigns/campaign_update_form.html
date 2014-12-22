@@ -8,7 +8,9 @@
   h2 {padding-top:30px;padding-left: 130px;}
   div.errors {padding-left: 400px;}
   span.help-inline {color:#b94a48;}
-  </style>
+  input.required {border:1px solid #b94a48;}
+  select.required {border:1px solid #b94a48;}
+</style>
     <script src="{{STATIC_URL}}fundraiser/js/bootbox.min.js"></script>
 
   <script type="text/javascript">
@@ -43,9 +45,7 @@
 		        readURL(this);
 		    });			    
 
-            $(document).on('click keypress keyup', "input[name^='fund-dist-a']", display_total_funds);
-
-            $("#demo").html($("input#id_target_amount").val());
+            $(document).on('focus click keypress keyup change', "input[name^='fund-dist-a']", display_total_funds);
             
             function display_total_funds (){
                 var sum=0;
@@ -77,7 +77,6 @@
 
 {% endblock %}
 {% block content %}
-<h6 id='demo'></h6>
 <h2>Edit Campaign</h2>
 <p>&nbsp;</p>
 <!--<form action="" method="post" class="form-horizontal">{% csrf_token %}
@@ -86,12 +85,12 @@
 </form> -->
 <div>
   <form method="post" action="{% url 'campaigns:edit_campaign' campaign.slug%}" class="form-horizontal" enctype="multipart/form-data">
-  	 {% csrf_token %}
+     {% csrf_token %}
         <div class="control-group">
-            <label class="control-label" for="person">Created by</label>
+            <label class="control-label" for="person" id="required-fields">Created by</label>
             <div class="controls">{{ form.person }}
                  {% if errors.person.0 %}
-                        <span class="help-inline">{{ errors.person.0}}</span>
+                        <span class="help-inline" id="required-fields">{{ errors.person.0}}</span>
                 {% endif %}
             </div>
         </div>
@@ -99,7 +98,9 @@
             <label class="control-label" for="category">Category</label>
             <div class="controls">{{ form.category }}
                  {% if errors.category.0 %}
-                        <span class="help-inline">{{ errors.category.0}}</span>
+                        <span class="help-inline" id="required-fields">{{ errors.category.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                        
                 {% endif %}
             </div>
         </div>
@@ -107,7 +108,9 @@
 	        <label class="control-label" for="campaign_name">Campaign Name</label>
 	        <div class="controls">{{ form.campaign_name }}
 	        	 {% if form.errors.campaign_name.0 %}
-		            	<span class="help-inline">{{ form.errors.campaign_name.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.campaign_name.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>                
 	            {% endif %}
 	        </div>
             
@@ -116,7 +119,9 @@
 	        <label class="control-label" for="target_amount">Target Amount</label>
 	        <div class="controls">{{ form.target_amount }}
 	        	 {% if form.errors.target_amount.0 %}
-		            	<span class="help-inline">{{ form.errors.target_amount.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.target_amount.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>
 	            {% endif %}
 	        </div>
         </div>        
@@ -125,13 +130,16 @@
 	        <label class="control-label" for="cause">Cause</label>
 	        <div class="controls">{{ form.cause }}
 	        	 {% if form.errors.cause.0 %}
-		            	<span class="help-inline">{{ form.errors.cause.0}}</span>
+		            	<span class="help-inline" id="required-fields">{{ form.errors.cause.0}}</span>
+                {% else %}
+                            <span class="help-inline" ></span>
 	            {% endif %}
 	        </div>
         </div>
         <div class="control-group">
             <label class="control-label">Fund Distribution</label>
             <div class="controls">
+            <span class="help-inline" ></span>
                 <table class="fund-dist">
                     <thead>
                         <tr>
@@ -144,7 +152,7 @@
                     {% for each in campaign.funddistribution_set.all %}
                         <tr class="row{{forloop.counter}}">
                         {% if fd_errors %}
-                            <label style="color:red">{{ fd_errors }}</label>
+                            <label style="color:#b94a48">{{ fd_errors }}</label>
                         {% endif %}
                             <td >
                                <input type="text" value="{{each.usage}}" name="fund-dist-desc{{forloop.counter}}">
@@ -164,12 +172,13 @@
         <div class="control-group">
             <label class="control-label">Total </label>
             <div class="controls">
-                &#8377 <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:red"></span>
+                &#8377 <span id="from-fund"></span>/ <span id="total"></span><span id="errors" style="color:#b94a48"></span>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Rewards</label>
             <div class="controls">
+            <span class="help-inline" ></span>            
                 <table class="rewards">
                     <tbody>
                     {% for each in campaign.reward_set.all %}
@@ -189,6 +198,7 @@
         <div class="control-group">
             <label class="control-label">Team Members</label>
             <div class="controls">
+            <span class="help-inline" ></span>            
                 <table class="team-member">
                     <thead>
                         <tr>
@@ -206,26 +216,14 @@
                             <td >
                                 <input type="text" name="name{{forloop.counter}}" value="{{each.name}}">
                             </td>
-                            {% if tm_errors and tm_errors.1 == each.name %}
-                                <label style="color:red">{{tm_errors.0.name.0}}</label>
-                            {% endif %}                             
                             <td >
                             <input type="text" value="{{each.role}}" name="role{{forloop.counter}}">
-                            {% if tm_errors and tm_errors.1 == each.name %}
-                                <label style="color:red">{{tm_errors.0.role.0}}</label>
-                            {% endif %}                             
                             </td>
                             <td >
                                 <input type="text" value="{{each.short_description}}" name="short-description{{forloop.counter}}">
-                            {% if tm_errors and tm_errors.1 == each.name %}
-                                <label style="color:red">{{tm_errors.0.short_description.0}}</label>
-                            {% endif %}                             
                             </td>
                             <td >
                             <input type="text" value="{{each.fb_url}}" name="fb-url{{forloop.counter}}">
-                            {% if tm_errors and tm_errors.1 == each.name %}
-                                <label style="color:red">{{tm_errors.0.fb_url.0}}</label>
-                            {% endif %}                              
                             </td>
                             <td>
                                 <i class="icon-plus-sign"></i><i class="icon-minus-sign"></i>

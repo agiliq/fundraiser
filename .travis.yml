@@ -22,4 +22,4 @@ install:
 - pip install -r requirements/base.txt --use-mirrors
 
 script:
-- python manage.py test books people --settings=fund_raiser.settings.testsettings
+- python manage.py test people --settings=fund_raiser.settings.testsettings

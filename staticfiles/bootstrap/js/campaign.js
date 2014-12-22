@@ -1,7 +1,7 @@
 $(document).ready(function() {
     function toggleMinusFundDist() {
         var active_rows = $("table.fund-dist tr[class^='row']").length - $("table.fund-dist tr[class^='row']:hidden").length
-        if ( active_rows <4) { 
+        if ( active_rows <3) { 
             $('table.fund-dist i.icon-minus-sign').hide();
         } 
         else {
@@ -10,7 +10,7 @@ $(document).ready(function() {
     };
     function toggleMinusRewards() {
         var active_rows = $("table.rewards tr[class^='row']").length - $("table.rewards tr[class^='row']:hidden").length
-        if ( active_rows <4) { 
+        if ( active_rows <3) { 
             $('table.rewards i.icon-minus-sign').hide();
         } 
         else {
@@ -94,6 +94,49 @@ $(document).ready(function() {
             if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
                 e.preventDefault();
             }
+        });
+        function highlightRequiredFields(error) { 
+            $(".form-horizontal input[type=text]").each(function() {
+            if(!$(this).val()) {
+                error+=1
+                $(this).attr("class", "required");
+                $(this).parents("table").siblings("span").attr("id", "required-fields");
+                $(this).siblings("span").attr("id", "required-fields");
+            }
+            else {
+                $(this).parents("table").siblings("span").html("");
+                $(this).parents("table").siblings("span").removeAttr("id");
+                $(this).siblings("span").html("");   
+                $(this).siblings("span").removeAttr("id");
+                $(this).removeAttr("class");
+            };
+        });
+        if ($("select option:selected").val() == "") {
+            error+=1;
+            alert("Category not selected");
+            $(this).attr("class", "required");
+        }
+        if ($("textarea").val() == "" ) {
+            error+=1;
+            $(this).attr("class", "required");            
+        }
+        return error;
+        };
+
+        $("form.form-horizontal").on("submit",function(event) {
+            if (parseInt($("span#total").text()) != parseInt($("span#from-fund").text())) {
+                $("span#errors").html("<strong>&nbsp;&nbsp;Target amount and funds Distribution does not match</strong>");
+                event.preventDefault();
+            }
+            error = highlightRequiredFields(0);
+            if (error == 0) {
+                console.log("adios");
+            }
+            else {
+                $("span#required-fields").each(function() { $(this).html("Fields are required");});
+                event.preventDefault();
+            }
+
         });
 
 });

@@ -23,9 +23,10 @@
              <td>Category</td>
              <td>Target Completion</td>
          </tr>
-       </thead>
+       </thead>  
        <tbody>
         {% if search_results %}
+        Search Results: </br>
           {% for campaign in search_results %}
              <tr>
                   <td><a href="{{ campaign.get_absolute_url }}">{{campaign}}</a><br></td>
@@ -36,7 +37,6 @@
              </tr>
           {% endfor %}
         {% else %}
-          {{}}
           {% for campaign in campaign_list %}
             {% if campaign.is_approved %}
                <tr>

@@ -117,7 +117,6 @@ class CampaignsListView(generic.ListView):
                     campaign_name__icontains=self.request.GET['q']))
         context = super(CampaignsListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
-        import ipdb;ipdb.set_trace()
         return context
 
 

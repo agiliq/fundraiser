@@ -16,9 +16,18 @@
   <script type="text/javascript">
      $(document).ready(function(){
             $('option:not(:selected)').attr('disabled', true);
-            $("#id_target_amount").focusout(display_total_funds)
-
+            var funds=0;
+            $("#total").html($("input#id_target_amount").val());
             display_total_funds();
+            $("input[name^='fund-dist-amt']").each(function(){
+                if ($.isNumeric($(this).val())) {
+                    funds += parseInt($(this).val(),10);
+                    if ($(this).is(":hidden")){
+                        funds -= parseInt($(this).val(), 10);
+                    }
+                }
+            });
+            $("#from-fund").html(funds);
 			function readURL(input) {
 			        if (input.files && input.files[0]) 
 			        {
@@ -49,7 +58,7 @@
             
             function display_total_funds (){
                 var sum=0;
-            if (parseInt($("input#id_target_amount").val(), 10) == 0.0) {
+            if ((parseInt($("input#id_target_amount").val(), 10) == 0.0) || ($("input#id_target_amount").val() == "")) {
                 alert("Please enter the target amount first.");
             }
                $("input[name^='fund-dist-amt']").each(function(){

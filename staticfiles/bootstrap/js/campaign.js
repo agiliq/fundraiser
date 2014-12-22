@@ -111,14 +111,29 @@ $(document).ready(function() {
                 $(this).removeAttr("class");
             };
         });
+        if ((parseInt($("input#id_target_amount").val(), 10) == 0.0) || ($("input#id_target_amount").val().trim() == "")) {
+            error+=1;
+            $("input#id_target_amount").attr("class", "required");
+            $("input#id_target_amount").siblings("span").html("Target Amount can not be zero or blank");
+        }
+        else {
+            $("input#id_target_amount").removeAttr("class");
+            $("input#id_target_amount").siblings("span").html("");
+        }       
         if ($("select option:selected").val() == "") {
             error+=1;
             alert("Category not selected");
             $(this).attr("class", "required");
         }
-        if ($("textarea").val() == "" ) {
+        if ($("textarea").val().trim() == "" ) {
             error+=1;
-            $(this).attr("class", "required");            
+            $("textarea").attr("class", "required");
+            $("textarea").siblings("span").attr("id", "required-fields");
+        }
+        else {
+            $("textarea").removeAttr("class");
+            $("textarea").siblings("span").removeAttr("id");
+            $("textarea").siblings("span").html("");
         }
         return error;
         };

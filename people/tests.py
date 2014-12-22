@@ -22,12 +22,5 @@ class PeopleAppTestcase(TestCase):
         response = self.c.get(reverse("people:list"))
         self.assertEqual(200, response.status_code)
         self.c.login(username="admin", password="admin")
-        response = self.c.get(reverse("people:list_of_bnfs"))
-        self.assertEqual(200, response.status_code)
-
-    def test_DonorsListView(self):
-        response = self.c.get(reverse("people:list_of_donors"))
-        self.assertEqual(200, response.status_code)
-        self.c.login(username="admin", password="admin")
-        response = self.c.get(reverse("people:list_of_donors"))
+        response = self.c.get(reverse("people:list"))
         self.assertEqual(200, response.status_code)

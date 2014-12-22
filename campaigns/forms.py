@@ -17,9 +17,3 @@ class CampaignUpdateForm(ModelForm):
         model = Campaign
         exclude = ('slug',
                    'donation', )
-
-
-class FundDistributionForm(ModelForm):
-
-    class Meta:
-        model = Campaign

@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 {% block main_title %}Campaigns{% endblock %}
 {% block title %}List of Campaigns{% endblock %}
+{% block extrahead %}
+  <style type="text/css">
+    /**
+     * Progress bars with centered text
+     */
+    
+    .progress {
+      position: relative;
+    }
+    
+    .progress span {
+        position: absolute;
+        display: block;
+        width: 100%;
+        color: black;
+    }
+  </style>
+{% endblock %}
 {% block content %}
 <h2>List of Campaigns</h1>
     {% if not user.is_staff %}
@@ -33,7 +51,8 @@
                   <td>{{campaign.target_amount}}</td>
                   <td>{{campaign.date_created}}</td>
                   <td>{{campaign.category}}</td>
-                  <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
+                  <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%">
+                  <span class="show">{% widthratio campaign.donation campaign.target_amount 100 %}%</span></div></div></td>
              </tr>
           {% endfor %}
         {% else %}
@@ -44,7 +63,8 @@
                     <td>{{campaign.target_amount}}</td>
                     <td>{{campaign.date_created}}</td>
                     <td>{{campaign.category}}</td>
-                    <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%"></div></div></td>
+                    <td style="width:30%"><div class="progress"><div class="bar" style="width: {% widthratio campaign.donation campaign.target_amount 100 %}%">
+                    <span class="show">{% widthratio campaign.donation campaign.target_amount 100 %}%</span></div></div></td>
                </tr>
             {% endif %}
           {% endfor %}

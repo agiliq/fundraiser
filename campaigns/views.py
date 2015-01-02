@@ -47,7 +47,6 @@ def get_extra_data(post):
                post[short_desc[i]].strip(),
                post[fb_url[i]].strip())
               for i in range(len(name))]
-    print tup_tm
     return (tup_fd, tup_rew, tup_tm)
 
 

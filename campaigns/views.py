@@ -133,7 +133,8 @@ class CampaignUpdate(generic.UpdateView):
             extra_data = get_extra_data(form.data)
             cam_obj = Campaign.objects.get(slug=request.META[
                 'HTTP_REFERER'].split('/')[-2])
-            fd_old = [each.usage for each in cam_obj.funddistribution_set.all()]
+            fd_old = [each.usage
+                      for each in cam_obj.funddistribution_set.all()]
             fd_new = [each[0] for each in extra_data[0]]
             fd_to_delete = [each for each in fd_old if each not in fd_new]
             rew_old = [each.title for each in cam_obj.reward_set.all()]
@@ -236,7 +237,7 @@ class CategoryListView(generic.ListView):
         search_results = None
         if self.request.GET:
             search_results = Category.objects.filter(Q(
-                    campaign_name__icontains=self.request.GET['q']))
+                campaign_name__icontains=self.request.GET['q']))
         context = super(CategoryListView, self).get_context_data(**kwargs)
         context['search_results'] = search_results
         return context
@@ -246,3 +247,8 @@ class CategoryDetail(generic.DetailView):
     model = Category
     template_name = 'campaigns/category_detail.html'
     context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryDetail, self).get_context_data(**kwargs)
+        context['approved_categories'] = Category.objects.filter(campaign__is_approved=True)
+        return context

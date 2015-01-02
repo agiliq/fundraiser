@@ -3,9 +3,11 @@
 {% block title %}List of Categories{% endblock %}
 {% block content %}
 <h1>{{category}} </h1>
-  {% if category.campaign_set.exists %}
+  {% if category.approved_campaign_set.exists %}
     {% for each in category.campaign_set.all %}
-      <li><a href="{% url 'campaigns:campaign_detail' each.slug %}">{{each}}</a></li>
+        {% if each.is_approved %}
+          <li><a href="{% url 'campaigns:campaign_detail' each.slug %}">{{each}}</a></li>
+        {% endif %}
     {% endfor %}
   {% else %}
     <p>No Campaigns in this Category</p>

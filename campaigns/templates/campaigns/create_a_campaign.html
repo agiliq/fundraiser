@@ -19,8 +19,11 @@
      $(document).ready(function(){
             $(document).on('focus click keypress keyup change', "input#id_target_amount", 
             function() { $("#total").html($("input#id_target_amount").val()) } );
+
             var funds=0;
+            
             $("#total").html($("input#id_target_amount").val());
+            
             $("input[name^='fund-dist-amt']").each(function(){
                 if ($.isNumeric($(this).val())) {
                     funds += parseInt($(this).val(),10);
@@ -29,6 +32,7 @@
                     }
                 }
             });
+            
             $("#from-fund").html(funds);
 
 			function readURL(input) {
@@ -56,6 +60,7 @@
 		    $("#upload_change_image").change(function(){
 		        readURL(this);
 		    });
+            
             $(document).on('focus click keypress keyup change', "input[name^='fund-dist-a']", display_total_funds);
             
             function display_total_funds (){

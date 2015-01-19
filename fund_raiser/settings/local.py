@@ -22,6 +22,7 @@ DATABASES = {
 
 INSTALLED_APPS += (
     'django_extensions',
+    'functional_tests',
 )
 
 djcelery.setup_loader()

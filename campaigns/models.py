@@ -18,6 +18,9 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('categories:category_detail', args=[self.id])
 
+    def approved_campaigns(self):
+        return self.campaign_set.filter(is_approved=True)
+
 
 # class Questionaire(models.Model):
 #

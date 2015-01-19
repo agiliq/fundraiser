@@ -30,9 +30,11 @@ def get_extra_data(post):
     fda.sort()
     tup_fd = [(post[fdd[i]].strip(),
                post[fda[i]].strip()) for i in range(len(fda))]
+
     rew = [k for k in post.keys() if k.startswith('reward')]
     rew.sort()
     tup_rew = [post[rew[i]].strip() for i in range(len(rew))]
+
     name = [k for k in post.keys() if k.startswith('name')]
     role = [k for k in post.keys() if k.startswith('role')]
     short_desc = [k for k in post.keys()
@@ -47,6 +49,7 @@ def get_extra_data(post):
                post[short_desc[i]].strip(),
                post[fb_url[i]].strip())
               for i in range(len(name))]
+
     return (tup_fd, tup_rew, tup_tm)
 
 
@@ -247,8 +250,3 @@ class CategoryDetail(generic.DetailView):
     model = Category
     template_name = 'campaigns/category_detail.html'
     context_object_name = 'category'
-
-    def get_context_data(self, **kwargs):
-        context = super(CategoryDetail, self).get_context_data(**kwargs)
-        context['approved_categories'] = Category.objects.filter(campaign__is_approved=True)
-        return context

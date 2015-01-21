@@ -25,7 +25,7 @@
                 </ul>
                 {% if user.is_staff %}
                     <ul class="nav">
-                        <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unactivated Campaigns</a></li>  
+                        <li><a class= "" href="{% url 'customadmin:unapproved' %}">Unapproved Campaigns</a></li>  
                     </ul>
                 {% endif %}
                 {% if user.person %}

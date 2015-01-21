@@ -9,14 +9,16 @@ from profiles.tasks import sendemail
 
 
 def approve(request, campaign_id):
-    campaign = get_object_or_404(Campaign, pk=campaign_id)
-    if campaign:
+    if request.user.is_staff:
+        campaign = get_object_or_404(Campaign, pk=campaign_id)
         campaign.is_approved = True
         campaign.save()
         # sendemail.delay(sub="approve_sub", msg="approve_msg",
         #                 to=campaign.person.user.email,
         #                 user=campaign.person.user)
         return HttpResponseRedirect(reverse('customadmin:unapproved'))
+    else:
+        raise Http404
     return render_to_response('unapproved_campaigns.html')
 
 

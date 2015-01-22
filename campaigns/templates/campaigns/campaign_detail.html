@@ -6,7 +6,7 @@
       <a href="{% url 'customadmin:approve' campaign.id %}"><button type="submit" value="{{campaign.id}}"  class="btn btn-primary" >Approve</button></a>
   {% endif %}
 <h2>Details of Campaign</h1>
-
+<font color="red"><p>{{ error_message }}</p></font>
   {% if user.profile or user.is_staff %}
     {% ifequal campaign.person.user user  %}  
       <p style="padding-top:10px; padding-left:1000px;"><a href="{{campaign.get_edit_url}}"><button type="submit" value="edit_campaign"  class="btn btn-primary" >Edit Campaign</button></a></p>

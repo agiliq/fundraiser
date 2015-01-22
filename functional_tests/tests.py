@@ -247,3 +247,25 @@ class RegisterSigninTest(LiveServerTestCase):
             self.categories[2]).click()
         self.assertIsNotNone(
             self.browser.find_element_by_partial_link_text('Campaign one'))
+
+    def test_user_tries_to_donate_for_own_campaign(self):
+        self.registration(self.test_user1)
+        self.create_campaign((self.test_user1['username'],
+                              self.test_user1['password']),
+                             4, )
+        self.approve_campaign()
+
+        self.browser.find_element_by_link_text('Campaign one').click()
+        self.browser.find_element_by_tag_name('button').click()
+        self.browser.find_element_by_id(
+            'id_username').send_keys(self.test_user1['username'])
+        self.browser.find_element_by_id(
+            'id_password').send_keys(self.test_user1['password'])
+        self.browser.find_element_by_tag_name("button").click()
+        self.browser.find_element_by_name(
+            'donation').send_keys('10123')
+        self.browser.find_element_by_xpath(
+            "//input[@type='submit']").submit()
+        error_text = self.browser.find_element_by_tag_name('font').text
+
+        self.assertEqual(error_text, "You cannot donate to your own Campaign")

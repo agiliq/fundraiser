@@ -219,11 +219,15 @@ def testpay(request, campaign_id):
 
     if request.method == 'POST':
         campaign = get_object_or_404(Campaign, id=campaign_id)
+        if request.user == campaign.person.user:
+            return render(request, 'campaigns/campaign_detail.html', {
+                'error_message': 'You cannot donate to your own Campaign',
+                'campaign': campaign})
         if campaign:
             campaign.donation += decimal.Decimal(request.POST['donation'])
             campaign.save()
-            return render(request, 'campaigns/campaign_detail.html',
-                          {'donation': 'success', 'campaign': campaign})
+            return HttpResponseRedirect(reverse('campaigns:campaign_detail',
+                                                args=[campaign.slug, ]))
     return render(request, 'campaigns/donate.html',
                   {'campaign_id': campaign_id})
 

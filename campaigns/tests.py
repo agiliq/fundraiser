@@ -85,10 +85,8 @@ class CampaignsAppTestcase(TestCase):
         cat_art = Category.objects.get(name='Art')
         cat_app = Category.objects.get(name='App')
 
-        self.assertEqual(
-            cat_art.campaign_set.count(), 1)
-        self.assertEqual(
-            cat_app.campaign_set.count(), 1)
+        self.assertEqual(cat_art.campaign_set.count(), 1)
+        self.assertEqual(cat_app.campaign_set.count(), 1)
         self.assertEqual(
             cat_art.campaign_set.all()[0].campaign_name, 'Campaign One')
         self.assertEqual(

@@ -13,6 +13,30 @@ from people.models import Person
 
 class RegisterSigninTest(LiveServerTestCase):
 
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.maximize_window()
+        self.browser.delete_all_cookies()
+        self.c = Client()
+        self.user = User.objects.create_superuser(
+            username="admin", email="admin@agiliq.com", password="admin")
+        self.test_user1 = {'username': 'test_1',
+                           'password': 'pass_1',
+                           'email': 'test_1@testing.com',
+                           'address': '#101, test street, test apartments',
+                           'website': 'http://www.one-test.com', }
+        self.registration({'username': 'test_2',
+                           'password': 'pass',
+                           'email': 'test_2@testing.com',
+                           'address': '#202, test street, test apartments',
+                           'website': 'http://www.two-test.com', })
+        self.categories = ['App', 'Music', 'Art', 'Technology', 'Publishing']
+        for each in self.categories:
+            Category.objects.create(name=each)
+
+    def tearDown(self):
+        self.browser.quit()
+
     def registration(self, user_dict):
         self.browser.get(self.live_server_url)
         self.browser.find_element_by_partial_link_text("Sign Up").click()
@@ -129,29 +153,13 @@ class RegisterSigninTest(LiveServerTestCase):
             user_tup[0].capitalize()).send_keys(
             Keys.DOWN, Keys.ENTER)
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser.maximize_window()
-        self.browser.delete_all_cookies()
-        self.c = Client()
-        self.user = User.objects.create_superuser(
-            username="admin", email="admin@agiliq.com", password="admin")
-        self.test_user1 = {'username': 'test_1',
-                           'password': 'pass_1',
-                           'email': 'test_1@testing.com',
-                           'address': '#101, test street, test apartments',
-                           'website': 'http://www.one-test.com', }
-        self.registration({'username': 'test_2',
-                           'password': 'pass',
-                           'email': 'test_2@testing.com',
-                           'address': '#202, test street, test apartments',
-                           'website': 'http://www.two-test.com', })
-        self.categories = ['App', 'Music', 'Art', 'Technology', 'Publishing']
-        for each in self.categories:
-            Category.objects.create(name=each)
-
-    def tearDown(self):
-        self.browser.quit()
+    def approve_campaign(self):
+        self.login('admin', 'admin')
+        self.browser.get(self.live_server_url)
+        self.browser.find_element_by_partial_link_text('Unapproved').click()
+        self.browser.find_element_by_tag_name('button').click()
+        self.browser.find_element_by_partial_link_text(
+            'Admin').send_keys(Keys.DOWN, Keys.ENTER)
 
     def test_can_new_user_register(self):
         self.registration(self.test_user1)
@@ -204,12 +212,7 @@ class RegisterSigninTest(LiveServerTestCase):
 
     def test_approved_campaigns_appear_on_home_page(self):
         self.create_campaign(('test_2', 'pass'))
-        self.login('admin', 'admin')
-        self.browser.get(self.live_server_url)
-        self.browser.find_element_by_partial_link_text('Unactivated').click()
-        self.browser.find_element_by_tag_name('button').click()
-        self.browser.find_element_by_partial_link_text(
-            'Admin').send_keys(Keys.DOWN, Keys.ENTER)
+        self.approve_campaign()
         self.browser.get(self.live_server_url)
         self.assertIsNotNone(
             self.browser.find_element_by_partial_link_text('Campaign one'))
@@ -220,12 +223,7 @@ class RegisterSigninTest(LiveServerTestCase):
                               self.test_user1['password']))
 
         # self.browser.get(self.live_server_url)
-        self.login('admin', 'admin')
-        self.browser.get(self.live_server_url)
-        self.browser.find_element_by_partial_link_text('Unactivated').click()
-        self.browser.find_element_by_tag_name('button').click()
-        self.browser.find_element_by_partial_link_text(
-            'Admin').send_keys(Keys.DOWN, Keys.ENTER)
+        self.approve_campaign()
 
         self.login('test_2', 'pass')
 
@@ -243,13 +241,7 @@ class RegisterSigninTest(LiveServerTestCase):
         self.create_campaign((self.test_user1['username'],
                               self.test_user1['password']),
                              3, )
-        # self.browser.get(self.live_server_url)
-        self.login('admin', 'admin')
-        self.browser.get(self.live_server_url)
-        self.browser.find_element_by_partial_link_text('Unactivated').click()
-        self.browser.find_element_by_tag_name('button').click()
-        self.browser.find_element_by_partial_link_text(
-            'Admin').send_keys(Keys.DOWN, Keys.ENTER)
+        self.approve_campaign()
         self.browser.find_element_by_partial_link_text('Categories').click()
         self.browser.find_element_by_partial_link_text(
             self.categories[2]).click()

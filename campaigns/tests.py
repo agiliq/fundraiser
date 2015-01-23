@@ -6,7 +6,6 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
@@ -19,85 +18,115 @@ from .models import (
 from people.models import Person
 
 
-class CampaignsAppTestcase(TestCase):
-
+class CampaignUnauthorizedRedirectsTestCase(TestCase):
     def setUp(self):
-        self.c = Client()
         self.user = User.objects.create_user(
             username="admin", email="admin@agiliq.com", password="admin")
-        self.cam_user1 = Person.objects.create(
-            user=User.objects.create_user(
-                username='test1', email='test1@agiliq.com', password='test1'),
-            address='101, test apt, testville',
-            website='http://www.testone.com')
-        self.cam_user2 = Person.objects.create(
-            user=User.objects.create_user(
-                username='test2', email='test2@agiliq.com', password='test2'),
-            address='102, test apt, testville',
-            website='http://www.testtwo.com')
 
     def test_create_a_campaign_view(self):
-        response = self.c.get(reverse("campaigns:create_a_campaign"))
+        response = self.client.get(reverse("campaigns:create_a_campaign"))
         self.assertEqual(302, response.status_code)
-        self.c.login(username="admin", password="admin")
-        response = self.c.get(reverse("campaigns:create_a_campaign"))
+        self.client.login(username="admin", password="admin")
+        response = self.client.get(reverse("campaigns:create_a_campaign"))
         self.assertEqual(200, response.status_code)
 
     def test_MycampaignsView(self):
-        response = self.c.get(
+        response = self.client.get(
             reverse("campaigns:my_campaigns", args=[self.user.id]))
         self.assertEqual(302, response.status_code)
-        self.c.login(username="admin", password="admin")
-        response = self.c.get(
+        self.client.login(username="admin", password="admin")
+        response = self.client.get(
             reverse("campaigns:my_campaigns", args=[self.user.id]))
         self.assertEqual(200, response.status_code)
 
     def test_testpay(self):
-        response = self.c.get(
+        response = self.client.get(
             reverse("campaigns:testpay", args=[self.user.id]))
-
         self.assertEqual(302, response.status_code)
-        self.c.login(username="admin", password="admin")
-
-        response = self.c.get(
+        self.client.login(username="admin", password="admin")
+        response = self.client.get(
             reverse("campaigns:testpay", args=[self.user.id]))
-
         self.assertEqual(200, response.status_code)
 
-    def test_can_create_and_retrive_categories(self):
-        first = Category.objects.create(name='test one')
-        second = Category.objects.create(name='test two')
 
-        self.assertEqual(Category.objects.count(), 2)
+class CampaignsViewTestCase(TestCase):
 
-    def test_campaign_are_added_to_right_category(self):
-        self.categories = ['App', 'Art']
+    def setUp(self):
+        Person.objects.create(user=User.objects.create_user(
+            username="admin", email="admin@agiliq.com", password="admin"),
+            address='Address apt', website='www.webworld.com')
+        self.categories = ['App', 'Music', 'Art', 'Technology', 'Publishing']
         for each in self.categories:
             Category.objects.create(name=each)
-        cam_obj1 = Campaign.objects.create(
-            person=self.cam_user1,
-            category=Category.objects.get(name='Art'),
-            campaign_name='Campaign One')
-        cam_obj2 = Campaign.objects.create(
-            person=self.cam_user2,
-            category=Category.objects.get(name='App'),
-            campaign_name='Campaign Two')
-        cat_art = Category.objects.get(name='Art')
-        cat_app = Category.objects.get(name='App')
 
-        self.assertEqual(cat_art.campaign_set.count(), 1)
-        self.assertEqual(cat_app.campaign_set.count(), 1)
-        self.assertEqual(
-            cat_art.campaign_set.all()[0].campaign_name, 'Campaign One')
-        self.assertEqual(
-            cat_app.campaign_set.all()[0].campaign_name, 'Campaign Two')
+    def post_campaign(self, **kwargs ):
+        self.client.post(
+            '/create_a_campaign/',
+            data={'category': kwargs['cat'],
+                  'campaign_name': kwargs['cam_name'],
+                  'target_amount': '4500',
+                  'cause': 'No Cause', })
 
-    def test_user_can_create_multiple_campaigns(self):
-        cam_obj1 = Campaign.objects.create(
-            person=self.cam_user1, campaign_name='Campaign 1',
-            category=Category.objects.create())
-        cam_obj2 = Campaign.objects.create(
-            person=self.cam_user1, campaign_name='Campaign 2',
-            category=Category.objects.create())
+    def login(self):
+        self.client.post(
+            '/accounts/login/',
+            data={'username': 'admin',
+                  'password': 'admin'})
 
-        self.assertEqual(self.cam_user1.campaign_set.count(), 2)
+    def approve(self, cam_obj):
+        cam_obj.is_approved = True
+        cam_obj.save()
+
+    def test_user_can_create_campaign(self):
+        self.login()
+        self.post_campaign(cat=3, cam_name='Campaign one')
+
+        self.assertEqual(Campaign.objects.count(), 1)
+
+    def test_campaign_belongs_to_correct_category(self):
+        self.login()
+        self.post_campaign(cat=1, cam_name='Campaign One')
+        cam_obj = Campaign.objects.all()[0]
+        self.approve(cam_obj)
+
+        response = self.client.get(
+            reverse('campaigns:category_detail', args=(
+                Category.objects.get(name=self.categories[0]).id, )))
+
+        self.assertContains(response, cam_obj.campaign_name)
+
+    def test_only_approved_campaigns_appear_at_homepage(self):
+        self.login()
+        self.post_campaign(cat=4, cam_name='Campaign One')
+        approved_cam_obj = Campaign.objects.get(campaign_name='Campaign One')
+        self.approve(approved_cam_obj)
+
+        response = self.client.get(
+            reverse('campaigns:list_of_campaigns'))
+
+        self.assertContains(response, approved_cam_obj.campaign_name)
+
+    def test_unapproved_campaigns_does_not_public(self):
+        self.login()
+        self.post_campaign(cat=1, cam_name='Campaign Two')
+        unapproved_cam_obj = Campaign.objects.get(campaign_name='Campaign Two')
+
+        response = self.client.get(
+            reverse('campaigns:list_of_campaigns'))
+
+        self.assertNotContains(response, unapproved_cam_obj.campaign_name)
+
+    def test_campaign_detail_are_correct(self):
+        self.login()
+        self.post_campaign(cat=3, cam_name='Campaign One')
+        cam_obj = Campaign.objects.all()[0]
+        self.approve(cam_obj)
+
+        response = self.client.get(
+            reverse('campaigns:campaign_detail', args=(cam_obj.slug, )))
+        for each in [cam_obj.person.user.username.capitalize(),
+                     cam_obj.category.name,
+                     cam_obj.campaign_name,
+                     cam_obj.target_amount.to_eng_string(),
+                     cam_obj.cause]:
+            self.assertIn(each, response.content.decode())

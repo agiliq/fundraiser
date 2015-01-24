@@ -8,6 +8,8 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
+from django.http import HttpRequest
 
 from .models import (
     Category,
@@ -60,12 +62,17 @@ class CampaignsViewTestCase(TestCase):
             Category.objects.create(name=each)
 
     def post_campaign(self, **kwargs ):
-        self.client.post(
-            '/create_a_campaign/',
-            data={'category': kwargs['cat'],
-                  'campaign_name': kwargs['cam_name'],
-                  'target_amount': '4500',
-                  'cause': 'No Cause', })
+        data={}
+        for each in kwargs.keys():
+            if each not in ['category',
+                            'campaign_name',
+                            'target_amount',
+                            'cause']:
+                data[each.replace('_','-')] = kwargs[each]
+            else:
+                data[each] = kwargs[each]
+        #import ipdb; ipdb.set_trace()
+        self.client.post('/create_a_campaign/', data=data)
 
     def login(self):
         self.client.post(
@@ -79,13 +86,34 @@ class CampaignsViewTestCase(TestCase):
 
     def test_user_can_create_campaign(self):
         self.login()
-        self.post_campaign(cat=3, cam_name='Campaign one')
+        self.post_campaign(category=3, campaign_name='Campaign one',
+                           target_amount=4500,
+                           cause='No cause',
+                           fund_dist_desc1='First',
+                           fund_dist_amt1=2000,
+                           fund_dist_desc2='Second',
+                           fund_dist_amt2=2500,
+                           reward1='R1',
+                           reward2='R2',
+                           name1='Admin',
+                           role1='Admin',
+                           short_description1='Admin',
+                           fb_url1='Admin',
+                           name2='admin_2',
+                           role2='dy. admin',
+                           short_description2='Deputy to admin',
+                           fb_url2='dy.admin', )
 
         self.assertEqual(Campaign.objects.count(), 1)
+        self.assertEqual(FundDistribution.objects.count(), 2)
+        self.assertEqual(Reward.objects.count(), 2)
+        self.assertEqual(TeamMember.objects.count(), 2)
 
     def test_campaign_belongs_to_correct_category(self):
         self.login()
-        self.post_campaign(cat=1, cam_name='Campaign One')
+        self.post_campaign(category=1, campaign_name='Campaign One',
+                           target_amount=4500,
+                           cause='No cause', )
         cam_obj = Campaign.objects.all()[0]
         self.approve(cam_obj)
 
@@ -97,7 +125,9 @@ class CampaignsViewTestCase(TestCase):
 
     def test_only_approved_campaigns_appear_at_homepage(self):
         self.login()
-        self.post_campaign(cat=4, cam_name='Campaign One')
+        self.post_campaign(category=4, campaign_name='Campaign One',
+                           target_amount=4500,
+                           cause='No cause', )
         approved_cam_obj = Campaign.objects.get(campaign_name='Campaign One')
         self.approve(approved_cam_obj)
 
@@ -106,9 +136,11 @@ class CampaignsViewTestCase(TestCase):
 
         self.assertContains(response, approved_cam_obj.campaign_name)
 
-    def test_unapproved_campaigns_does_not_public(self):
+    def test_unapproved_campaigns_are_not_public(self):
         self.login()
-        self.post_campaign(cat=1, cam_name='Campaign Two')
+        self.post_campaign(category=1, campaign_name='Campaign Two',
+                           target_amount=4500,
+                           cause='No cause', )
         unapproved_cam_obj = Campaign.objects.get(campaign_name='Campaign Two')
 
         response = self.client.get(
@@ -118,15 +150,29 @@ class CampaignsViewTestCase(TestCase):
 
     def test_campaign_detail_are_correct(self):
         self.login()
-        self.post_campaign(cat=3, cam_name='Campaign One')
+        self.post_campaign(category=3, campaign_name='Campaign One',
+                           target_amount=4500,
+                           cause='No cause',
+                           fund_dist_desc1='First',
+                           fund_dist_amt1=2000,
+                           fund_dist_desc2='Second',
+                           fund_dist_amt2=2500,
+                           reward1='R1',
+                           reward2='R2',
+                           name1='Admin',
+                           role1='Admin',
+                           short_description1='Admin',
+                           fb_url1='Admin',
+                           name2='admin_2',
+                           role2='dy. admin',
+                           short_description2='Deputy to admin',
+                           fb_url2='dy.admin', )
         cam_obj = Campaign.objects.all()[0]
         self.approve(cam_obj)
 
         response = self.client.get(
             reverse('campaigns:campaign_detail', args=(cam_obj.slug, )))
-        for each in [cam_obj.person.user.username.capitalize(),
-                     cam_obj.category.name,
-                     cam_obj.campaign_name,
-                     cam_obj.target_amount.to_eng_string(),
-                     cam_obj.cause]:
-            self.assertIn(each, response.content.decode())
+        expected_html = render_to_string('campaigns/campaign_detail.html',
+                                         {'campaign':cam_obj, })
+        import ipdb; ipdb.set_trace()
+        self.assertEqual(response.content.decode(), expected_html)

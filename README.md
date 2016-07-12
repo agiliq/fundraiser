@@ -1,1 +1,0 @@
-# django-fundrasiser-app

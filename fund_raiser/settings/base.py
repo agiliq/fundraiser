@@ -10,6 +10,13 @@ ADMINS = (
     ('Shiva', 'shiva@agiliq.com'),
 )
 
+
+#following are new lines added
+DB_NAME = "testdb"
+DB_USER = "root"
+DB_PASSWORD = "root"
+
+
 MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False

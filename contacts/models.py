@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
@@ -20,7 +20,7 @@ class ActionState(models.Model):
         max_length=32, default=lambda: uuid4().hex, primary_key=True)
     action_type = models.ForeignKey(ContentType, null=True)
     action_id = models.PositiveIntegerField(null=True)
-    action = generic.GenericForeignKey('action_type', 'action_id')
+    action = fields.GenericForeignKey('action_type', 'action_id')
     data = PickledObjectField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

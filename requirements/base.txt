@@ -5,7 +5,7 @@ wsgiref==0.1.2
 Unipath==1.0
 South==0.8.1
 celery==3.0.21
-django-celery==3.0.21
+django-celery==3.1.0
 django-picklefield==0.1.8
 stripe==1.9.3
 gdata==2.0.18

@@ -19,9 +19,9 @@ INSTALLED_APPS += (
     'django_extensions',
 )
 
-"""
+
 EMAIL_HOST_USER = get_env_variable('EMAIL_HOST_USER')
-#EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = get_env_variable('EMAIL_HOST_PASSWORD')
 # DEFAULT_FROM_EMAIL = "shiva@agiliq.com"
 
 # MERCHANT SETTINGS
@@ -34,7 +34,6 @@ MERCHANT_SETTINGS = {
     }
 }
 
-"""
 
 
 # Configs for EBS Payment

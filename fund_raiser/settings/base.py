@@ -128,7 +128,7 @@ INSTALLED_APPS = (
     'campaigns',
     'profiles',
     'customadmin',
-    'south',
+    #'south',
     'djcelery',
     'payment',
     'billing',

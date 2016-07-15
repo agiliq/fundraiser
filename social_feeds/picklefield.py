@@ -64,13 +64,17 @@ class PickledObjectField(models.Field):
     use the ``isnull`` lookup type correctly.
     """
 
-    __metaclass__ = models.SubfieldBase
+    #__metaclass__ = models.SubfieldBas
 
     def __init__(self, *args, **kwargs):
         self.compress = kwargs.pop('compress', False)
         self.protocol = kwargs.pop('protocol', DEFAULT_PROTOCOL)
         kwargs.setdefault('editable', False)
         super(PickledObjectField, self).__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection, context):
+        if value is None:
+            return value
 
     def get_default(self):
         """

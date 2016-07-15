@@ -34,8 +34,6 @@ MERCHANT_SETTINGS = {
     }
 }
 
-
-
 # Configs for EBS Payment
 # Enter Your Account Id here.This is a test id.
 EBS_ACCOUNT_ID = get_env_variable('EBS_ACCOUNT_ID')

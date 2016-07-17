@@ -22,4 +22,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_user_profile, sender=User)
 
-User.profile = property(lambda u: u.get_profile())
+#User.profile = property(lambda u: u.profile())

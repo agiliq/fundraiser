@@ -17,7 +17,7 @@ class ActionState(models.Model):
     auth process.
     """
     uuid = models.CharField(
-        max_length=32, default=lambda: uuid4().hex, primary_key=True)
+        max_length=32, default=uuid4().hex, primary_key=True)
     action_type = models.ForeignKey(ContentType, null=True)
     action_id = models.PositiveIntegerField(null=True)
     action = fields.GenericForeignKey('action_type', 'action_id')

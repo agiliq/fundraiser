@@ -12,7 +12,7 @@ class Person(models.Model):
         return self.user.username
 
     def get_absolute_url(self):
-        if self.user.get_profile().is_beneficiary:
+        if self.user.profile.is_beneficiary:
             return reverse('people:beneficiary_detail', args=[self.id])
         else:
             return reverse('people:donor_detail', args=[self.id])

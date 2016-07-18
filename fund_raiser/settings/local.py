@@ -61,10 +61,11 @@ EMAIL_PORT = 587
 # Admin Email Settings
 EMAIL_SUBJECT_PREFIX = 'Pratham Books : '
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [SITE_PATH.child('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

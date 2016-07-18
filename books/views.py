@@ -34,7 +34,7 @@ class BooksbyPubView(generic.ListView):
 
 class BookDetail(generic.DetailView):
     model = Book
-    template_name = 'books/books_desc.html'
+    template_name = 'books/book_detail.html'
     context_object_name = 'book'
 
 

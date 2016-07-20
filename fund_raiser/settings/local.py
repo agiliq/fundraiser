@@ -54,6 +54,8 @@ GOOGLE_REDIRECT_SESSION_VAR = 'google_contacts_redirect'
 GOOGLE_REDIRECT_BASE_URL = 'http://localhost:8000'
 
 # Email settings
+#EMAIL_HOST_USER = 'febin@agiliq.com'
+#EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
